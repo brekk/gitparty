@@ -1,5 +1,5 @@
 import gitlog from 'gitlog'
-import { join, pipe, map, reject, merge } from 'f-utility'
+import { join, curry, pipe, map, reject, merge } from 'f-utility'
 import { trace } from 'xtrace'
 import { colorize } from './print'
 import { isAMergeCommit } from './utils'
@@ -40,32 +40,38 @@ const collapseSuccessiveSameAuthor = (x) => {
   }
   return y
 }
+const aliasProperty = curry((prop, propAlias, x) => {
+  const y = merge({}, x)
+  if (typeof y[prop] !== `undefined`) {
+    y[propAlias] = y[prop] // eslint-disable-line fp/no-mutation
+  }
+  return y
+})
 
-const addChangesObject = (y) => {
+const aliasify = pipe(
+  aliasProperty(`authorName`, `author`),
+  aliasProperty(`authorDateRel`, `date`),
+  aliasProperty(`abbrevHash`, `hash`)
+)
+const addChanges = (y) => {
+  const { files } = y
   const arrayify = (x) => (file, i) => {
     const status = x.status[i]
     return [status, file]
   }
   const flattenArrays = (a, [k, v]) =>
     merge(a, { [k]: (a[k] || []).concat(v) })
-  const {
-    authorName: author,
-    // authorDate: date,
-    authorDateRel: date,
-    abbrevHash: hash,
-    subject,
-    files
-  } = y
-  const changes = files.map(arrayify(y)).reduce(flattenArrays, {})
-  // const changes = pipe(map(arrayify(y)), reduce(flattenArrays, {}))(files)
-  return {
-    date,
-    hash,
-    changes,
-    subject,
-    author
-  }
+  return files.map(arrayify(y)).reduce(flattenArrays, {})
 }
+
+const lens = curry((fn, prop, target) => {
+  const copy = Object.assign({}, target)
+  if (copy && prop) {
+    copy[prop] = fn(copy, copy[prop]) // eslint-disable-line fp/no-mutation
+  }
+  return copy
+})
+const addChangesObject = lens(addChanges, `changes`)
 
 const analyze = ({ date, hash, changes, subject, author }) => {
   const any = anyFilesMatchFromObject(changes)
@@ -89,13 +95,21 @@ const analyze = ({ date, hash, changes, subject, author }) => {
 
 const partytrain = pipe(
   // eslint-disable-next-line fp/no-mutating-methods
-  (x) => x.sort(({ date }, { date: newDate }) => newDate - date),
+  (x) => x.sort(({ date: a }, { date: b }) => b - a),
   // trace(`sorted`),
   reject(isAMergeCommit),
   // trace(`no merge commits`),
-  map(pipe(addChangesObject, analyze)),
+  map(
+    pipe(
+      aliasify,
+      // trace(`aliased`),
+      addChangesObject,
+      // trace(`changed`),
+      analyze
+    )
+  ),
   // trace(`added and analyzed`),
-  collapseSuccessiveSameAuthor,
+  // collapseSuccessiveSameAuthor,
   groupBy(`date`),
   createBannersFromGroups,
   map(colorize),
