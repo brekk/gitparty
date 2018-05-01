@@ -11,7 +11,13 @@ import {
 } from 'f-utility'
 // import { trace } from 'xtrace';
 import time from 'dayjs'
-import { LEGEND } from './constants'
+import {
+  LEGEND,
+  AUTHOR_LENGTH,
+  SUBJECT_LENGTH,
+  BANNER_INDENT,
+  BANNER_LENGTH
+} from './constants'
 import { colorize } from './print'
 import { isAMergeCommit, lens, aliasProperty } from './utils'
 import { anyFilesMatchFromObject } from './filters'
@@ -91,7 +97,7 @@ const analyze = curry((lookup, raw) =>
   })
 )
 
-const partytrain = curry((lookup, data) =>
+const partytrain = curry((config, lookup, data) =>
   pipe(
     // eslint-disable-next-line fp/no-mutating-methods
     (x) => x.sort(({ date: a }, { date: b }) => b - a),
@@ -100,11 +106,15 @@ const partytrain = curry((lookup, data) =>
     // collapseSuccessiveSameAuthor,
     groupBy(`date`),
     createBannersFromGroups,
-    map(colorize(lookup)),
+    map(colorize(config, lookup)),
     join(`\n`)
   )(data)
 )
 const DEFAULT_CONFIG = {
+  authorLength: AUTHOR_LENGTH,
+  subjectLength: SUBJECT_LENGTH,
+  bannerLength: BANNER_LENGTH,
+  bannerIndent: BANNER_INDENT,
   repo: __dirname,
   number: TOTAL_COMMITS,
   fields: [
@@ -121,7 +131,7 @@ export const gitparty = curry((lookup, gitConfig) =>
   gitlog(gitConfig, (e, d) => {
     if (e) return console.log(e)
     console.log(printLegend())
-    console.log(partytrain(LEGEND, d))
+    console.log(partytrain(gitConfig, LEGEND, d))
   })
 )
 
