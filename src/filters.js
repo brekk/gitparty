@@ -1,18 +1,14 @@
-import { curry, pipe, filter, keys, reduce } from 'f-utility'
+import { curry, pipe, entries, reduce } from 'f-utility'
 import mm from 'micromatch'
+// import { trace } from 'xtrace'
 
-export const filterFiletypes = curry((types, arr) => {
-  return mm([].concat(types), arr)
-})
-const moreThanNone = (x) => x.length > 0
+export const filterFiletypes = curry((types, arr) => mm(arr, [].concat(types)))
+const some = (x) => x.length > 0
 
 export const anyFilesMatchFromObject = curry((changes, filetypes) =>
   pipe(
-    keys,
-    reduce(
-      (agg, key) =>
-        agg || moreThanNone(filterFiletypes(filetypes, changes[key])),
-      false
-    )
+    // trace(`input`),
+    entries,
+    reduce((agg, [, v]) => agg || some(filterFiletypes(filetypes, v)), false)
   )(changes)
 )
