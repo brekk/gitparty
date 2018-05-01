@@ -1,0 +1,14 @@
+/coverage/
+/node_modules/
+dist
+custom.js
+*.js.map
+.nyc_output
+docs
+lib
+.rpt2_cache
+.DS_Store
+.idea
+.tern-project
+node_modules
+website/build

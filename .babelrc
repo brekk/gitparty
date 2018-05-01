@@ -1,0 +1,20 @@
+{
+  "sourceMaps": true,
+  "presets": ["es2015", "node6"],
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-es2015-destructuring",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {}
+      }
+    ]
+  ],
+  "env": {
+    "production": {
+      "modules": "commonjs"
+    }
+  }
+}
