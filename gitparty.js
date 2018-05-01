@@ -1,5 +1,5 @@
-const gitlog = require('gitlog');
-const chalk = require('chalk');
+const gitlog = require(`gitlog`)
+const chalk = require(`chalk`)
 const {
   groupBy,
   uniq,
@@ -9,95 +9,95 @@ const {
   map,
   reduce,
   curry,
-  filter,
-} = require('lodash/fp');
-const j2 = x => JSON.stringify(x, null, 2);
-const merge = curry((x, y) => Object.assign({}, x, y));
-const join = curry((delim, arr) => arr.join(delim));
-const keys = Object.keys;
+  filter
+} = require(`lodash/fp`)
+const j2 = (x) => JSON.stringify(x, null, 2)
+const merge = curry((x, y) => Object.assign({}, x, y))
+const join = curry((delim, arr) => arr.join(delim))
+const keys = Object.keys
 const LEGEND = {
   style: { key: `S`, fn: chalk.bgMagenta },
   frontend: { key: `F`, fn: chalk.bgGreen },
   backend: { key: `B`, fn: chalk.bgCyan },
   devops: { key: `D`, fn: chalk.bgYellow },
   tests: { key: `T`, fn: chalk.bgRed },
-  assets: { key: `A`, fn: chalk.bgWhite },
-};
-const TOTAL_COMMITS = 100;
-const SUBJECT_LENGTH = 50;
+  assets: { key: `A`, fn: chalk.bgWhite }
+}
+const TOTAL_COMMITS = 100
+const SUBJECT_LENGTH = 50
 
-const arrayify = y => (file, i) => {
-  const status = y.status[i];
-  return [status, file];
-};
-const authorAliases = {};
+const arrayify = (y) => (file, i) => {
+  const status = y.status[i]
+  return [status, file]
+}
+const authorAliases = {}
 const canonicalize = curry((struct, original, alias) => {
   if (!struct[alias]) {
-    struct[alias] = original;
+    struct[alias] = original
   }
   if (!struct[original]) {
-    struct[original] = struct[alias];
+    struct[original] = struct[alias]
   }
-});
-const canon = (a, b = a) => canonicalize(authorAliases, a, b);
+})
+const canon = (a, b = a) => canonicalize(authorAliases, a, b)
 
-canon(`dstumm`, `stummd`);
-canon(`Jan Stepnicka`, `Jan Štěpnička`);
-canon(`Brekk`, `brekk`);
+canon(`dstumm`, `stummd`)
+canon(`Jan Stepnicka`, `Jan Štěpnička`)
+canon(`Brekk`, `brekk`)
 // canon(`Thomas Shaddox`, `baddox`);
-canon(`David Hrdlicka`, `czechdave`);
-canon(`michael mangus`, `mmangus`);
-canon(`Paul S. Chun`, `sixofhearts`);
+canon(`David Hrdlicka`, `czechdave`)
+canon(`michael mangus`, `mmangus`)
+canon(`Paul S. Chun`, `sixofhearts`)
 
-const getCanonicalFromObject = curry((struct, key) => struct[key] || key);
-const getCanon = getCanonicalFromObject(authorAliases);
+const getCanonicalFromObject = curry((struct, key) => struct[key] || key)
+const getCanon = getCanonicalFromObject(authorAliases)
 
-const flattenArrays = (a, [k, v]) => merge(a, { [k]: (a[k] || []).concat(v) });
+const flattenArrays = (a, [k, v]) => merge(a, { [k]: (a[k] || []).concat(v) })
 const summarize = curry((limit, str) =>
   padEnd(limit + 3, str.substr(0, limit) + `${str.length > limit ? `...` : ``}`)
-);
+)
 
-const augmentAndRemap = y => {
+const augmentAndRemap = (y) => {
   const {
     authorName: author,
     // authorDate: date,
     authorDateRel: date,
     abbrevHash: hash,
     subject,
-    files,
-  } = y;
-  const changes = files.map(arrayify(y)).reduce(flattenArrays, {});
+    files
+  } = y
+  const changes = files.map(arrayify(y)).reduce(flattenArrays, {})
   // const changes = pipe(map(arrayify(y)), reduce(flattenArrays, {}))(files);
   return {
     date,
     hash,
     changes,
     subject,
-    author,
-  };
-};
+    author
+  }
+}
 
 const filterFiletypes = curry((filetypes, arr) => {
-  filetypes = Array.isArray(filetypes) ? filetypes : [filetypes];
+  filetypes = Array.isArray(filetypes) ? filetypes : [filetypes]
   return pipe(
-    filter(type => {
-      return filter(file => file.indexOf(type) > -1, arr).length > 0;
+    filter((type) => {
+      return filter((file) => file.indexOf(type) > -1, arr).length > 0
     })
-  )(filetypes);
-});
-const moreThanNone = x => x.length > 0;
+  )(filetypes)
+})
+const moreThanNone = (x) => x.length > 0
 
-const filetypes = changes =>
+const filetypes = (changes) =>
   pipe(
     keys,
     reduce((list, key) => {
       return uniq(
         list.concat(
-          changes[key].map(file => file.substr(file.lastIndexOf('.') + 1))
+          changes[key].map((file) => file.substr(file.lastIndexOf(`.`) + 1))
         )
-      ).sort();
+      ).sort()
     }, [])
-  )(changes);
+  )(changes)
 const anyFilesMatchFromObject = curry((changes, filetypes) => {
   return pipe(
     keys,
@@ -106,11 +106,11 @@ const anyFilesMatchFromObject = curry((changes, filetypes) => {
         agg || moreThanNone(filterFiletypes(filetypes, changes[key])),
       false
     )
-  )(changes);
-});
+  )(changes)
+})
 
 const analyze = ({ date, hash, changes, subject, author }) => {
-  const any = anyFilesMatchFromObject(changes);
+  const any = anyFilesMatchFromObject(changes)
   return {
     type: `commit`,
     date,
@@ -124,40 +124,40 @@ const analyze = ({ date, hash, changes, subject, author }) => {
       frontend: any([`scss`, `js`, `package.json`]),
       backend: any(`py`),
       assets: any([`jpg`, `png`, `svg`]),
-      devops: any([`bin`, `html`, `yml`]),
-    },
-  };
-};
+      devops: any([`bin`, `html`, `yml`])
+    }
+  }
+}
 const print = curry(
   (x, fn, token) => (x ? chalk.black(fn(` ${token} `)) : `   `)
-);
+)
 const colorize = ({ date, type, hash, changes, subject, author, analysis }) => {
   if (type === `banner`) {
     // 29 aligns it to the end of the
-    return chalk.bgWhite(chalk.black(padEnd(120, padStart(29, date))));
+    return chalk.bgWhite(chalk.black(padEnd(120, padStart(29, date))))
   } else if (type === `commit`) {
-    const { style, frontend, backend, assets, devops, tests } = analysis;
-    const __hash = chalk.yellow(hash);
-    const __summary = summarize(SUBJECT_LENGTH, subject);
-    const __author = chalk.red(padEnd(20, author));
-    const __style = print(style, LEGEND.style.fn, LEGEND.style.key);
-    const __frontend = print(frontend, LEGEND.frontend.fn, LEGEND.frontend.key);
-    const __backend = print(backend, LEGEND.backend.fn, LEGEND.backend.key);
-    const __assets = print(assets, LEGEND.assets.fn, LEGEND.assets.key);
-    const __devops = print(devops, LEGEND.devops.fn, LEGEND.devops.key);
-    const __tests = print(tests, LEGEND.tests.fn, LEGEND.tests.key);
-    const __analysis = `${__style}${__frontend}${__backend}${__devops}${__assets}${__tests}`;
+    const { style, frontend, backend, assets, devops, tests } = analysis
+    const __hash = chalk.yellow(hash)
+    const __summary = summarize(SUBJECT_LENGTH, subject)
+    const __author = chalk.red(padEnd(20, author))
+    const __style = print(style, LEGEND.style.fn, LEGEND.style.key)
+    const __frontend = print(frontend, LEGEND.frontend.fn, LEGEND.frontend.key)
+    const __backend = print(backend, LEGEND.backend.fn, LEGEND.backend.key)
+    const __assets = print(assets, LEGEND.assets.fn, LEGEND.assets.key)
+    const __devops = print(devops, LEGEND.devops.fn, LEGEND.devops.key)
+    const __tests = print(tests, LEGEND.tests.fn, LEGEND.tests.key)
+    const __analysis = `${__style}${__frontend}${__backend}${__devops}${__assets}${__tests}`
     return `${__analysis} = ${__hash} - ${__summary} $ ${__author} | ${filetypes(
       changes
-    ).join(' ')}`;
+    ).join(` `)}`
   }
-};
-const collapseSuccessiveSameAuthor = x => {
-  const y = [];
-  let prev = false;
-  let lastIndex = false;
+}
+const collapseSuccessiveSameAuthor = (x) => {
+  const y = []
+  let prev = false
+  let lastIndex = false
   for (let i = 0; i < x.length; i++) {
-    let curr = x[i];
+    let curr = x[i]
     if (i > 0 && lastIndex && prev && curr && prev.author === curr.author) {
       y[y.length - 1] = merge(prev, {
         subject: `[+] ` + prev.subject + ` && ` + curr.subject,
@@ -168,33 +168,33 @@ const collapseSuccessiveSameAuthor = x => {
           frontend: prev.analysis.frontend || curr.analysis.frontend,
           backend: prev.analysis.backend || curr.analysis.backend,
           assets: prev.analysis.assets || curr.analysis.assets,
-          devops: prev.analysis.devops || curr.analysis.devops,
-        },
-      });
+          devops: prev.analysis.devops || curr.analysis.devops
+        }
+      })
     } else {
-      y.push(curr);
+      y.push(curr)
     }
-    prev = curr;
-    lastIndex = i;
+    prev = curr
+    lastIndex = i
   }
-  return y;
-};
+  return y
+}
 
-const isAMergeCommit = x =>
-  x && x.subject && x.subject.substr(0, 6) !== `Merge `;
-const getNumber = x => Number(x.substr(0, x.indexOf(' ')));
-const createBannersFromGroups = groupedCommits =>
+const isAMergeCommit = (x) =>
+  x && x.subject && x.subject.substr(0, 6) !== `Merge `
+const getNumber = (x) => Number(x.substr(0, x.indexOf(` `)))
+const createBannersFromGroups = (groupedCommits) =>
   pipe(
     keys,
-    keys => keys.sort((a, b) => getNumber(a) - getNumber(b)),
+    (keys) => keys.sort((a, b) => getNumber(a) - getNumber(b)),
     reduce((list, key) => {
-      const group = groupedCommits[key];
-      return list.concat({ date: key, type: `banner` }, group);
+      const group = groupedCommits[key]
+      return list.concat({ date: key, type: `banner` }, group)
     }, [])
-  )(groupedCommits);
+  )(groupedCommits)
 
 const gitparty = pipe(
-  x => x.sort(({ date }, { date: newDate }) => newDate - date),
+  (x) => x.sort(({ date }, { date: newDate }) => newDate - date),
   filter(isAMergeCommit),
   map(pipe(augmentAndRemap, analyze)),
   collapseSuccessiveSameAuthor,
@@ -202,19 +202,19 @@ const gitparty = pipe(
   createBannersFromGroups,
   map(colorize),
   join(`\n`)
-);
+)
 const printLegend = () => {
   return (
     `LEGEND: ` +
     Object.keys(LEGEND)
-      .map(key => {
-        const value = LEGEND[key];
-        return `${chalk.black(value.fn(` ${value.key} `))} = ${key}`;
+      .map((key) => {
+        const value = LEGEND[key]
+        return `${chalk.black(value.fn(` ${value.key} `))} = ${key}`
       })
       .join(` `) +
     `\n`
-  );
-};
+  )
+}
 
 gitlog(
   {
@@ -225,13 +225,13 @@ gitlog(
       `subject`,
       `authorName`,
       `authorDate`,
-      `authorDateRel`,
+      `authorDateRel`
     ],
-    execOptions: { maxBuffer: 1000 * 1024 },
+    execOptions: { maxBuffer: 1000 * 1024 }
   },
   (e, d) => {
-    if (e) return console.log(e);
-    console.log(printLegend());
-    console.log(gitparty(d));
+    if (e) return console.log(e)
+    console.log(printLegend())
+    console.log(gitparty(d))
   }
-);
+)

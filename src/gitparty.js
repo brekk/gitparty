@@ -6,16 +6,40 @@ import { isAMergeCommit } from './utils'
 import { anyFilesMatchFromObject } from './filters'
 import { canonicalize } from './alias'
 import { printLegend } from './legend'
-import {
-  collapseSuccessiveSameAuthor,
-  createBannersFromGroups,
-  groupBy
-} from './grouping'
+import { createBannersFromGroups, groupBy } from './grouping'
 import { TOTAL_COMMITS } from './constants'
 
 const authors = {}
 const { getCanon, canonize } = canonicalize(authors)
 canonize(`Brekk Bockrath`, `brekk`)
+
+const collapseSuccessiveSameAuthor = (x) => {
+  const y = []
+  let prev = false
+  let lastIndex = false
+  for (let i = 0; i < x.length; i++) {
+    let curr = x[i]
+    if (i > 0 && lastIndex && prev && curr && prev.author === curr.author) {
+      y[y.length - 1] = merge(prev, {
+        subject: `[+] ` + prev.subject + ` && ` + curr.subject,
+        changes: merge(prev.changes, curr.changes),
+        analysis: {
+          style: prev.analysis.style || curr.analysis.style,
+          tests: prev.analysis.tests || curr.analysis.tests,
+          frontend: prev.analysis.frontend || curr.analysis.frontend,
+          backend: prev.analysis.backend || curr.analysis.backend,
+          assets: prev.analysis.assets || curr.analysis.assets,
+          devops: prev.analysis.devops || curr.analysis.devops
+        }
+      })
+    } else {
+      y.push(curr)
+    }
+    prev = curr
+    lastIndex = i
+  }
+  return y
+}
 
 const addChangesObject = (y) => {
   const arrayify = (x) => (file, i) => {
