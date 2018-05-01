@@ -1,9 +1,11 @@
 import gitlog from 'gitlog'
 import { join, pipe, map, reject, merge } from 'f-utility'
+import { trace } from 'xtrace'
 import { colorize } from './print'
 import { isAMergeCommit } from './utils'
 import { anyFilesMatchFromObject } from './filters'
 import { canonicalize } from './alias'
+import { printLegend } from './legend'
 import {
   collapseSuccessiveSameAuthor,
   createBannersFromGroups,
@@ -64,8 +66,11 @@ const analyze = ({ date, hash, changes, subject, author }) => {
 const partytrain = pipe(
   // eslint-disable-next-line fp/no-mutating-methods
   (x) => x.sort(({ date }, { date: newDate }) => newDate - date),
+  // trace(`sorted`),
   reject(isAMergeCommit),
+  // trace(`no merge commits`),
   map(pipe(addChangesObject, analyze)),
+  // trace(`added and analyzed`),
   collapseSuccessiveSameAuthor,
   groupBy(`date`),
   createBannersFromGroups,
@@ -91,3 +96,5 @@ export const gitparty = (config = DEFAULT_CONFIG) =>
     console.log(printLegend())
     console.log(partytrain(d))
   })
+
+gitparty()

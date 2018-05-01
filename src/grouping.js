@@ -1,4 +1,4 @@
-import { curry, reduce, assign, keys } from 'f-utility'
+import { curry, reduce, assign, keys, pipe } from 'f-utility'
 
 export const groupBy = curry((key, arr) =>
   reduce(
@@ -13,32 +13,39 @@ export const groupBy = curry((key, arr) =>
   )
 )
 
-export const collapseSuccessiveSameAuthor = (x) => {
-  const y = []
-  let prev = false
-  let lastIndex = false
-  for (let i = 0; i < x.length; i++) {
-    let curr = x[i]
-    if (i > 0 && lastIndex && prev && curr && prev.author === curr.author) {
-      y[y.length - 1] = merge(prev, {
-        subject: `[+] ` + prev.subject + ` && ` + curr.subject,
-        changes: merge(prev.changes, curr.changes),
-        analysis: {
-          style: prev.analysis.style || curr.analysis.style,
-          tests: prev.analysis.tests || curr.analysis.tests,
-          frontend: prev.analysis.frontend || curr.analysis.frontend,
-          backend: prev.analysis.backend || curr.analysis.backend,
-          assets: prev.analysis.assets || curr.analysis.assets,
-          devops: prev.analysis.devops || curr.analysis.devops
-        }
-      })
-    } else {
-      y.push(curr)
-    }
-    prev = curr
-    lastIndex = i
+export const collapseSuccessiveSameAuthor = (list) => {
+  if (list.length <= 1) {
+    return list
   }
-  return y
+  return reduce((agg, curr) => {
+    const copy = [].concat(agg)
+    if (agg.length > 1) {
+      console.log(`>>>`, curr, `<<<<`, prev)
+      const prev = copy[agg.length - 1]
+      if (prev.author === curr.author) {
+        const { analysis: prior } = prev
+        const { analysis: now } = curr
+        const amended = merge(prev, {
+          subject: `[+] ${prev.subject} && ${curr.subject}`,
+          changes: merge(prev.changes, curr.changes),
+          analysis: {
+            style: prior.style || now.style,
+            frontend: prior.frontend || now.frontend,
+            backend: prior.backend || now.backend,
+            assets: prior.assets || now.assets,
+            devops: prior.devops || now.devops,
+            tests: prior.tests || now.tests
+          }
+        })
+        // eslint-disable-next-line fp/no-mutation
+        copy[agg.length - 1] = amended
+      } else {
+        // eslint-disable-next-line fp/no-mutating-methods
+        copy.push(curr)
+      }
+    }
+    return copy
+  }, [])
 }
 
 const getNumber = (x) => Number(x.substr(0, x.indexOf(` `)))
