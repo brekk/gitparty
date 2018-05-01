@@ -68,6 +68,7 @@
     "xtrace": "^0.1.10"
   },
   "dependencies": {
+    "dayjs": "^1.5.16",
     "lodash": "^4.17.10"
   }
 }
