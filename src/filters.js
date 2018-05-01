@@ -1,17 +1,13 @@
 import { curry, pipe, filter, keys, reduce } from 'f-utility'
+import mm from 'micromatch'
 
 export const filterFiletypes = curry((types, arr) => {
-  const boxedTypes = Array.isArray(types) ? types : [types]
-  return pipe(
-    filter((type) => {
-      return filter((file) => file.indexOf(type) > -1, arr).length > 0
-    })
-  )(boxedTypes)
+  return mm([].concat(types), arr)
 })
 const moreThanNone = (x) => x.length > 0
 
-export const anyFilesMatchFromObject = curry((changes, filetypes) => {
-  return pipe(
+export const anyFilesMatchFromObject = curry((changes, filetypes) =>
+  pipe(
     keys,
     reduce(
       (agg, key) =>
@@ -19,4 +15,4 @@ export const anyFilesMatchFromObject = curry((changes, filetypes) => {
       false
     )
   )(changes)
-})
+)
