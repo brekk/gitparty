@@ -64,7 +64,8 @@
     "rollup": "^0.58.2",
     "rollup-plugin-babel-minify": "^4.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-preserve-shebang": "^0.1.6"
+    "rollup-plugin-preserve-shebang": "^0.1.6",
+    "xtrace": "^0.1.10"
   },
   "dependencies": {
     "lodash": "^4.17.10"

@@ -3301,7 +3301,7 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
 
-f-utility@^3.5.6:
+f-utility@^3.5.5, f-utility@^3.5.6:
   version "3.5.6"
   resolved "https://registry.yarnpkg.com/f-utility/-/f-utility-3.5.6.tgz#d0d9963a07cc9dfb4a45edf9d08f9f8f81a0db01"
   dependencies:
@@ -8332,6 +8332,12 @@ xtend@~2.1.2:
 xtend@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-3.0.0.tgz#5cce7407baf642cba7becda568111c493f59665a"
+
+xtrace@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/xtrace/-/xtrace-0.1.10.tgz#17aeb5d2753f9af207972e664823fcda1b2eff7c"
+  dependencies:
+    f-utility "^3.5.5"
 
 y18n@^3.2.1:
   version "3.2.1"
