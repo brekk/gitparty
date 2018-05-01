@@ -1,7 +1,17 @@
 import gitlog from 'gitlog'
-import { join, curry, pipe, map, reject, merge } from 'f-utility'
-import { trace } from 'xtrace'
+import {
+  join,
+  pipe,
+  map,
+  reject,
+  merge,
+  curry,
+  fromPairs,
+  entries
+} from 'f-utility'
+// import { trace } from 'xtrace';
 import time from 'dayjs'
+import { LEGEND } from './constants'
 import { colorize } from './print'
 import { isAMergeCommit, lens, aliasProperty } from './utils'
 import { anyFilesMatchFromObject } from './filters'
@@ -66,48 +76,33 @@ const datify = (x) => {
 
 const addChangesObject = lens(addChanges, `changes`)
 
-const analyze = ({ date, hash, changes, subject, author }) => {
-  const any = anyFilesMatchFromObject(changes)
-  return {
-    type: `commit`,
-    date,
-    hash,
-    changes,
-    subject,
-    author: getCanon(author),
-    analysis: {
-      style: any(`*.scss`),
-      tests: any(`*.specs.js`),
-      frontend: any([`scss`, `js`, `package.json`]),
-      backend: any(`py`),
-      assets: any([`jpg`, `png`, `svg`]),
-      devops: any([`*rollup*`, `package.json`, `package-scripts.js`])
-    }
-  }
-}
+const generateAnalysis = curry((lookup, commit) => {
+  const any = anyFilesMatchFromObject(commit.changes)
+  return pipe(entries, map(([k, { matches }]) => [k, any(matches)]), fromPairs)(
+    lookup
+  )
+})
 
-const partytrain = pipe(
-  // eslint-disable-next-line fp/no-mutating-methods
-  (x) => x.sort(({ date: a }, { date: b }) => b - a),
-  // trace(`sorted`),
-  reject(isAMergeCommit),
-  // trace(`no merge commits`),
-  map(
-    pipe(
-      datify,
-      aliasify,
-      // trace(`aliased`),
-      addChangesObject,
-      // trace(`changed`),
-      analyze
-    )
-  ),
-  // trace(`added and analyzed`),
-  // collapseSuccessiveSameAuthor,
-  groupBy(`date`),
-  createBannersFromGroups,
-  map(colorize),
-  join(`\n`)
+const analyze = curry((lookup, raw) =>
+  merge(raw, {
+    type: `commit`,
+    author: getCanon(raw.author),
+    analysis: generateAnalysis(lookup, raw)
+  })
+)
+
+const partytrain = curry((lookup, data) =>
+  pipe(
+    // eslint-disable-next-line fp/no-mutating-methods
+    (x) => x.sort(({ date: a }, { date: b }) => b - a),
+    reject(isAMergeCommit),
+    map(pipe(datify, aliasify, addChangesObject, analyze(lookup))),
+    // collapseSuccessiveSameAuthor,
+    groupBy(`date`),
+    createBannersFromGroups,
+    map(colorize(lookup)),
+    join(`\n`)
+  )(data)
 )
 const DEFAULT_CONFIG = {
   repo: __dirname,
@@ -122,11 +117,12 @@ const DEFAULT_CONFIG = {
   execOptions: { maxBuffer: 1000 * 1024 }
 }
 
-export const gitparty = (config = DEFAULT_CONFIG) =>
-  gitlog(config, (e, d) => {
+export const gitparty = curry((lookup, gitConfig) =>
+  gitlog(gitConfig, (e, d) => {
     if (e) return console.log(e)
     console.log(printLegend())
-    console.log(partytrain(d))
+    console.log(partytrain(LEGEND, d))
   })
+)
 
-gitparty()
+gitparty(LEGEND, DEFAULT_CONFIG)
