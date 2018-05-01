@@ -1,8 +1,9 @@
 import gitlog from 'gitlog'
 import { join, curry, pipe, map, reject, merge } from 'f-utility'
 import { trace } from 'xtrace'
+import time from 'dayjs'
 import { colorize } from './print'
-import { isAMergeCommit } from './utils'
+import { isAMergeCommit, lens, aliasProperty } from './utils'
 import { anyFilesMatchFromObject } from './filters'
 import { canonicalize } from './alias'
 import { printLegend } from './legend'
@@ -11,7 +12,7 @@ import { TOTAL_COMMITS } from './constants'
 
 const authors = {}
 const { getCanon, canonize } = canonicalize(authors)
-canonize(`Brekk Bockrath`, `brekk`)
+canonize(`brekk`, `Brekk Bockrath`)
 
 const collapseSuccessiveSameAuthor = (x) => {
   const y = []
@@ -40,17 +41,9 @@ const collapseSuccessiveSameAuthor = (x) => {
   }
   return y
 }
-const aliasProperty = curry((prop, propAlias, x) => {
-  const y = merge({}, x)
-  if (typeof y[prop] !== `undefined`) {
-    y[propAlias] = y[prop] // eslint-disable-line fp/no-mutation
-  }
-  return y
-})
 
 const aliasify = pipe(
   aliasProperty(`authorName`, `author`),
-  aliasProperty(`authorDateRel`, `date`),
   aliasProperty(`abbrevHash`, `hash`)
 )
 const addChanges = (y) => {
@@ -63,14 +56,14 @@ const addChanges = (y) => {
     merge(a, { [k]: (a[k] || []).concat(v) })
   return files.map(arrayify(y)).reduce(flattenArrays, {})
 }
+const datify = (x) => {
+  const { authorDate } = x
+  const rel = time(authorDate)
+  const ms = rel.valueOf()
+  const date = rel.format(`DD-MM-YYYY`)
+  return merge(x, { ms, date })
+}
 
-const lens = curry((fn, prop, target) => {
-  const copy = Object.assign({}, target)
-  if (copy && prop) {
-    copy[prop] = fn(copy, copy[prop]) // eslint-disable-line fp/no-mutation
-  }
-  return copy
-})
 const addChangesObject = lens(addChanges, `changes`)
 
 const analyze = ({ date, hash, changes, subject, author }) => {
@@ -83,12 +76,12 @@ const analyze = ({ date, hash, changes, subject, author }) => {
     subject,
     author: getCanon(author),
     analysis: {
-      style: any(`scss`),
-      tests: any(`specs.js`),
+      style: any(`*.scss`),
+      tests: any(`*.specs.js`),
       frontend: any([`scss`, `js`, `package.json`]),
       backend: any(`py`),
       assets: any([`jpg`, `png`, `svg`]),
-      devops: any([`bin`, `html`, `yml`])
+      devops: any([`*rollup*`, `package.json`, `package-scripts.js`])
     }
   }
 }
@@ -101,6 +94,7 @@ const partytrain = pipe(
   // trace(`no merge commits`),
   map(
     pipe(
+      datify,
       aliasify,
       // trace(`aliased`),
       addChangesObject,
