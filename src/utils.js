@@ -22,7 +22,7 @@ export const aliasProperty = curry(
 export const lens = curry((fn, prop, target) => {
   const copy = merge({}, target)
   if (copy && prop) {
-    copy[prop] = fn(copy, copy[prop]) // eslint-disable-line fp/no-mutation
+    return merge(copy, { [prop]: fn(copy, copy[prop]) })
   }
   return copy
 })
