@@ -1,13 +1,13 @@
 import chalk from 'chalk'
 export const LEGEND = {
-  style: {
-    key: `S`,
-    fn: chalk.bgMagenta,
-    matches: [`*.scss`, `*.html`]
+  js: {
+    key: `J`,
+    fn: chalk.bgBlue,
+    matches: [`src/*.js`]
   },
   lint: {
     key: `L`,
-    fn: chalk.bgGreen,
+    fn: chalk.bgMagenta,
     matches: [`**/.eslintrc`]
   },
   tests: {
@@ -20,10 +20,10 @@ export const LEGEND = {
     fn: chalk.bgCyan,
     matches: [`**/*.json`, `**/*.yml`, `**/rollup/*`, `**/webpack*`, `**/^.*`]
   },
-  js: {
-    key: `J`,
+  dependencies: {
+    key: `D`,
     fn: chalk.bgYellow,
-    matches: [`**/*.js`, `**/package.json`, `**/yarn.lock`]
+    matches: [`**/package.json`, `**/yarn.lock`]
   }
 }
 export const TOTAL_COMMITS = 100

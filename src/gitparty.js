@@ -11,6 +11,7 @@ import {
   entries
 } from 'f-utility'
 // import { trace } from 'xtrace';
+import { groupBy } from 'lodash/fp'
 import time from 'dayjs'
 import {
   LEGEND,
@@ -20,11 +21,11 @@ import {
   BANNER_LENGTH
 } from './constants'
 import { colorize } from './print'
-import { lens, aliasProperty } from './utils'
+import { sortByDate, lens, aliasProperty } from './utils'
 import { isAMergeCommit, anyFilesMatchFromObject } from './filters'
 import { canonicalize } from './alias'
 import { printLegend } from './legend'
-import { createBannersFromGroups, groupBy } from './grouping'
+import { createBannersFromGroups } from './grouping'
 import { TOTAL_COMMITS } from './constants'
 
 const authors = {}
@@ -99,9 +100,6 @@ const analyze = curry((lookup, raw) =>
   })
 )
 
-// eslint-disable-next-line fp/no-mutating-methods
-const sortByDate = (x) => x.sort(({ date: a }, { date: b }) => b - a)
-
 const groupify = pipe(groupBy(`date`), createBannersFromGroups)
 
 const partytrain = curry((config, lookup, data) =>
@@ -111,6 +109,7 @@ const partytrain = curry((config, lookup, data) =>
     map(pipe(datify, aliasify, addChangesObject, analyze(lookup))),
     config.collapseAuthors ? collapseSuccessiveSameAuthor : I,
     groupify,
+    // (x) => JSON.stringify(x, null, 2)
     map(colorize(config, lookup)),
     join(`\n`)
   )(data)
