@@ -1,4 +1,4 @@
-import { merge } from 'f-utility'
+import { I, merge } from 'f-utility'
 import test from 'jest-t-assert'
 import {
   box,
@@ -58,4 +58,13 @@ test(`aliasProperty`, (t) => {
   t.deepEqual(output, merge(input, { y: input.x }))
   const output2 = aliasProperty(`x`, `y`, { zzz: input.x }) // ?
   t.deepEqual(output2, { zzz: input.x })
+})
+
+test(`lens`, (t) => {
+  const input = { a: 1, b: 2, c: 3 }
+  const output = lens((w, x) => x * 2, `b`, input) //?
+  t.deepEqual(output, { a: 1, b: 4, c: 3 })
+  t.notDeepEqual(input, output)
+  const output2 = lens(I, null, input) //?
+  t.deepEqual(input, output2)
 })

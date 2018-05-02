@@ -13,7 +13,7 @@ export const LEGEND = {
   tests: {
     key: `T`,
     fn: chalk.bgRed,
-    matches: [`*.spec.js`]
+    matches: [`**/*.spec.js`]
   },
   config: {
     key: `C`,
