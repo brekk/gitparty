@@ -37,6 +37,7 @@ const sortByKey = sortByKeyWithWrapper(true, I)
 export const sortByDate = sortByKey(`date`)
 const tomorrow = (x) => new Date(x)
 export const sortByDateKey = sortByKeyWithWrapper(true, tomorrow)
+// eslint-disable-next-line fp/no-mutating-methods
 const prettyPrintDate = (x) => tomorrow(x.split(`-`).reverse())
 export const sortByDateObject = (k) =>
   // eslint-disable-next-line fp/no-mutating-methods

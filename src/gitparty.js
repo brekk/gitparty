@@ -32,12 +32,13 @@ const authors = {}
 const { getCanon, canonize } = canonicalize(authors)
 canonize(`brekk`, `Brekk Bockrath`)
 
-const collapseSuccessiveSameAuthor = (x) => {
-  const y = []
-  let prev = false
-  let lastIndex = false
+/* eslint-disable */
+const collapseSuccessiveSameAuthor = x => {
+  const y = [];
+  let prev = false;
+  let lastIndex = false;
   for (let i = 0; i < x.length; i++) {
-    let curr = x[i]
+    let curr = x[i];
     if (i > 0 && lastIndex && prev && curr && prev.author === curr.author) {
       y[y.length - 1] = merge(prev, {
         subject: `[+] ` + prev.subject + ` && ` + curr.subject,
@@ -50,15 +51,16 @@ const collapseSuccessiveSameAuthor = (x) => {
           assets: prev.analysis.assets || curr.analysis.assets,
           devops: prev.analysis.devops || curr.analysis.devops
         }
-      })
+      });
     } else {
-      y.push(curr)
+      y.push(curr);
     }
-    prev = curr
-    lastIndex = i
+    prev = curr;
+    lastIndex = i;
   }
-  return y
-}
+  return y;
+};
+/* eslint-enable */
 
 const aliasify = pipe(
   aliasProperty(`authorName`, `author`),
@@ -135,9 +137,11 @@ const DEFAULT_CONFIG = {
 
 export const gitparty = curry((lookup, gitConfig) =>
   gitlog(gitConfig, (e, d) => {
+    /* eslint-disable no-console */
     if (e) return console.log(e)
     console.log(printLegend(lookup))
     console.log(partytrain(gitConfig, lookup, d))
+    /* eslint-enable no-console */
   })
 )
 

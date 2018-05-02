@@ -33,7 +33,7 @@ GERMS.scripts.bundle.script = allNPS(
 GERMS.scripts.lint.project = `clinton`
 GERMS.scripts.lint.jsdoc = `echo "documentation lint"`
 GERMS.scripts.lint = merge(GERMS.scripts.lint, {
-  script: allNPS(`lint.src`, `lint.jsdoc`, `lint.project`)
+  script: allNPS(`lint.src`, `lint.jsdoc`)
 })
 /* eslint-enable fp/no-mutation */
 
