@@ -1,12 +1,14 @@
-import { curry, reduce, assign, keys, pipe } from 'f-utility'
+import { merge, curry, reduce, keys, pipe } from 'f-utility'
+import { neue } from './utils'
 
 export const groupBy = curry((key, arr) =>
   reduce(
     (agg, raw) => {
-      const copy = assign({}, agg)
+      const copy = neue(agg)
       const { [key]: grouping } = raw
-      copy[grouping] = (copy[grouping] || []).concat(raw) // eslint-disable-line fp/no-mutation
-      return copy
+      const current = copy[grouping] || []
+      const newGroup = current.concat(raw) // eslint-disable-line fp/no-mutation
+      return merge(copy, { [grouping]: newGroup })
     },
     {},
     arr
@@ -21,7 +23,6 @@ export const createBannersFromGroups = (grouped) =>
     // eslint-disable-next-line fp/no-mutating-methods
     (k) => k.sort((a, b) => Date(a) - Date(b)),
     reduce((list, key) => {
-      const group = grouped[key]
-      return list.concat({ date: key, type: `banner` }, group)
+      return list.concat({ date: key, type: `banner` }, grouped[key])
     }, [])
   )(grouped)

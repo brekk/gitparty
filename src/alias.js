@@ -9,8 +9,8 @@ export const alias = curry((struct, original, alt) => {
     struct[original] = struct[alt]
   }
 })
-export const getAliasFrom = curry((struct, key) => struct[key] || key)
 /* eslint-enable fp/no-mutation */
+export const getAliasFrom = curry((struct, key) => struct[key] || key)
 export const canonicalize = (x) => {
   const canonize = (a, b = a) => alias(x, a, b)
   const getCanon = getAliasFrom(x)
