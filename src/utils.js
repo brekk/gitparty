@@ -20,7 +20,7 @@ export const aliasProperty = curry(
 )
 
 export const lens = curry((fn, prop, target) => {
-  const copy = merge({}, target)
+  const copy = neue(target)
   if (copy && prop) {
     return merge(copy, { [prop]: fn(copy, copy[prop]) })
   }
