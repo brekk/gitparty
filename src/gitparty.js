@@ -102,14 +102,15 @@ const analyze = curry((lookup, raw) =>
 // eslint-disable-next-line fp/no-mutating-methods
 const sortByDate = (x) => x.sort(({ date: a }, { date: b }) => b - a)
 
+const groupify = pipe(groupBy(`date`), createBannersFromGroups)
+
 const partytrain = curry((config, lookup, data) =>
   pipe(
     sortByDate,
     config.collapseMergeCommits ? reject(isAMergeCommit) : I,
     map(pipe(datify, aliasify, addChangesObject, analyze(lookup))),
     config.collapseAuthors ? collapseSuccessiveSameAuthor : I,
-    groupBy(`date`),
-    createBannersFromGroups,
+    groupify,
     map(colorize(config, lookup)),
     join(`\n`)
   )(data)
