@@ -19,8 +19,8 @@ import {
   BANNER_LENGTH
 } from './constants'
 import { colorize } from './print'
-import { isAMergeCommit, lens, aliasProperty } from './utils'
-import { anyFilesMatchFromObject } from './filters'
+import { lens, aliasProperty, box } from './utils'
+import { isAMergeCommit, anyFilesMatchFromObject } from './filters'
 import { canonicalize } from './alias'
 import { printLegend } from './legend'
 import { createBannersFromGroups, groupBy } from './grouping'

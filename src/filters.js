@@ -12,3 +12,6 @@ export const anyFilesMatchFromObject = curry((changes, filetypes) =>
     reduce((agg, [, v]) => agg || filterFiletypes(filetypes, v), false)
   )(changes)
 )
+
+export const isAMergeCommit = (x) =>
+  pathOr(``, [`subject`], x).substr(0, 6) === `Merge `
