@@ -10,32 +10,26 @@ export const drawTokens = curry((lookup, analysis, name) => {
 export const autodraw = curry((lookup, analysis) =>
   pipe(keys, map(drawTokens(lookup, analysis)), join(``))(lookup)
 )
+const blackOnWhite = pipe(chalk.bgWhite, chalk.black)
 export const colorize = curry(
   (
-    config,
+    { bannerLength, bannerIndent, subjectLength, authorLength },
     lookup,
     { date, type, hash, changes, subject, author, analysis }
   ) => {
     if (type === `banner`) {
-      // 28 aligns it to the end of the commit hash
-      return chalk.bgWhite(
-        chalk.black(
-          padEnd(
-            config.bannerLength,
-            ` `,
-            padStart(config.bannerIndent, ` `, date)
-          )
-        )
+      return blackOnWhite(
+        padEnd(bannerLength, ` `, padStart(bannerIndent, ` `, date))
       )
     } else if (type === `commit`) {
-      // const { style, frontend, backend, assets, devops, tests } = analysis
-      const __hash = chalk.yellow(hash)
-      const __summary = summarize(config.subjectLength, subject)
-      const __author = chalk.red(padEnd(config.authorLength, ` `, author))
+      const _hash = chalk.yellow(hash)
+      const _summary = summarize(subjectLength, subject)
+      const _author = pipe(chalk.red, padEnd(authorLength, ` `))(author)
       const tokens = autodraw(lookup, analysis)
-      return `${tokens} = ${__hash} - ${__summary} $ ${__author} | ${filetypes(
+      const printFiletypes = pipe(filetypes, join(` `))
+      return `${tokens} = ${_hash} - ${_summary} $ ${_author} | ${printFiletypes(
         changes
-      ).join(` `)}`
+      )}`
     }
   }
 )

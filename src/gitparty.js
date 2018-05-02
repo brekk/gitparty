@@ -1,5 +1,6 @@
 import gitlog from 'gitlog'
 import {
+  I,
   join,
   pipe,
   map,
@@ -19,7 +20,7 @@ import {
   BANNER_LENGTH
 } from './constants'
 import { colorize } from './print'
-import { lens, aliasProperty, box } from './utils'
+import { lens, aliasProperty } from './utils'
 import { isAMergeCommit, anyFilesMatchFromObject } from './filters'
 import { canonicalize } from './alias'
 import { printLegend } from './legend'
@@ -82,12 +83,13 @@ const datify = (x) => {
 
 const addChangesObject = lens(addChanges, `changes`)
 
-const generateAnalysis = curry((lookup, commit) => {
-  const any = anyFilesMatchFromObject(commit.changes)
-  return pipe(entries, map(([k, { matches }]) => [k, any(matches)]), fromPairs)(
-    lookup
-  )
-})
+const generateAnalysis = curry((lookup, { changes }) =>
+  pipe(
+    entries,
+    map(([k, { matches }]) => [k, anyFilesMatchFromObject(changes, matches)]),
+    fromPairs
+  )(lookup)
+)
 
 const analyze = curry((lookup, raw) =>
   merge(raw, {
@@ -97,13 +99,15 @@ const analyze = curry((lookup, raw) =>
   })
 )
 
+// eslint-disable-next-line fp/no-mutating-methods
+const sortByDate = (x) => x.sort(({ date: a }, { date: b }) => b - a)
+
 const partytrain = curry((config, lookup, data) =>
   pipe(
-    // eslint-disable-next-line fp/no-mutating-methods
-    (x) => x.sort(({ date: a }, { date: b }) => b - a),
-    reject(isAMergeCommit),
+    sortByDate,
+    config.collapseMergeCommits ? reject(isAMergeCommit) : I,
     map(pipe(datify, aliasify, addChangesObject, analyze(lookup))),
-    // collapseSuccessiveSameAuthor,
+    config.collapseAuthors ? collapseSuccessiveSameAuthor : I,
     groupBy(`date`),
     createBannersFromGroups,
     map(colorize(config, lookup)),
@@ -111,6 +115,8 @@ const partytrain = curry((config, lookup, data) =>
   )(data)
 )
 const DEFAULT_CONFIG = {
+  collapseMergeCommits: false,
+  collapseAuthors: false,
   authorLength: AUTHOR_LENGTH,
   subjectLength: SUBJECT_LENGTH,
   bannerLength: BANNER_LENGTH,
@@ -130,8 +136,8 @@ const DEFAULT_CONFIG = {
 export const gitparty = curry((lookup, gitConfig) =>
   gitlog(gitConfig, (e, d) => {
     if (e) return console.log(e)
-    console.log(printLegend())
-    console.log(partytrain(gitConfig, LEGEND, d))
+    console.log(printLegend(lookup))
+    console.log(partytrain(gitConfig, lookup, d))
   })
 )
 

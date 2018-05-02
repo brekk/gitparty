@@ -1,10 +1,8 @@
-import { curry, pipe, entries, reduce } from 'f-utility'
+import { curry, pipe, entries, reduce, pathOr } from 'f-utility'
 import mm from 'micromatch'
-// import { trace } from 'xtrace'
+import { neue } from './utils'
 
-export const filterFiletypes = curry((types, arr) =>
-  mm.some(arr, [].concat(types))
-)
+export const filterFiletypes = curry((types, arr) => mm.some(arr, neue(types)))
 
 export const anyFilesMatchFromObject = curry((changes, filetypes) =>
   pipe(
@@ -12,6 +10,6 @@ export const anyFilesMatchFromObject = curry((changes, filetypes) =>
     reduce((agg, [, v]) => agg || filterFiletypes(filetypes, v), false)
   )(changes)
 )
-
+const MERGE_WORD = `Merge `
 export const isAMergeCommit = (x) =>
-  pathOr(``, [`subject`], x).substr(0, 6) === `Merge `
+  pathOr(``, [`subject`], x).substr(0, 6) === MERGE_WORD

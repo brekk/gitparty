@@ -1,4 +1,6 @@
 import { merge, curry, pathOr, padEnd } from 'f-utility'
+export const box = (x) => (Array.isArray(x) ? x : [x])
+export const neue = (x) => (Array.isArray(x) ? [].concat(x) : merge({}, x))
 export const summarize = curry((limit, str) =>
   padEnd(
     limit + 3,
@@ -14,7 +16,7 @@ export const aliasProperty = curry(
   (prop, propAlias, x) =>
     typeof x[prop] !== `undefined` ?
       merge(x, { [propAlias]: x[prop] }) :
-      merge({}, x)
+      neue(x)
 )
 
 export const lens = curry((fn, prop, target) => {
