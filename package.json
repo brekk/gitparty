@@ -2,7 +2,7 @@
   "name": "gitparty",
   "version": "0.0.0",
   "description": "summarize your git data clearly",
-  "main": "gitparty.js",
+  "bin": "lib/gitparty.js",
   "scripts": {
     "test": "jest"
   },

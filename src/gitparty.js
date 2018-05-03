@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import gitlog from 'gitlog'
 import {
   I,
@@ -117,13 +118,13 @@ const partytrain = curry((config, lookup, data) =>
   )(data)
 )
 const DEFAULT_CONFIG = {
-  collapseMergeCommits: false,
+  collapseMergeCommits: true,
   collapseAuthors: false,
   authorLength: AUTHOR_LENGTH,
   subjectLength: SUBJECT_LENGTH,
   bannerLength: BANNER_LENGTH,
   bannerIndent: BANNER_INDENT,
-  repo: __dirname,
+  repo: process.cwd(),
   number: TOTAL_COMMITS,
   fields: [
     `abbrevHash`,
