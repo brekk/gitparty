@@ -1,0 +1,30 @@
+js:
+  key: J
+  color: bgBlue
+  matches:
+  - src/*.js
+lint:
+  key: L
+  color: bgMagenta
+  matches:
+  - **/.eslintrc
+tests:
+  key: T
+  color: bgRed
+  matches:
+  - **/*.spec.js
+config:
+  key: C
+  color: bgCyan
+  matches:
+  - **/*.json
+  - **/*.yml
+  - **/rollup/*
+  - **/webpack*
+  - **/^.*
+dependencies:
+  key: D
+  color: bgYellow
+  matches:
+  - **/package.json
+  - **/yarn.lock
