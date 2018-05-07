@@ -7,24 +7,24 @@ lint:
   key: L
   color: bgMagenta
   matches:
-  - **/.eslintrc
+  - \**/.eslintrc
 tests:
   key: T
   color: bgRed
   matches:
-  - **/*.spec.js
+  - \**/*.spec.js
 config:
   key: C
   color: bgCyan
   matches:
-  - **/*.json
-  - **/*.yml
-  - **/rollup/*
-  - **/webpack*
-  - **/^.*
+  - \**/*.json
+  - \**/*.yml
+  - \**/rollup/*
+  - \**/webpack*
+  - \**/^.*
 dependencies:
   key: D
   color: bgYellow
   matches:
-  - **/package.json
-  - **/yarn.lock
+  - \**/package.json
+  - \**/yarn.lock

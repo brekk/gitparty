@@ -1,7 +1,8 @@
 import chalk from 'chalk'
-import { ap, pipe, keys, map, join, curry, padEnd, padStart } from 'f-utility'
+import { pipe, keys, map, join, curry, padEnd, padStart } from 'f-utility'
 import { filetypes } from './per-commit'
 import { summarize } from './utils'
+
 export const drawTokens = curry((lookup, analysis, name) => {
   const { fn, key } = lookup[name]
   const x = analysis[name]
@@ -34,12 +35,9 @@ const configureAndPrintCommit = curry(
   }
 )
 
-export const colorize = curry((config, lookup, raw) => {
-  // const [printBanner, printCommit] = ap(
-  //   [configureAndPrintBanner, configureAndPrintCommit(lookup)],
-  //   config
-  // )
-  const printBanner = configureAndPrintBanner(config)
-  const printCommit = configureAndPrintCommit(lookup, config)
-  return raw.type === `banner` ? printBanner(raw) : printCommit(raw)
-})
+export const colorize = curry(
+  (config, lookup, raw) =>
+    raw.type === `banner` ?
+      configureAndPrintBanner(config, raw) :
+      configureAndPrintCommit(lookup, config, raw)
+)
