@@ -11,8 +11,11 @@ export const alias = curry((struct, original, alt) => {
 })
 export const getAliasFrom = curry((struct, key) => struct[key] || key)
 /* eslint-enable fp/no-mutation */
-export const canonicalize = (x) => {
-  const canonize = (a, b = a) => alias(x, a, b)
-  const getCanon = getAliasFrom(x)
-  return { canonize, getCanon }
-}
+export const canonicalize = (x) => ({
+  canonize: (a, b = a) => alias(x, a, b),
+  getCanon: getAliasFrom(x)
+})
+
+const authors = {}
+export const { getCanon, canonize } = canonicalize(authors)
+canonize(`brekk`, `Brekk Bockrath`)

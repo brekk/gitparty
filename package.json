@@ -71,6 +71,7 @@
   "dependencies": {
     "dayjs": "^1.5.16",
     "lodash": "^4.17.10",
-    "micromatch": "^3.1.10"
+    "micromatch": "^3.1.10",
+    "read-yaml": "^1.1.0"
   }
 }
