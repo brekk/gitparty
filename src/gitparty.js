@@ -71,7 +71,7 @@ export const gitparty = curry((lookup, gitConfig) => {
     /* eslint-enable no-console */
   })
 })
-const remapRawData = pipe(
+const remapConfigData = pipe(
   entries,
   map(([k, v]) => [
     k,
@@ -82,7 +82,7 @@ const remapRawData = pipe(
   ]),
   fromPairs
 )
-read(
-  path.resolve(process.cwd(), argv.config || argv.c),
-  (e, d) => (e ? console.warn(e) : gitparty(remapRawData(d), DEFAULT_CONFIG))
+read.yaml(
+  path.resolve(process.cwd(), argv.config || argv.c || `./.gitpartyrc`),
+  (e, d) => (e ? console.warn(e) : gitparty(remapConfigData(d), DEFAULT_CONFIG))
 )

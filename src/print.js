@@ -13,11 +13,9 @@ export const autodraw = curry((lookup, analysis) =>
   pipe(keys, map(drawTokens(lookup, analysis)), join(``))(lookup)
 )
 
-const blackOnWhite = pipe(chalk.bgWhite, chalk.black)
-
 const configureAndPrintBanner = curry(
   ({ bannerLength, bannerIndent }, { date }) =>
-    blackOnWhite(padEnd(bannerLength, ` `, padStart(bannerIndent, ` `, date)))
+    chalk.inverse(padEnd(bannerLength, ` `, padStart(bannerIndent, ` `, date)))
 )
 
 const configureAndPrintCommit = curry(
