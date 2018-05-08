@@ -24,6 +24,8 @@ import { learnify, datify, aliasify, groupify, changify } from './per-commit'
 
 const j2 = (x) => JSON.stringify(x, null, 2)
 
+const gotLog = encase(gitlog)
+
 export const write = curry((output, data) =>
   fs.writeFile(output, data, (e) => console.log(e || `Wrote to ${output}`))
 )
@@ -38,17 +40,14 @@ export const partyData = curry(
     },
     lookup,
     data
-  ) => {
-    return pipe(
+  ) =>
+    pipe(
       sortByDate,
       collapseMergeCommits ? reject(isAMergeCommit) : I,
       map(pipe(datify, aliasify, lens(changify, `changes`), learnify(lookup))),
       collapseAuthors ? collapseSuccessiveSameAuthor : I,
       groupify
-      // json ? j2 : print,
-      // output ? write(output) : I
     )(data)
-  }
 )
 export const partyPrint = curry(
   (
@@ -66,18 +65,17 @@ export const partyPrint = curry(
       join(`\n`)
     )(input)
 )
-const gotLog = encase(gitlog)
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
-export const gitparty = curry((config, lookup) => {
-  return gotLog(config).map(
+export const gitparty = curry((config, lookup) =>
+  gotLog(config).map(
     pipe(
       partyData(config, lookup),
       config.j ? j2 : partyPrint(config, lookup),
       config.j ? I : prependLegend(lookup)
     )
   )
-})
+)
 export const remapConfigData = pipe(
   entries,
   map(([k, v]) => [
