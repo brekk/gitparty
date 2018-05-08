@@ -66,6 +66,7 @@
     "rollup-plugin-babel-minify": "^4.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-preserve-shebang": "^0.1.6",
+    "strip-color": "^0.1.0",
     "xtrace": "^0.1.10"
   },
   "dependencies": {

@@ -90,7 +90,7 @@ export const gitparty = curry((lookup, gitConfig) => {
     /* eslint-enable no-console */
   })
 })
-const remapConfigData = pipe(
+export const remapConfigData = pipe(
   entries,
   map(([k, v]) => [
     k,
