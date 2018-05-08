@@ -14,7 +14,7 @@ import {
 } from 'f-utility'
 import chalk from 'chalk'
 import { encase } from 'fluture'
-// import { trace } from 'xtrace'
+import { trace } from 'xtrace'
 import { colorize } from './print'
 import { sortByDate, lens } from './utils'
 import { isAMergeCommit } from './filters'
@@ -24,7 +24,7 @@ import { learnify, datify, aliasify, groupify, changify } from './per-commit'
 
 const j2 = (x) => JSON.stringify(x, null, 2)
 
-const write = curry((output, data) =>
+export const write = curry((output, data) =>
   fs.writeFile(output, data, (e) => console.log(e || `Wrote to ${output}`))
 )
 
@@ -67,17 +67,16 @@ export const partyPrint = curry(
     )(input)
 )
 const gotLog = encase(gitlog)
+const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
-export const gitparty = curry((lookup, config) => {
-  gotLog(config)
-    .map(
-      pipe(
-        partyData(config, lookup),
-        config.json ? j2 : partyPrint(config, lookup)
-      )
+export const gitparty = curry((config, lookup) => {
+  return gotLog(config).map(
+    pipe(
+      partyData(config, lookup),
+      config.j ? j2 : partyPrint(config, lookup),
+      config.j ? I : prependLegend(lookup)
     )
-    /* eslint-disable no-console */
-    .fork(console.warn, config.output ? write : console.log)
+  )
 })
 export const remapConfigData = pipe(
   entries,
