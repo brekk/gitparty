@@ -13,6 +13,7 @@ import {
   fromPairs
 } from 'f-utility'
 import chalk from 'chalk'
+import { encase } from 'fluture'
 // import { trace } from 'xtrace'
 import { colorize } from './print'
 import { sortByDate, lens } from './utils'
@@ -27,62 +28,56 @@ const write = curry((output, data) =>
   fs.writeFile(output, data, (e) => console.log(e || `Wrote to ${output}`))
 )
 
-export const partytrain = curry(
+export const partyData = curry(
   (
     {
       // hide any commit whose summary begins with the string 'Merge '
       collapseMergeCommits,
       // collapse successive authors and join the results
-      collapseAuthors,
-      // grouping banner length
-      bannerLength,
-      // whitespace before the banner beginning
-      bannerIndent,
-      // max subject length before ellipsizing...
-      subjectLength,
-      // minimum space for the author name
-      authorLength,
-      // use json only
-      json,
-      // write to a file
-      output
+      collapseAuthors
     },
     lookup,
     data
   ) => {
-    const print = pipe(
+    return pipe(
+      sortByDate,
+      collapseMergeCommits ? reject(isAMergeCommit) : I,
+      map(pipe(datify, aliasify, lens(changify, `changes`), learnify(lookup))),
+      collapseAuthors ? collapseSuccessiveSameAuthor : I,
+      groupify
+      // json ? j2 : print,
+      // output ? write(output) : I
+    )(data)
+  }
+)
+export const partyPrint = curry(
+  (
+    { bannerIndent, bannerLength, subjectLength, authorLength },
+    lookup,
+    input
+  ) =>
+    pipe(
       map(
-        // after this point everything has been converted to a string
         colorize(
           { bannerLength, bannerIndent, subjectLength, authorLength },
           lookup
         )
       ),
       join(`\n`)
-    )
-    return pipe(
-      sortByDate,
-      collapseMergeCommits ? reject(isAMergeCommit) : I,
-      map(pipe(datify, aliasify, lens(changify, `changes`), learnify(lookup))),
-      collapseAuthors ? collapseSuccessiveSameAuthor : I,
-      groupify,
-      json ? j2 : print,
-      output ? write(output) : I
-    )(data)
-  }
+    )(input)
 )
+const gotLog = encase(gitlog)
 
-export const gitparty = curry((lookup, gitConfig) => {
-  return gitlog(gitConfig, (e, data) => {
-    const out = partytrain(gitConfig, lookup, data)
+export const gitparty = curry((lookup, config) => {
+  gotLog(config)
+    .map(
+      pipe(
+        partyData(config, lookup),
+        config.json ? j2 : partyPrint(config, lookup)
+      )
+    )
     /* eslint-disable no-console */
-    if (e) return console.log(e)
-    if (!gitConfig.output) {
-      console.log(printLegend(lookup))
-      console.log(out)
-    }
-    /* eslint-enable no-console */
-  })
+    .fork(console.warn, config.output ? write : console.log)
 })
 export const remapConfigData = pipe(
   entries,
