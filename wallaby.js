@@ -4,12 +4,12 @@ module.exports = function configureWallaby() {
   return {
     name: pkg.name,
     debug: true,
-    files: [`src/*.js`, `!src/*.spec.js`],
+    files: [`src/*.js`, `!src/*.spec.js`, `!src/*.fixture.json`],
 
     tests: [
       `src/*.spec.js`,
       // wallaby doesn't know about this yet
-      `!src/bundle.spec.js`
+      `src/*.fixture.json`
     ],
 
     env: {

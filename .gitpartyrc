@@ -1,6 +1,6 @@
 js:
   key: J
-  color: bgBlue
+  color: bgBlueBright
   matches:
   - src/*.js
 lint:
@@ -13,12 +13,16 @@ tests:
   color: bgRed
   matches:
   - \**/*.spec.js
+gitpartyrc:
+  key: G
+  color: bgRedBright
+  matches:
+  - \**/.gitpartyrc
 config:
   key: C
   color: bgCyan
   matches:
-  - \**/*.json
-  - \**/*.yml
+  - \**/package.json
   - \**/rollup/*
   - \**/webpack*
   - \**/^.*

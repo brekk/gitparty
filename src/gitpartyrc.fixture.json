@@ -1,0 +1,32 @@
+{
+  "js": {
+    "key": "J",
+    "color": "bgBlueBright",
+    "matches": ["src/*.js"]
+  },
+  "lint": {
+    "key": "L",
+    "color": "bgMagenta",
+    "matches": ["**/.eslintrc"]
+  },
+  "tests": {
+    "key": "T",
+    "color": "bgRed",
+    "matches": ["**/*.spec.js"]
+  },
+  "gitpartyrc": {
+    "key": "G",
+    "color": "bgRedBright",
+    "matches": ["**/.gitpartyrc"]
+  },
+  "config": {
+    "key": "C",
+    "color": "bgCyan",
+    "matches": ["**/package.json", "**/rollup/*", "**/webpack*", "**/^.*"]
+  },
+  "dependencies": {
+    "key": "D",
+    "color": "bgYellow",
+    "matches": ["**/package.json", "**/yarn.lock"]
+  }
+}

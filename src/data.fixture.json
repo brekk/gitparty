@@ -1,0 +1,894 @@
+[
+  {
+    "date": "07-05-2018",
+    "type": "banner"
+  },
+  {
+    "status": [
+      "R100",
+      "D",
+      "M",
+      "M"
+    ],
+    "files": [
+      ".gitpartyrc",
+      "config-default.yml",
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "fa928f4",
+    "subject": "gitpartyrc",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 08:13:02 -0700",
+    "authorDateRel": "12 hours ago",
+    "ms": 1525705982000,
+    "date": "07-05-2018",
+    "author": "brekk",
+    "hash": "fa928f4",
+    "changes": {
+      "R100": [
+        ".gitpartyrc"
+      ],
+      "D": [
+        "config-default.yml"
+      ],
+      "M": [
+        "src/gitparty.js",
+        "src/print.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": true,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "R061",
+      "D",
+      "A",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "config-default.yml",
+      "src/config-default.yml",
+      "package-lock.json",
+      "package.json",
+      "src/gitparty.js",
+      "src/print.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "f9e5c4f",
+    "subject": "added yaml config",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 07:55:44 -0700",
+    "authorDateRel": "12 hours ago",
+    "ms": 1525704944000,
+    "date": "07-05-2018",
+    "author": "brekk",
+    "hash": "f9e5c4f",
+    "changes": {
+      "R061": [
+        "config-default.yml"
+      ],
+      "D": [
+        "src/config-default.yml"
+      ],
+      "A": [
+        "package-lock.json"
+      ],
+      "M": [
+        "package.json",
+        "src/gitparty.js",
+        "src/print.js",
+        "yarn.lock"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "925a86e",
+    "subject": "getting cleaner",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 07:28:30 -0700",
+    "authorDateRel": "13 hours ago",
+    "ms": 1525703310000,
+    "date": "07-05-2018",
+    "author": "brekk",
+    "hash": "925a86e",
+    "changes": {
+      "M": [
+        "src/gitparty.js",
+        "src/print.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "A",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/alias.js",
+      "src/config-default.yml",
+      "src/constants.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/per-commit.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "c2e257b",
+    "subject": "working again",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 06:44:22 -0700",
+    "authorDateRel": "13 hours ago",
+    "ms": 1525700662000,
+    "date": "07-05-2018",
+    "author": "brekk",
+    "hash": "c2e257b",
+    "changes": {
+      "M": [
+        "package.json",
+        "src/alias.js",
+        "src/constants.js",
+        "src/gitparty.js",
+        "src/grouping.js",
+        "src/per-commit.js",
+        "yarn.lock"
+      ],
+      "A": [
+        "src/config-default.yml"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "date": "02-05-2018",
+    "type": "banner"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "package.json",
+      "src/gitparty.js"
+    ],
+    "abbrevHash": "b9d98d9",
+    "subject": "process.cwd() over __dirname",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 18:59:18 -0700",
+    "authorDateRel": "5 days ago",
+    "ms": 1525312758000,
+    "date": "02-05-2018",
+    "author": "brekk",
+    "hash": "b9d98d9",
+    "changes": {
+      "M": [
+        "package-scripts.js",
+        "package.json",
+        "src/gitparty.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "src/gitparty.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "d9249be",
+    "subject": "pass lint",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 08:52:33 -0700",
+    "authorDateRel": "5 days ago",
+    "ms": 1525276353000,
+    "date": "02-05-2018",
+    "author": "brekk",
+    "hash": "d9249be",
+    "changes": {
+      "M": [
+        "package-scripts.js",
+        "src/gitparty.js",
+        "src/utils.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "A",
+      "M"
+    ],
+    "files": [
+      "src/alias.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "c5f2766",
+    "subject": "added some date grossness for now",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 08:47:43 -0700",
+    "authorDateRel": "5 days ago",
+    "ms": 1525276063000,
+    "date": "02-05-2018",
+    "author": "brekk",
+    "hash": "c5f2766",
+    "changes": {
+      "A": [
+        "src/alias.js"
+      ],
+      "M": [
+        "src/utils.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "src/constants.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "e9569fb",
+    "subject": "pretty close to ready",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 08:41:27 -0700",
+    "authorDateRel": "6 days ago",
+    "ms": 1525275687000,
+    "date": "02-05-2018",
+    "author": "brekk",
+    "hash": "e9569fb",
+    "changes": {
+      "M": [
+        "package-scripts.js",
+        "src/constants.js",
+        "src/gitparty.js",
+        "src/grouping.js",
+        "src/utils.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "date": "01-05-2018",
+    "type": "banner"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/constants.js",
+      "src/utils.js",
+      "src/utils.spec.js"
+    ],
+    "abbrevHash": "f3cc824",
+    "subject": "utils covered",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 23:35:48 -0700",
+    "authorDateRel": "6 days ago",
+    "ms": 1525242948000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "f3cc824",
+    "changes": {
+      "M": [
+        "src/constants.js",
+        "src/utils.js",
+        "src/utils.spec.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": true,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "D",
+      "M",
+      "M",
+      "M",
+      "A",
+      "A",
+      "A",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/alias.js",
+      "src/constants.js",
+      "src/gitparty.js",
+      "src/utils.js",
+      "src/utils.spec.js",
+      "wallaby.js",
+      "webpack.config.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "08c0a46",
+    "subject": "tests!",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 23:13:16 -0700",
+    "authorDateRel": "6 days ago",
+    "ms": 1525241596000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "08c0a46",
+    "changes": {
+      "M": [
+        "package.json",
+        "src/constants.js",
+        "src/gitparty.js",
+        "src/utils.js",
+        "yarn.lock"
+      ],
+      "D": [
+        "src/alias.js"
+      ],
+      "A": [
+        "src/utils.spec.js",
+        "wallaby.js",
+        "webpack.config.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": true,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      ".eslintrc",
+      "src/alias.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/legend.js",
+      "src/per-commit.js",
+      "src/print.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "56b6a81",
+    "subject": "cleanification",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 21:59:20 -0700",
+    "authorDateRel": "6 days ago",
+    "ms": 1525237160000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "56b6a81",
+    "changes": {
+      "M": [
+        ".eslintrc",
+        "src/alias.js",
+        "src/filters.js",
+        "src/gitparty.js",
+        "src/grouping.js",
+        "src/legend.js",
+        "src/per-commit.js",
+        "src/print.js",
+        "src/utils.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": true,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "D",
+      "M",
+      "M"
+    ],
+    "files": [
+      "gitparty.js",
+      "src/filters.js",
+      "src/gitparty.js"
+    ],
+    "abbrevHash": "8ea8fe8",
+    "subject": "partial change",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 19:11:00 -0700",
+    "authorDateRel": "6 days ago",
+    "ms": 1525227060000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "8ea8fe8",
+    "changes": {
+      "D": [
+        "gitparty.js"
+      ],
+      "M": [
+        "src/filters.js",
+        "src/gitparty.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/constants.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "bb2def9",
+    "subject": "getting cleaner, legend can be extricated",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 09:53:10 -0700",
+    "authorDateRel": "6 days ago",
+    "ms": 1525193590000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "bb2def9",
+    "changes": {
+      "M": [
+        "src/constants.js",
+        "src/filters.js",
+        "src/gitparty.js",
+        "src/print.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/constants.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "21f377f",
+    "subject": "legend is almost fully extracted",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 08:40:40 -0700",
+    "authorDateRel": "7 days ago",
+    "ms": 1525189240000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "21f377f",
+    "changes": {
+      "M": [
+        "src/constants.js",
+        "src/filters.js",
+        "src/gitparty.js",
+        "src/print.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/print.js",
+      "src/utils.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "852f7ac",
+    "subject": "add blob matching, start to clean up legend makery",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 07:48:20 -0700",
+    "authorDateRel": "7 days ago",
+    "ms": 1525186100000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "852f7ac",
+    "changes": {
+      "M": [
+        "package.json",
+        "src/filters.js",
+        "src/gitparty.js",
+        "src/grouping.js",
+        "src/print.js",
+        "src/utils.js",
+        "yarn.lock"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/gitparty.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "322b8d0",
+    "subject": "cleanups and more fp",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 07:05:16 -0700",
+    "authorDateRel": "7 days ago",
+    "ms": 1525183516000,
+    "date": "01-05-2018",
+    "author": "brekk",
+    "hash": "322b8d0",
+    "changes": {
+      "M": [
+        "package.json",
+        "src/gitparty.js",
+        "yarn.lock"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "date": "30-04-2018",
+    "type": "banner"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "gitparty.js",
+      "src/gitparty.js",
+      "src/grouping.js"
+    ],
+    "abbrevHash": "c182937",
+    "subject": "commit it while it works, dammit",
+    "authorName": "brekk",
+    "authorDate": "2018-04-30 22:25:18 -0700",
+    "authorDateRel": "7 days ago",
+    "ms": 1525152318000,
+    "date": "30-04-2018",
+    "author": "brekk",
+    "hash": "c182937",
+    "changes": {
+      "M": [
+        "gitparty.js",
+        "src/gitparty.js",
+        "src/grouping.js"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": false,
+      "dependencies": false
+    }
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/legend.js",
+      "src/print.js",
+      "src/utils.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "58b0786",
+    "subject": "better",
+    "authorName": "brekk",
+    "authorDate": "2018-04-30 21:56:57 -0700",
+    "authorDateRel": "7 days ago",
+    "ms": 1525150617000,
+    "date": "30-04-2018",
+    "author": "brekk",
+    "hash": "58b0786",
+    "changes": {
+      "M": [
+        "package.json",
+        "src/gitparty.js",
+        "src/grouping.js",
+        "src/legend.js",
+        "src/print.js",
+        "src/utils.js",
+        "yarn.lock"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": false,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  },
+  {
+    "status": [
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A"
+    ],
+    "files": [
+      ".babelrc",
+      ".eslintrc",
+      ".gitignore",
+      ".madgerc",
+      ".npmignore",
+      "circle.yml",
+      "gitparty.js",
+      "package-scripts.js",
+      "package.json",
+      "rollup/config.commonjs.js",
+      "rollup/config.es6.js",
+      "rollup/config.shared.js",
+      "src/alias.js",
+      "src/constants.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/legend.js",
+      "src/per-commit.js",
+      "src/print.js",
+      "src/utils.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "1c5ffd2",
+    "subject": "initial commit",
+    "authorName": "brekk",
+    "authorDate": "2018-04-30 21:13:22 -0700",
+    "authorDateRel": "7 days ago",
+    "ms": 1525148002000,
+    "date": "30-04-2018",
+    "author": "brekk",
+    "hash": "1c5ffd2",
+    "changes": {
+      "A": [
+        ".babelrc",
+        ".eslintrc",
+        ".gitignore",
+        ".madgerc",
+        ".npmignore",
+        "circle.yml",
+        "gitparty.js",
+        "package-scripts.js",
+        "package.json",
+        "rollup/config.commonjs.js",
+        "rollup/config.es6.js",
+        "rollup/config.shared.js",
+        "src/alias.js",
+        "src/constants.js",
+        "src/filters.js",
+        "src/gitparty.js",
+        "src/grouping.js",
+        "src/legend.js",
+        "src/per-commit.js",
+        "src/print.js",
+        "src/utils.js",
+        "yarn.lock"
+      ]
+    },
+    "type": "commit",
+    "analysis": {
+      "js": true,
+      "lint": true,
+      "tests": false,
+      "gitpartyrc": false,
+      "config": true,
+      "dependencies": true
+    }
+  }
+]
