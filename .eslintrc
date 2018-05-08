@@ -70,6 +70,7 @@
     "import/order": 2,
     "import/extensions": [2, {
       "js": "never",
+      "json": "always",
       "validation": "always",
       "task": "always"
     }],

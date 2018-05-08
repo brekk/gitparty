@@ -3,22 +3,22 @@ import { pipe, keys, map, join, curry, padEnd, padStart } from 'f-utility'
 import { filetypes } from './per-commit'
 import { summarize } from './utils'
 
-export const drawTokens = curry((lookup, analysis, name) => {
+export const drawToken = curry((lookup, analysis, name) => {
+  // cold medina
   const { fn, key } = lookup[name]
-  const x = analysis[name]
-  return x ? chalk.black(fn(` ${key} `)) : `   `
+  return analysis[name] ? chalk.black(fn(` ${key} `)) : `   `
 })
 
-export const autodraw = curry((lookup, analysis) =>
-  pipe(keys, map(drawTokens(lookup, analysis)), join(``))(lookup)
+export const drawTokens = curry((lookup, analysis) =>
+  pipe(keys, map(drawToken(lookup, analysis)), join(``))(lookup)
 )
 
-const configureAndPrintBanner = curry(
+export const configureAndPrintBanner = curry(
   ({ bannerLength, bannerIndent }, { date }) =>
     chalk.inverse(padEnd(bannerLength, ` `, padStart(bannerIndent, ` `, date)))
 )
 
-const configureAndPrintCommit = curry(
+export const configureAndPrintCommit = curry(
   (
     lookup,
     { subjectLength, authorLength },
@@ -27,7 +27,7 @@ const configureAndPrintCommit = curry(
     const _hash = chalk.yellow(hash)
     const _summary = summarize(subjectLength, subject)
     const _author = pipe(chalk.red, padEnd(authorLength, ` `))(author)
-    const _tokens = autodraw(lookup, analysis)
+    const _tokens = drawTokens(lookup, analysis)
     const _types = pipe(filetypes, join(` `))(changes)
     return `${_tokens} = ${_hash} - ${_summary} $ ${_author} | ${_types}`
   }
