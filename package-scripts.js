@@ -15,7 +15,7 @@ const GERMS = germs.build(pkg.name, {
   )
 })
 /* eslint-disable fp/no-mutation */
-GERMS.scripts.build = `babel src -d lib --ignore *.spec.js && chmod 755 lib/gitparty.js`
+GERMS.scripts.build = `babel src -d lib --ignore *.spec.js && chmod 755 lib/index.js`
 GERMS.scripts.docs = {
   script: `documentation build -c documentation.yml src/index.js -f md -o docs/API.md -a public`,
   description: `build docs`
