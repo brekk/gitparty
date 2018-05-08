@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-import path from 'path'
+// import path from 'path'
 import fs from 'fs'
 import gitlog from 'gitlog'
 import {
@@ -15,9 +14,6 @@ import {
 } from 'f-utility'
 import chalk from 'chalk'
 // import { trace } from 'xtrace'
-import read from 'read-data'
-import parseArgs from 'minimist'
-import { DEFAULT_CONFIG, ARGV_CONFIG } from './constants'
 import { colorize } from './print'
 import { sortByDate, lens } from './utils'
 import { isAMergeCommit } from './filters'
@@ -25,15 +21,13 @@ import { printLegend } from './legend'
 import { collapseSuccessiveSameAuthor } from './grouping'
 import { learnify, datify, aliasify, groupify, changify } from './per-commit'
 
-const argv = parseArgs(process.argv.slice(2), ARGV_CONFIG)
-
 const j2 = (x) => JSON.stringify(x, null, 2)
 
 const write = curry((output, data) =>
   fs.writeFile(output, data, (e) => console.log(e || `Wrote to ${output}`))
 )
 
-const partytrain = curry(
+export const partytrain = curry(
   (
     {
       // hide any commit whose summary begins with the string 'Merge '
@@ -100,11 +94,4 @@ export const remapConfigData = pipe(
     })
   ]),
   fromPairs
-)
-read.yaml(
-  path.resolve(process.cwd(), argv.config || argv.c || `./.gitpartyrc`),
-  (e, d) =>
-    e ?
-      console.warn(e) :
-      gitparty(remapConfigData(d), merge(DEFAULT_CONFIG, argv))
 )
