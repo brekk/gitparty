@@ -3,9 +3,7 @@ import chalk from 'chalk'
 
 export const printBlocks = pipe(
   toPairs,
-  map(([key, value]) => {
-    return `${chalk.black(value.fn(` ${value.key} `))} = ${key}`
-  }),
+  map(([key, value]) => `${chalk.black(value.fn(` ${value.key} `))} = ${key}`),
   join(` `)
 )
 

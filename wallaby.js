@@ -4,12 +4,12 @@ module.exports = function configureWallaby() {
   return {
     name: pkg.name,
     debug: true,
-    files: [`src/*.js`, `!src/*.spec.js`, `!src/*.fixture.json`],
+    files: [`src/*.js`, `!src/gitparty-special.spec.js`],
 
     tests: [
       `src/*.spec.js`,
-      // wallaby doesn't know about this yet
-      `src/*.fixture.json`
+      `src/*.fixture.json`,
+      `!src/gitparty-special.spec.js`
     ],
 
     env: {
@@ -31,7 +31,7 @@ module.exports = function configureWallaby() {
 
     testFramework: `jest`,
 
-    setup: function setupWallaby(w) {
+    setup: function setup(w) {
       require(`babel-polyfill`) // eslint-disable-line fp/no-unused-expression
       w.testFramework.configure({
         modulePaths: [`src`],

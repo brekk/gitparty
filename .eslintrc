@@ -8,6 +8,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "arrow-body-style": ["error", "as-needed"],
     "semi": ["error", "never"],
     "valid-jsdoc": "error",
     "no-var": 2,

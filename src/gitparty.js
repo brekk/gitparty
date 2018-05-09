@@ -9,8 +9,6 @@ import {
   reject,
   merge,
   curry,
-  entries,
-  fromPairs,
   chain,
   fork
 } from 'f-utility'
@@ -31,7 +29,9 @@ const j2 = (x) => JSON.stringify(x, null, 2)
 
 const gotLog = encase(gitlog)
 
+/* istanbul ignore next */
 export const write = curry((output, data) =>
+  /* istanbul ignore next */
   fs.writeFile(output, data, (e) => console.log(e || `Wrote to ${output}`))
 )
 
@@ -59,37 +59,34 @@ export const partyPrint = curry((config, lookup, input) =>
 )
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
+/* istanbul ignore next*/
 const reader = (x) =>
   new Future((rej, res) => read.yaml(x, (e, d) => (e ? rej(e) : res(d))))
 
-export const party = curry((config, lookup) =>
+export const festivities = curry((config, lookup, x) =>
   pipe(
-    gotLog,
-    map(
-      pipe(
-        partyData(config, lookup),
-        config.j ? j2 : pipe(partyPrint(config, lookup), prependLegend(lookup))
-      )
-    )
-  )(config)
+    partyData(config, lookup),
+    config.j ? j2 : pipe(partyPrint(config, lookup), prependLegend(lookup))
+  )(x)
 )
 
-export const gitparty = curry((args, input) =>
+const party = curry((config, lookup) =>
+  pipe(gotLog, map(festivities(config, lookup)))(config)
+)
+
+export const gitparty = curry((config, input) =>
   pipe(
     reader,
-    chain(pipe(remapConfigData, party(merge(DEFAULT_CONFIG, args)))),
-    fork(console.warn, args.o ? write(args.o) : console.log)
+    chain(pipe(remapConfigData, party(merge(DEFAULT_CONFIG, config)))),
+    fork(console.warn, config.o ? write(config.o) : console.log)
   )(input)
 )
 
 export const remapConfigData = pipe(
-  entries,
-  map(([k, v]) => [
-    k,
+  map((v) =>
     merge(v, {
       fn: chalk[v.color],
       matches: v.matches.map((w) => w.replace(/^\\/g, ``))
     })
-  ]),
-  fromPairs
+  )
 )

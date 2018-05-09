@@ -6,7 +6,8 @@ import {
   summarize,
   isAMergeCommit,
   aliasProperty,
-  lens
+  lens,
+  sortByKeyWithWrapper
 } from './utils'
 
 test(`box`, (t) => {
@@ -67,4 +68,12 @@ test(`lens`, (t) => {
   t.notDeepEqual(input, output)
   const output2 = lens(I, null, input) //?
   t.deepEqual(input, output2)
+})
+
+test(`sortByKeyWithWrapper`, (t) => {
+  const list = [{ x: 1, y: `one` }, { x: 2, y: `two` }]
+  const sorted = sortByKeyWithWrapper(false, I, `x`, list)
+  t.deepEqual(sorted[0], { x: 1, y: `one` })
+  const sorted2 = sortByKeyWithWrapper(true, I, `x`, list)
+  t.deepEqual(sorted2[0], { x: 2, y: `two` })
 })

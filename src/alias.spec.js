@@ -30,6 +30,8 @@ test(`getAliasFrom`, (t) => {
   alias(structure, `input`, `output`)
   const pulled = getAliasFrom(structure, `output`)
   t.is(pulled, `input`)
+  const pulled2 = getAliasFrom(structure, `xxx`)
+  t.is(pulled2, `xxx`)
 })
 
 test(`canonicalize`, (t) => {

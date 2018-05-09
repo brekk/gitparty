@@ -4,8 +4,8 @@ import parseArgs from 'minimist'
 import { ARGV_CONFIG } from './constants'
 import { gitparty } from './gitparty'
 
-const argv = parseArgs(process.argv.slice(2), ARGV_CONFIG)
+const config = parseArgs(process.argv.slice(2), ARGV_CONFIG)
 
-const input = path.resolve(process.cwd(), argv.c || `./.gitpartyrc`)
+const input = path.resolve(process.cwd(), config.c || `./.gitpartyrc`)
 
-gitparty(argv, input)
+gitparty(config, input)
