@@ -24,9 +24,9 @@ export const lens = curry((fn, prop, target) => {
   return copy && prop ? merge(copy, { [prop]: fn(copy, copy[prop]) }) : copy
 })
 
-const sortByKeyWithWrapper = curry((ascendingSort, wrap, key, arr) =>
+export const sortByKeyWithWrapper = curry((ascendingSort, wrap, key, arr) =>
   // eslint-disable-next-line fp/no-mutating-methods
-  arr.sort(
+  neue(arr).sort(
     ({ [key]: a }, { [key]: b }) =>
       ascendingSort ? wrap(b) - wrap(a) : wrap(a) - wrap(b)
   )
