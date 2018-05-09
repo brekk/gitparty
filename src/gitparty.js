@@ -10,17 +10,22 @@ import {
   merge,
   curry,
   entries,
-  fromPairs
+  fromPairs,
+  chain,
+  fork
 } from 'f-utility'
 import chalk from 'chalk'
 import { encase } from 'fluture'
-import { trace } from 'xtrace'
+// import { trace } from 'xtrace'
+import read from 'read-data'
+import Future from 'fluture'
 import { colorize } from './print'
 import { sortByDate, lens } from './utils'
 import { isAMergeCommit } from './filters'
 import { printLegend } from './legend'
 import { collapseSuccessiveSameAuthor } from './grouping'
 import { learnify, datify, aliasify, groupify, changify } from './per-commit'
+import { DEFAULT_CONFIG } from './constants'
 
 const j2 = (x) => JSON.stringify(x, null, 2)
 
@@ -49,33 +54,34 @@ export const partyData = curry(
       groupify
     )(data)
 )
-export const partyPrint = curry(
-  (
-    { bannerIndent, bannerLength, subjectLength, authorLength },
-    lookup,
-    input
-  ) =>
-    pipe(
-      map(
-        colorize(
-          { bannerLength, bannerIndent, subjectLength, authorLength },
-          lookup
-        )
-      ),
-      join(`\n`)
-    )(input)
+export const partyPrint = curry((config, lookup, input) =>
+  pipe(map(colorize(config, lookup)), join(`\n`))(input)
 )
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
-export const gitparty = curry((config, lookup) =>
-  gotLog(config).map(
-    pipe(
-      partyData(config, lookup),
-      config.j ? j2 : partyPrint(config, lookup),
-      config.j ? I : prependLegend(lookup)
+const reader = (x) =>
+  new Future((rej, res) => read.yaml(x, (e, d) => (e ? rej(e) : res(d))))
+
+export const party = curry((config, lookup) =>
+  pipe(
+    gotLog,
+    map(
+      pipe(
+        partyData(config, lookup),
+        config.j ? j2 : pipe(partyPrint(config, lookup), prependLegend(lookup))
+      )
     )
-  )
+  )(config)
 )
+
+export const gitparty = curry((args, input) =>
+  pipe(
+    reader,
+    chain(pipe(remapConfigData, party(merge(DEFAULT_CONFIG, args)))),
+    fork(console.warn, args.o ? write(args.o) : console.log)
+  )(input)
+)
+
 export const remapConfigData = pipe(
   entries,
   map(([k, v]) => [
