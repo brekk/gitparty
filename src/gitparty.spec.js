@@ -326,6 +326,7 @@ test(`generateReport with config.json`, (t) => {
 test.cb(`processGitCommits`, (t) => {
   const CONF = neue(DEFAULT_CONFIG)
   CONF.authorLength = 5 // eslint-disable-line fp/no-mutation
+  CONF.number = 29
   CONF.repo = path.resolve(__dirname, `..`) // eslint-disable-line fp/no-mutation
   const F = Future.of(EXAMPLE_LEGEND)
   const outputF = F.chain(processGitCommits(CONF))
@@ -337,7 +338,7 @@ test.cb(`processGitCommits`, (t) => {
         `LEGEND:  J  = js  L  = lint  T  = tests  G  = gitpartyrc  C  = config  D  = dependencies`,
         ``,
         `                  10-05-2018                                                                                            `,
-        ` J     T           = 91ff852 - passing tests again                                   $ brekk | js`,
+        ` J     T           = 5e131fb - passing tests again                                   $ brekk | js`,
         ` J     T  G  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk | gitpartyrc js json lock`,
         `                  09-05-2018                                                                                            `,
         ` J  L  T           = 4661430 - added a readme                                        $ brekk | eslintrc js md png`,
