@@ -4,13 +4,9 @@ module.exports = function configureWallaby() {
   return {
     name: pkg.name,
     debug: true,
-    files: [`src/*.js`, `!src/gitparty-special.spec.js`],
+    files: [`src/*.js`, `!src/*.spec.js`, `!src/*.fixture.json`],
 
-    tests: [
-      `src/*.spec.js`,
-      `src/*.fixture.json`,
-      `!src/gitparty-special.spec.js`
-    ],
+    tests: [`src/*.spec.js`, `src/*.fixture.json`, `!src/*.no-wallaby.spec.js`],
 
     env: {
       type: `node`,

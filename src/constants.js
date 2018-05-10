@@ -1,7 +1,7 @@
 export const TOTAL_COMMITS = 100
 export const SUBJECT_LENGTH = 50
 export const BANNER_LENGTH = 120
-export const BANNER_INDENT = 25
+export const BANNER_INDENT = 28
 export const AUTHOR_LENGTH = 7
 export const DEFAULT_FIELDS = [
   `abbrevHash`,

@@ -24,7 +24,7 @@ test(`BANNER_LENGTH`, (t) => {
 })
 
 test(`BANNER_INDENT`, (t) => {
-  t.is(BANNER_INDENT, 25)
+  t.is(BANNER_INDENT, 28)
 })
 
 test(`AUTHOR_LENGTH`, (t) => {
