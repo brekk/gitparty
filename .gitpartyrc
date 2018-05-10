@@ -32,3 +32,4 @@ dependencies:
   matches:
   - \**/package.json
   - \**/yarn.lock
+bannerIndent: 100

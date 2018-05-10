@@ -1,7 +1,7 @@
 // import path from 'path'
-import fs from 'fs'
 import gitlog from 'gitlog'
 import {
+  filter,
   I,
   join,
   pipe,
@@ -15,25 +15,15 @@ import {
 import chalk from 'chalk'
 import { encase } from 'fluture'
 // import { trace } from 'xtrace'
-import read from 'read-data'
-import Future from 'fluture'
 import { colorize } from './print'
-import { sortByDate, lens } from './utils'
+import { sortByDate, lens, j2, writeFile, log, warn, reader } from './utils'
 import { isAMergeCommit } from './filters'
 import { printLegend } from './legend'
 import { collapseSuccessiveSameAuthor } from './grouping'
 import { learnify, datify, aliasify, groupify, changify } from './per-commit'
 import { DEFAULT_CONFIG } from './constants'
 
-const j2 = (x) => JSON.stringify(x, null, 2)
-
 const gotLog = encase(gitlog)
-
-/* istanbul ignore next */
-export const write = curry((output, data) =>
-  /* istanbul ignore next */
-  fs.writeFile(output, data, (e) => console.log(e || `Wrote to ${output}`))
-)
 
 export const partyData = curry(
   (
@@ -59,34 +49,35 @@ export const partyPrint = curry((config, lookup, input) =>
 )
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
-/* istanbul ignore next*/
-const reader = (x) =>
-  new Future((rej, res) => read.yaml(x, (e, d) => (e ? rej(e) : res(d))))
-
-export const festivities = curry((config, lookup, x) =>
+export const generateReport = curry((config, lookup, x) =>
   pipe(
+    // object data
     partyData(config, lookup),
+    // string data
     config.j ? j2 : pipe(partyPrint(config, lookup), prependLegend(lookup))
   )(x)
 )
 
-const party = curry((config, lookup) =>
-  pipe(gotLog, map(festivities(config, lookup)))(config)
-)
-
-export const gitparty = curry((config, input) =>
-  pipe(
-    reader,
-    chain(pipe(remapConfigData, party(merge(DEFAULT_CONFIG, config)))),
-    fork(console.warn, config.o ? write(config.o) : console.log)
-  )(input)
+export const processGitCommits = curry((config, lookup) =>
+  pipe(gotLog, map(generateReport(config, lookup)))(config)
 )
 
 export const remapConfigData = pipe(
+  filter((v) => v && v.matches),
   map((v) =>
     merge(v, {
       fn: chalk[v.color],
       matches: v.matches.map((w) => w.replace(/^\\/g, ``))
     })
   )
+)
+
+export const processAndPrintWithConfig = curry((config, input) =>
+  pipe(
+    reader,
+    chain(
+      pipe(remapConfigData, processGitCommits(merge(DEFAULT_CONFIG, config)))
+    ),
+    fork(warn, config.o ? writeFile(config.o) : log)
+  )(input)
 )

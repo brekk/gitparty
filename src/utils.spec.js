@@ -1,5 +1,6 @@
 import { I, merge } from 'f-utility'
 import test from 'jest-t-assert'
+import execa from 'execa'
 import {
   box,
   neue,
@@ -7,7 +8,8 @@ import {
   isAMergeCommit,
   aliasProperty,
   lens,
-  sortByKeyWithWrapper
+  sortByKeyWithWrapper,
+  j2
 } from './utils'
 
 test(`box`, (t) => {
@@ -76,4 +78,10 @@ test(`sortByKeyWithWrapper`, (t) => {
   t.deepEqual(sorted[0], { x: 1, y: `one` })
   const sorted2 = sortByKeyWithWrapper(true, I, `x`, list)
   t.deepEqual(sorted2[0], { x: 2, y: `two` })
+})
+
+test(`j2`, (t) => {
+  const input = { a: 1, b: 2 }
+  const output = j2(input)
+  t.is(output, JSON.stringify(input, null, 2))
 })
