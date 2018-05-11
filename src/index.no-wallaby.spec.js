@@ -5,17 +5,18 @@ import test from "jest-t-assert"
 import { split, pipe } from "f-utility"
 // import { j2 } from './utils'
 
-const cleanify = pipe(stripColor, split(`\n`))
+const cleanify = pipe(stripColor, (x) => split(`5e131fb`, x)[1], split(`\n`))
 
 test.cb(`gitparty executable`, (t) => {
   t.plan(1)
   const CLI = path.resolve(__dirname, `../lib/index.js`)
-  execa.shell(`node ${CLI} -n 29`).then((x) => {
+  execa.shell(`node ${CLI}`).then((x) => {
     t.deepEqual(cleanify(x.stdout), [
-      `LEGEND:  J  = js  L  = lint  T  = tests  G  = gitpartyrc  C  = config  D  = dependencies`,
-      ``,
-      `                  10-05-2018                                                                                            `,
-      ` J     T           = 5e131fb - passing tests again                                   $ brekk   | js`,
+      // `LEGEND:  J  = js  L  = lint  T  = tests  G  = gitpartyrc  C  = config  D  = dependencies`,
+      // ``,
+      // `                  10-05-2018                                                                                            `,
+      // ` J     T           = 5e131fb - passing tests again                                   $ brekk   | js`,
+      ` - passing tests again                                   $ brekk   | js`,
       ` J     T  G  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk   | gitpartyrc js json lock`,
       `                  09-05-2018                                                                                            `,
       ` J  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
