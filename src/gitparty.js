@@ -1,9 +1,23 @@
 // import path from 'path'
 import gitlog from "gitlog"
-import { filter, I, join, pipe, map, reject, merge, curry, chain, fork, isObject } from "f-utility"
+import {
+  entries,
+  filter,
+  I,
+  join,
+  pipe,
+  map,
+  reject,
+  merge,
+  curry,
+  chain,
+  fork,
+  isObject
+} from "f-utility"
 import chalk from "chalk"
 import { encase } from "fluture"
 import { trace } from "xtrace"
+import { canonize } from "./alias"
 import { colorize } from "./print"
 import { sortByDate, lens, j2, writeFile, log, warn, reader } from "./utils"
 import { isAMergeCommit } from "./filters"
@@ -28,11 +42,13 @@ export const partyPrint = curry((config, lookup, input) =>
 )
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
+const sideEffectCanonize = pipe(entries, map(([k, v]) => canonize(k, v)))
 export const generateReport = curry((config, lookup, data) => {
   const { collapseMergeCommits: a, collapseAuthors: x } = config
-  const { collapseMergeCommits: b, collapseAuthors: y } = lookup
+  const { collapseMergeCommits: b, collapseAuthors: y, aliases = {} } = lookup
   const collapseMergeCommits = !!(b || a)
   const collapseAuthors = !!(y || x)
+  sideEffectCanonize(aliases)
   const filteredLookup = filter((z) => z && z.matches, lookup)
   return pipe(
     // object data
