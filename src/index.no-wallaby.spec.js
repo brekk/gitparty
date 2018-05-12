@@ -14,8 +14,7 @@ test.cb(`gitparty executable`, (t) => {
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
       `                  10-05-2018                                                                                            `,
-      ` J     T           = 9bd10f4 - committing anything breaks the existing tests :joy... $ brekk   | js`,
-      ` J     T  G  C  D  = 8a4f3a9 - passing tests again + nearing 100% coverage           $ brekk   | gitpartyrc js json lock`,
+      ` J     T  G  C  D  = 8a4f3a9 - committing anything breaks the existing tests :joy... $ brekk   | gitpartyrc js json lock`,
       `                  09-05-2018                                                                                            `,
       ` J  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
       `                  08-05-2018                                                                                            `,
