@@ -1,6 +1,6 @@
-import { I, merge } from 'f-utility'
-import test from 'jest-t-assert'
-import execa from 'execa'
+import { I, merge, random } from "f-utility"
+import test from "jest-t-assert"
+import execa from "execa"
 import {
   box,
   neue,
@@ -9,8 +9,51 @@ import {
   aliasProperty,
   lens,
   sortByKeyWithWrapper,
-  j2
-} from './utils'
+  j2,
+  reader,
+  binaryCallback
+} from "./utils"
+
+test.cb(`binaryCallback`, (t) => {
+  // testing fs.writeFile is annoying af, so it's written as a binaryCallback
+  const whatever = (a, b, cb) => cb(a, b)
+  const callback = (x, y) => {
+    t.is(x, one)
+    t.is(y, two)
+    t.end()
+  }
+  const one = random.floorMin(1, 100)
+  const two = random.floorMin(1, 100)
+  binaryCallback(whatever, callback, one, two)
+})
+
+test.cb(`reader`, (t) => {
+  const input = `${__dirname}/gitpartyrc.fixture.yml`
+  reader(input).fork(I, (x) => {
+    t.deepEqual(x, {
+      js: { key: `J`, color: `bgBlueBright`, matches: [`src/*.js`] },
+      lint: { key: `L`, color: `bgMagenta`, matches: [`\\**/.eslintrc`] },
+      tests: { key: `T`, color: `bgRed`, matches: [`\\**/*.spec.js`] },
+      gitpartyrc: {
+        key: `G`,
+        color: `bgRedBright`,
+        matches: [`\\**/.gitpartyrc`]
+      },
+      config: {
+        key: `C`,
+        color: `bgCyan`,
+        matches: [`\\**/package.json`, `\\**/rollup/*`, `\\**/webpack*`, `\\**/^.*`]
+      },
+      dependencies: {
+        key: `D`,
+        color: `bgYellow`,
+        matches: [`\\**/package.json`, `\\**/yarn.lock`]
+      },
+      collapseAuthors: true
+    })
+    t.end()
+  })
+})
 
 test(`box`, (t) => {
   const input = 420

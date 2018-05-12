@@ -1,0 +1,681 @@
+[
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.spec.js",
+      "src/index.no-wallaby.spec.js"
+    ],
+    "abbrevHash": "80ca7f7",
+    "subject": "fixed that hilarious problem of the tests never being accurate",
+    "authorName": "brekk",
+    "authorDate": "2018-05-11 07:10:14 -0700",
+    "authorDateRel": "66 minutes ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.spec.js",
+      "src/index.no-wallaby.spec.js"
+    ],
+    "abbrevHash": "9bd10f4",
+    "subject": "committing anything breaks the existing tests :joy:",
+    "authorName": "brekk",
+    "authorDate": "2018-05-10 14:37:17 -0700",
+    "authorDateRel": "18 hours ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.spec.js",
+      "src/index.no-wallaby.spec.js"
+    ],
+    "abbrevHash": "5e131fb",
+    "subject": "passing tests again",
+    "authorName": "brekk",
+    "authorDate": "2018-05-10 14:21:16 -0700",
+    "authorDateRel": "18 hours ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "D",
+      "M",
+      "M",
+      "M",
+      "A",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      ".gitpartyrc",
+      "package.json",
+      "src/constants.js",
+      "src/constants.spec.js",
+      "src/gitparty-special.spec.js",
+      "src/gitparty.js",
+      "src/gitparty.spec.js",
+      "src/index.js",
+      "src/index.no-wallaby.spec.js",
+      "src/utils.js",
+      "src/utils.spec.js",
+      "wallaby.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "8a4f3a9",
+    "subject": "nearing 100% coverage",
+    "authorName": "brekk",
+    "authorDate": "2018-05-10 09:15:18 -0700",
+    "authorDateRel": "23 hours ago"
+  },
+  {
+    "status": [
+      "M",
+      "A",
+      "A",
+      "M",
+      "A",
+      "M",
+      "A",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      ".eslintrc",
+      "README.md",
+      "gitparty.png",
+      "src/alias.spec.js",
+      "src/gitparty-special.spec.js",
+      "src/gitparty.js",
+      "src/gitparty.spec.js",
+      "src/index.js",
+      "src/legend.js",
+      "src/utils.js",
+      "src/utils.spec.js",
+      "wallaby.js"
+    ],
+    "abbrevHash": "4661430",
+    "subject": "added a readme",
+    "authorName": "brekk",
+    "authorDate": "2018-05-09 16:24:35 -0700",
+    "authorDateRel": "2 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.js",
+      "src/index.js"
+    ],
+    "abbrevHash": "9210f41",
+    "subject": "refactor",
+    "authorName": "brekk",
+    "authorDate": "2018-05-08 22:48:52 -0700",
+    "authorDateRel": "2 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.js",
+      "src/index.js"
+    ],
+    "abbrevHash": "f64e517",
+    "subject": "everything futurized but currently requires double-forking",
+    "authorName": "brekk",
+    "authorDate": "2018-05-08 09:01:13 -0700",
+    "authorDateRel": "3 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.js",
+      "src/index.js"
+    ],
+    "abbrevHash": "aaa4e6c",
+    "subject": "more fluturization",
+    "authorName": "brekk",
+    "authorDate": "2018-05-08 08:47:35 -0700",
+    "authorDateRel": "3 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "src/gitparty.js"
+    ],
+    "abbrevHash": "40e3dbc",
+    "subject": "added fluture and clarifying intent",
+    "authorName": "brekk",
+    "authorDate": "2018-05-08 08:24:39 -0700",
+    "authorDateRel": "3 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "A"
+    ],
+    "files": [
+      "package-lock.json",
+      "package.json",
+      "src/gitparty.js",
+      "src/index.js"
+    ],
+    "abbrevHash": "c7f3eb7",
+    "subject": "moving things around for the bin script",
+    "authorName": "brekk",
+    "authorDate": "2018-05-08 07:55:16 -0700",
+    "authorDateRel": "3 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/gitparty.js",
+      "src/print.spec.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "8886271",
+    "subject": "this will likely break non-relative tests",
+    "authorName": "brekk",
+    "authorDate": "2018-05-08 07:23:34 -0700",
+    "authorDateRel": "3 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "A",
+      "M",
+      "A",
+      "A",
+      "A",
+      "M",
+      "A",
+      "A",
+      "A",
+      "M",
+      "A",
+      "M"
+    ],
+    "files": [
+      ".eslintrc",
+      ".gitpartyrc",
+      "src/alias.spec.js",
+      "src/constants.js",
+      "src/constants.spec.js",
+      "src/data.fixture.json",
+      "src/filters.spec.js",
+      "src/gitparty.js",
+      "src/gitpartyrc.fixture.json",
+      "src/legend.spec.js",
+      "src/per-commit.spec.js",
+      "src/print.js",
+      "src/print.spec.js",
+      "wallaby.js"
+    ],
+    "abbrevHash": "fb50fbb",
+    "subject": "tests",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 21:59:11 -0700",
+    "authorDateRel": "3 days ago"
+  },
+  {
+    "status": [
+      "R100",
+      "D",
+      "M",
+      "M"
+    ],
+    "files": [
+      ".gitpartyrc",
+      "config-default.yml",
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "fa928f4",
+    "subject": "gitpartyrc",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 08:13:02 -0700",
+    "authorDateRel": "4 days ago"
+  },
+  {
+    "status": [
+      "R061",
+      "D",
+      "A",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "config-default.yml",
+      "src/config-default.yml",
+      "package-lock.json",
+      "package.json",
+      "src/gitparty.js",
+      "src/print.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "f9e5c4f",
+    "subject": "added yaml config",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 07:55:44 -0700",
+    "authorDateRel": "4 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "925a86e",
+    "subject": "getting cleaner",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 07:28:30 -0700",
+    "authorDateRel": "4 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "A",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/alias.js",
+      "src/config-default.yml",
+      "src/constants.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/per-commit.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "c2e257b",
+    "subject": "working again",
+    "authorName": "brekk",
+    "authorDate": "2018-05-07 06:44:22 -0700",
+    "authorDateRel": "4 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "package.json",
+      "src/gitparty.js"
+    ],
+    "abbrevHash": "b9d98d9",
+    "subject": "process.cwd() over __dirname",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 18:59:18 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "src/gitparty.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "d9249be",
+    "subject": "pass lint",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 08:52:33 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "A",
+      "M"
+    ],
+    "files": [
+      "src/alias.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "c5f2766",
+    "subject": "added some date grossness for now",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 08:47:43 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package-scripts.js",
+      "src/constants.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "e9569fb",
+    "subject": "pretty close to ready",
+    "authorName": "brekk",
+    "authorDate": "2018-05-02 08:41:27 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/constants.js",
+      "src/utils.js",
+      "src/utils.spec.js"
+    ],
+    "abbrevHash": "f3cc824",
+    "subject": "utils covered",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 23:35:48 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "D",
+      "M",
+      "M",
+      "M",
+      "A",
+      "A",
+      "A",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/alias.js",
+      "src/constants.js",
+      "src/gitparty.js",
+      "src/utils.js",
+      "src/utils.spec.js",
+      "wallaby.js",
+      "webpack.config.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "08c0a46",
+    "subject": "tests!",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 23:13:16 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      ".eslintrc",
+      "src/alias.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/legend.js",
+      "src/per-commit.js",
+      "src/print.js",
+      "src/utils.js"
+    ],
+    "abbrevHash": "56b6a81",
+    "subject": "cleanification",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 21:59:20 -0700",
+    "authorDateRel": "9 days ago"
+  },
+  {
+    "status": [
+      "D",
+      "M",
+      "M"
+    ],
+    "files": [
+      "gitparty.js",
+      "src/filters.js",
+      "src/gitparty.js"
+    ],
+    "abbrevHash": "8ea8fe8",
+    "subject": "partial change",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 19:11:00 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/constants.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "bb2def9",
+    "subject": "getting cleaner, legend can be extricated",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 09:53:10 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "src/constants.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/print.js"
+    ],
+    "abbrevHash": "21f377f",
+    "subject": "legend is almost fully extracted",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 08:40:40 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/print.js",
+      "src/utils.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "852f7ac",
+    "subject": "add blob matching, start to clean up legend makery",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 07:48:20 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/gitparty.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "322b8d0",
+    "subject": "cleanups and more fp",
+    "authorName": "brekk",
+    "authorDate": "2018-05-01 07:05:16 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "gitparty.js",
+      "src/gitparty.js",
+      "src/grouping.js"
+    ],
+    "abbrevHash": "c182937",
+    "subject": "commit it while it works, dammit",
+    "authorName": "brekk",
+    "authorDate": "2018-04-30 22:25:18 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M",
+      "M"
+    ],
+    "files": [
+      "package.json",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/legend.js",
+      "src/print.js",
+      "src/utils.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "58b0786",
+    "subject": "better",
+    "authorName": "brekk",
+    "authorDate": "2018-04-30 21:56:57 -0700",
+    "authorDateRel": "10 days ago"
+  },
+  {
+    "status": [
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A",
+      "A"
+    ],
+    "files": [
+      ".babelrc",
+      ".eslintrc",
+      ".gitignore",
+      ".madgerc",
+      ".npmignore",
+      "circle.yml",
+      "gitparty.js",
+      "package-scripts.js",
+      "package.json",
+      "rollup/config.commonjs.js",
+      "rollup/config.es6.js",
+      "rollup/config.shared.js",
+      "src/alias.js",
+      "src/constants.js",
+      "src/filters.js",
+      "src/gitparty.js",
+      "src/grouping.js",
+      "src/legend.js",
+      "src/per-commit.js",
+      "src/print.js",
+      "src/utils.js",
+      "yarn.lock"
+    ],
+    "abbrevHash": "1c5ffd2",
+    "subject": "initial commit",
+    "authorName": "brekk",
+    "authorDate": "2018-04-30 21:13:22 -0700",
+    "authorDateRel": "10 days ago"
+  }
+]

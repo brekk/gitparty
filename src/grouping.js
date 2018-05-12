@@ -1,46 +1,53 @@
-import { reduce, keys, pipe } from 'f-utility'
-import { sortByDateObject, sortByAuthorDate } from './utils'
+import chalk from "chalk"
+import { ternary, filter, I, curry, merge, reduce, keys, pipe, chain } from "f-utility"
+import { uniq } from "lodash"
+import mergeOptions from "merge-options"
+import { sortByDateObject, sortByAuthorDate, neue } from "./utils"
+const uniquelyTruthy = pipe(filter(I), uniq)
 
 export const createBannersFromGroups = (grouped) =>
   pipe(
     keys,
     sortByDateObject,
     reduce(
-      (list, key) =>
-        list.concat(
-          { date: key, type: `banner` },
-          sortByAuthorDate(grouped[key])
-        ),
+      (list, key) => list.concat({ date: key, type: `banner` }, sortByAuthorDate(grouped[key])),
       []
     )
   )(grouped)
 
-/* eslint-disable */
-export const collapseSuccessiveSameAuthor = x => {
-  const y = [];
-  let prev = false;
-  let lastIndex = false;
-  for (let i = 0; i < x.length; i++) {
-    let curr = x[i];
-    if (i > 0 && lastIndex && prev && curr && prev.author === curr.author) {
-      y[y.length - 1] = merge(prev, {
-        subject: `[+] ` + prev.subject + ` && ` + curr.subject,
-        changes: merge(prev.changes, curr.changes),
-        analysis: {
-          style: prev.analysis.style || curr.analysis.style,
-          tests: prev.analysis.tests || curr.analysis.tests,
-          frontend: prev.analysis.frontend || curr.analysis.frontend,
-          backend: prev.analysis.backend || curr.analysis.backend,
-          assets: prev.analysis.assets || curr.analysis.assets,
-          devops: prev.analysis.devops || curr.analysis.devops
-        }
-      });
-    } else {
-      y.push(curr);
+const smoosh = pipe(neue, uniq)
+const orMerge = curry((x, y) =>
+  pipe(keys, reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {}))(x)
+)
+const conditionalLog = curry((condition, a, b) => ternary(condition, I, console.log)(a, b))
+export const collapseSuccessiveSameAuthor = reduce((list, next) => {
+  const clog = I // conditionalLog(false)
+  const copy = neue(list)
+  const last = copy[copy.length - 1]
+  if (next && last) {
+    clog(chalk.red(last.hash))
+    clog(chalk.inverse(`             ${last.date}                 `))
+    clog(chalk.blue(next.hash + `   ?`))
+    const authorsMatch = last.authorName === next.authorName
+    const datesMatch = last.date === next.date
+    if (authorsMatch && datesMatch) {
+      clog(`    merging`, (last.hashes || last.hash) + ` + ` + next.hash, copy.length)
+      const raw = mergeOptions(last, next)
+      const files = smoosh(last.files, next.files)
+      const subject = `${last.subject} + ${next.subject}`
+      const analysis = orMerge(last.analysis, next.analysis)
+      const augmented = mergeOptions(raw, {
+        hash: next.hash,
+        files,
+        subject,
+        analysis,
+        multiple: true,
+        hashes: uniquelyTruthy([].concat(raw.hashes, last.hash, next.hash))
+      })
+      copy[copy.length - 1] = augmented
+      return copy
     }
-    prev = curr;
-    lastIndex = i;
   }
-  return y;
-};
-/* eslint-enable */
+  clog(`no merge`, copy.length + 1)
+  return copy.concat(next)
+}, [])
