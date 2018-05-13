@@ -20,7 +20,6 @@ const smoosh = pipe(neue, uniq)
 const orMerge = curry((x, y) =>
   pipe(keys, reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {}))(x)
 )
-const conditionalLog = curry((condition, a, b) => ternary(condition, I, console.log)(a, b))
 export const collapseSuccessiveSameAuthor = pipe(
   sortByDate,
   reduce((list, next) => {
