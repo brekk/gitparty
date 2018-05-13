@@ -1,6 +1,7 @@
 import fs from "fs"
-import { I, merge, curry, pathOr, padEnd, chain } from "f-utility"
+import { pipe, prop, I, merge, curry, pathOr, padEnd, chain, propOr } from "f-utility"
 import read from "read-data"
+import { trace } from "xtrace"
 import Future from "fluture"
 
 /* istanbul ignore next*/
@@ -51,3 +52,8 @@ export const binaryCallback = curry((orig, cb, output, data) => {
   orig(output, data, cb)
 })
 export const writeFile = binaryCallback(fs.writeFile.bind(fs), (e) => log(e || `Wrote to file`))
+export const preferredProp = curry((a, b, def, key) => {
+  const _a = propOr(false, key, a)
+  const _b = propOr(def, key, b)
+  return _a || _b
+})

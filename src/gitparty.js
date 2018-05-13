@@ -19,7 +19,7 @@ import { encase } from "fluture"
 import { trace } from "xtrace"
 import { canonize } from "./alias"
 import { colorize } from "./print"
-import { sortByDate, lens, j2, writeFile, log, warn, reader } from "./utils"
+import { sortByDate, lens, j2, writeFile, log, warn, reader, preferredProp } from "./utils"
 import { isAMergeCommit } from "./filters"
 import { printLegend } from "./legend"
 import { collapseSuccessiveSameAuthor } from "./grouping"
@@ -47,10 +47,11 @@ const sideEffectCanonize = pipe(
   map(([k, v]) => (Array.isArray(v) ? v.map((x) => canonize(k, x)) : canonize(k, v)))
 )
 export const generateReport = curry((config, lookup, data) => {
-  const { collapseMergeCommits: a, collapseAuthors: x } = config
-  const { collapseMergeCommits: b, collapseAuthors: y, aliases = {} } = lookup
-  const collapseMergeCommits = !!(b || a)
-  const collapseAuthors = !!(y || x)
+  const grab = preferredProp(lookup, config, false)
+  const collapseMergeCommits = grab(`collapseMergeCommits`)
+  const collapseAuthors = grab(`collapseAuthors`)
+  const { aliases = {} } = lookup
+  // TODO: replace this with something that is a more explicitly managed side-effect
   sideEffectCanonize(aliases)
   const filteredLookup = filter((z) => z && z.matches, lookup)
   return pipe(

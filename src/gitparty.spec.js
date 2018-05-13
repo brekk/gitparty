@@ -282,22 +282,24 @@ test(`partyData - with collapseAuthors`, (t) => {
 })
 
 test(`partyPrint`, (t) => {
-  const config = { collapseMergeCommits: false, collapseAuthors: false }
+  const config = { collapseMergeCommits: false, collapseAuthors: false, authorLength: 5 }
   const commits = harness.filter(({ type }) => type === `commit`)
   const data = commits[commits.length - 1] // ?
-  const out = stripColor(partyPrint(config, EXAMPLE_LEGEND, [data]))
+  const leg = neue(EXAMPLE_LEGEND)
+  leg.authorLength = 5
+  const out = stripColor(partyPrint(config, leg, [data]))
   t.is(
     out,
     // eslint-disable-next-line max-len
-    ` J  L        C  D  = 1c5ffd2 - initial commit $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+    ` J  L        C  D     = 1c5ffd2 - initial commit                                        $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
   )
 })
 
 test(`generateReport`, (t) => {
   const commits = harness.filter(({ type }) => type === `commit`)
-  const CONF = neue(DEFAULT_CONFIG)
-  CONF.authorLength = 5 // eslint-disable-line
-  const output = stripColor(generateReport(CONF, EXAMPLE_LEGEND, [commits[commits.length - 1]]))
+  const leg = neue(EXAMPLE_LEGEND)
+  leg.authorLength = 5
+  const output = stripColor(generateReport({}, leg, [commits[commits.length - 1]]))
   /* eslint-disable max-len */
   t.is(
     output,

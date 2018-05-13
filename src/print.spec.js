@@ -1,16 +1,17 @@
-import test from 'jest-t-assert'
-import stripColor from 'strip-color'
+import test from "jest-t-assert"
+import stripColor from "strip-color"
 import {
   drawToken,
   drawTokens,
   configureAndPrintBanner,
   configureAndPrintCommit,
   colorize
-} from './print'
-import { generateAnalysis, groupify } from './per-commit'
-import { remapConfigData } from './gitparty'
-import harness from './data.fixture.json'
-import RAW_LEGEND from './gitpartyrc.fixture.json'
+} from "./print"
+import { neue } from "./utils"
+import { generateAnalysis, groupify } from "./per-commit"
+import { remapConfigData } from "./gitparty"
+import harness from "./data.fixture.json"
+import RAW_LEGEND from "./gitpartyrc.fixture.json"
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
 test(`drawToken`, (t) => {
@@ -28,10 +29,11 @@ test(`drawTokens`, (t) => {
 })
 test(`configureAndPrintBanner`, (t) => {
   const grouped = groupify(harness)
-  const banner = stripColor(
-    configureAndPrintBanner({}, grouped[grouped.length - 4])
+  const banner = stripColor(configureAndPrintBanner({}, {}, grouped[grouped.length - 4]))
+  t.is(
+    banner,
+    `                  30-04-2018                                                                                            `
   )
-  t.is(banner, `30-04-2018`)
 })
 test(`configureAndPrintCommit`, (t) => {
   const grouped = groupify(harness)
@@ -50,16 +52,22 @@ test(`configureAndPrintCommit`, (t) => {
 })
 test(`colorize`, (t) => {
   const grouped = groupify(harness)
-  const out = stripColor(
-    colorize({}, EXAMPLE_LEGEND, grouped[grouped.length - 1])
-  )
+  const leg = neue(EXAMPLE_LEGEND)
+  leg.authorLength = 5
+  const out = stripColor(colorize({ authorLength: 5 }, leg, grouped[grouped.length - 1]))
   t.is(
     out,
     // eslint-disable-next-line
-    ` J  L        C  D  = 1c5ffd2 - initial commit $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+    " J  L        C  D     = 1c5ffd2 - initial commit                                        $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml"
   )
-  const out2 = stripColor(
-    colorize({}, EXAMPLE_LEGEND, grouped[grouped.length - 4])
+})
+test(`colorize 2`, (t) => {
+  const grouped = groupify(harness)
+  const leg = neue(EXAMPLE_LEGEND)
+  leg.authorLength = 9
+  const out2 = stripColor(colorize({ authorLength: 9 }, leg, grouped[grouped.length - 4]))
+  t.is(
+    out2,
+    `                  30-04-2018                                                                                            `
   )
-  t.is(out2, `30-04-2018`)
 })
