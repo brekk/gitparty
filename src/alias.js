@@ -1,4 +1,4 @@
-import { curry } from 'f-utility'
+import { curry } from "f-utility"
 
 /* eslint-disable fp/no-mutation */
 export const alias = curry((struct, original, alt) => {
@@ -18,4 +18,4 @@ export const canonicalize = (x) => ({
 
 const authors = {}
 export const { getCanon, canonize } = canonicalize(authors)
-canonize(`brekk`, `Brekk Bockrath`)
+// canonize(`brekk`, `Brekk`)

@@ -36,8 +36,8 @@ export const sortByKeyWithWrapper = curry((ascendingSort, wrap, key, arr) =>
 )
 const sortByKey = sortByKeyWithWrapper(true, I)
 
-// export const sortByDate = (x) => x.sort(({ date: b }, { date: a }) => b - a)
-export const sortByDate = sortByKey(`date`)
+export const sortByDate = (x) => x.sort(({ ms: b }, { ms: a }) => a - b)
+// export const sortByDate = sortByKey(`date`)
 const tomorrow = (x) => new Date(x)
 export const sortByDateKey = sortByKeyWithWrapper(true, tomorrow)
 // eslint-disable-next-line fp/no-mutating-methods
@@ -50,6 +50,4 @@ export const sortByAuthorDate = sortByDateKey(`authorDate`)
 export const binaryCallback = curry((orig, cb, output, data) => {
   orig(output, data, cb)
 })
-export const writeFile = binaryCallback(fs.writeFile.bind(fs), (e) =>
-  log(e || `Wrote to ${output}`)
-)
+export const writeFile = binaryCallback(fs.writeFile.bind(fs), (e) => log(e || `Wrote to file`))

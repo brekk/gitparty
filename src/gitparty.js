@@ -42,7 +42,10 @@ export const partyPrint = curry((config, lookup, input) =>
 )
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
-const sideEffectCanonize = pipe(entries, map(([k, v]) => canonize(k, v)))
+const sideEffectCanonize = pipe(
+  entries,
+  map(([k, v]) => (Array.isArray(v) ? v.map((x) => canonize(k, x)) : canonize(k, v)))
+)
 export const generateReport = curry((config, lookup, data) => {
   const { collapseMergeCommits: a, collapseAuthors: x } = config
   const { collapseMergeCommits: b, collapseAuthors: y, aliases = {} } = lookup
@@ -65,7 +68,7 @@ export const processGitCommits = curry((config, lookup) =>
 export const remapConfigData = pipe(
   map(
     (v) =>
-      isObject(v) ?
+      isObject(v) && v.matches ?
         merge(v, {
           fn: chalk[v.color],
           matches: v.matches.map((w) => w.replace(/^\\/g, ``))
