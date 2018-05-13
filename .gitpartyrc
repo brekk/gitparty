@@ -32,4 +32,4 @@ dependencies:
   matches:
   - \**/package.json
   - \**/yarn.lock
-collapseAuthors: true
+collapseAuthors: false
