@@ -23,13 +23,14 @@ export const DEFAULT_CONFIG = {
 
 export const ARGV_CONFIG = {
   alias: {
-    a: `authorLength`,
+    // a: `authorLength`,
     s: `subjectLength`,
     b: `bannerLength`,
     i: `bannerIndent`,
     j: `json`,
     o: `output`,
-    collapse: [`c`, `collapseAuthors`],
+    c: `config`,
+    collapse: [`a`, `collapseAuthors`],
     m: `collapseMergeCommits`,
     // gitlog properties, so we use the names they use
     repo: `r`,
