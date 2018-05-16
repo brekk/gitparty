@@ -33,7 +33,7 @@ export const partyData = curry(({ collapseMergeCommits, collapseAuthors }, looku
     sortByDate,
     collapseMergeCommits ? reject(isAMergeCommit) : I,
     map(pipe(datify, aliasify, lens(changify, `changes`), learnify(lookup))),
-    collapseAuthors ? collapseSuccessiveSameAuthor : I,
+    collapseAuthors ? collapseSuccessiveSameAuthor(lookup) : I,
     groupify
   )(data)
 )

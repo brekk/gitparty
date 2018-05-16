@@ -14,7 +14,7 @@ import { createBannersFromGroups, collapseSuccessiveSameAuthor } from "./groupin
 test(`collapseSuccessiveSameAuthor`, (t) => {
   const HASHES = [`fb50fbb`, `fa928f4`, `f9e5c4f`, `925a86e`, `c2e257b`]
   const input = harness.filter((x) => HASHES.includes(x.abbrevHash))
-  const output = pipe(collapseSuccessiveSameAuthor)(input)
+  const output = pipe(collapseSuccessiveSameAuthor(EXAMPLE_LEGEND))(input)
   // console.log(output)
   t.is(output.length, 1)
   t.is(output[0].hashes.length, HASHES.length)
