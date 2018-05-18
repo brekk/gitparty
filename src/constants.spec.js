@@ -1,5 +1,5 @@
-import { keys } from 'f-utility'
-import test from 'jest-t-assert'
+import { keys } from "f-utility"
+import test from "jest-t-assert"
 import {
   TOTAL_COMMITS,
   SUBJECT_LENGTH,
@@ -9,7 +9,7 @@ import {
   DEFAULT_FIELDS,
   DEFAULT_CONFIG,
   ARGV_CONFIG
-} from './constants'
+} from "./constants"
 
 test(`TOTAL_COMMITS`, (t) => {
   t.is(TOTAL_COMMITS, 100)
@@ -42,7 +42,7 @@ test(`DEFAULT_FIELDS`, (t) => {
 })
 test(`DEFAULT_CONFIG`, (t) => {
   t.deepEqual(keys(DEFAULT_CONFIG), [
-    `collapseMergeCommits`,
+    `filterMergeCommits`,
     `collapseAuthors`,
     `authorLength`,
     `subjectLength`,

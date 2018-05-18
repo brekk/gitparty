@@ -1,10 +1,16 @@
 import { map, filter, I, curry, merge, reduce, keys, pipe } from "f-utility"
 import { uniq } from "lodash"
 import mergeOptions from "merge-options"
+import { groupBy } from "lodash/fp"
 import { lens, sortByDate, sortByDateObject, sortByAuthorDate, neue } from "./utils"
-import { changify, learnify } from "./per-commit"
+import { convertStatusAndFilesPerCommit, addAnalysisPerCommit } from "./per-commit"
 import { getCanon } from "./alias"
 
+/**
+@method createBannersFromGroups
+@param {Object} grouped - a grouped object of commits
+@return {Array} ungrouped array with banner objects inserted
+*/
 export const createBannersFromGroups = (grouped) =>
   pipe(
     keys,
@@ -15,12 +21,51 @@ export const createBannersFromGroups = (grouped) =>
     )
   )(grouped)
 
+/**
+@method insertBanners
+@param {Array} commits - a list of commit
+@return {Array} commits with banners inserted (type: `banner`)
+*/
+export const insertBanners = pipe(groupBy(`date`), createBannersFromGroups)
+
+/**
+@method quash
+@param {Array} x - an array of inputs
+@returns {Array} a unique, filtered array with no null values and no pass-by-referents
+*/
 const quash = pipe(neue, filter(I), uniq)
-export const orMerge = curry((x, y) =>
+/**
+@method booleanMerge
+@param {Object} a - an object with boolean keys
+@param {Object} b - another object with boolean keys
+@returns {Object} an object which is the truthy merge of all keys
+*/
+export const booleanMerge = curry((x, y) =>
   pipe(keys, reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {}))(x)
 )
-const relearn = curry((lookup, x) => pipe(lens(changify, `changes`), learnify(lookup))(x))
+
+/**
+@method relearn
+@param {Object} commit - an object with a changes property
+@return {Object} an updated object
+*/
+const relearn = curry((lookup, x) =>
+  pipe(lens(convertStatusAndFilesPerCommit, `changes`), addAnalysisPerCommit(lookup))(x)
+)
+/**
+@method uniqueFiles
+@param {*} _ - anything
+@param {Array} files - a list of files
+@return {Array} a unique list of files
+*/
 const uniqueFiles = (_, files) => uniq(files)
+
+/**
+@method collapseSuccessiveSameAuthor
+@param {Object} lookup - the lookup / legend object
+@param {Object} data - the list of commits
+@return {Object} a potentially collapsed list of commits
+*/
 export const collapseSuccessiveSameAuthor = curry((lookup, data) =>
   pipe(
     sortByDate,
@@ -49,7 +94,6 @@ export const collapseSuccessiveSameAuthor = curry((lookup, data) =>
       }
       return sortByDate(copy.concat(next))
     }, []),
-    map((x) => (!x.multiple ? x : relearn(lookup, x))),
-    map(lens(uniqueFiles, `files`))
+    map(pipe(relearn(lookup), lens(uniqueFiles, `files`)))
   )(data)
 )

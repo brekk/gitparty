@@ -8,7 +8,8 @@ import {
   colorize
 } from "./print"
 import { neue } from "./utils"
-import { generateAnalysis, groupify } from "./per-commit"
+import { generateAnalysis } from "./per-commit"
+import { insertBanners } from "./grouping"
 import { remapConfigData } from "./gitparty"
 import harness from "./data.fixture.json"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
@@ -16,7 +17,7 @@ const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 /* eslint-disable max-len */
 /* eslint-disable fp/no-mutation */
 test(`drawToken`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const { changes } = grouped[15]
   const analysisFromExample = generateAnalysis(EXAMPLE_LEGEND)
   const analysis = analysisFromExample({ changes })
@@ -24,12 +25,12 @@ test(`drawToken`, (t) => {
   t.is(output, ` J `)
 })
 test(`drawTokens`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const tokens = drawTokens(EXAMPLE_LEGEND, grouped[grouped.length - 1])
   t.is(tokens, `                  `)
 })
 test(`configureAndPrintBanner`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const banner = stripColor(configureAndPrintBanner({}, {}, grouped[grouped.length - 4]))
   t.is(
     banner,
@@ -37,7 +38,7 @@ test(`configureAndPrintBanner`, (t) => {
   )
 })
 test(`configureAndPrintCommit`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const banner = stripColor(
     configureAndPrintCommit(
       EXAMPLE_LEGEND,
@@ -52,7 +53,7 @@ test(`configureAndPrintCommit`, (t) => {
   )
 })
 test(`colorize`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const leg = neue(EXAMPLE_LEGEND)
   leg.authorLength = 5
   const out = stripColor(colorize({ authorLength: 5 }, leg, grouped[grouped.length - 1]))
@@ -62,7 +63,7 @@ test(`colorize`, (t) => {
   )
 })
 test(`colorize 2`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const leg = neue(EXAMPLE_LEGEND)
   leg.authorLength = 9
   const out2 = stripColor(colorize({ authorLength: 9 }, leg, grouped[grouped.length - 4]))

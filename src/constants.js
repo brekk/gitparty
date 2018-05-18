@@ -7,7 +7,7 @@ export const DEFAULT_FIELDS = [`abbrevHash`, `subject`, `authorName`, `authorDat
 
 export const DEFAULT_CONFIG = {
   // this is our config
-  collapseMergeCommits: true,
+  filterMergeCommits: true,
   collapseAuthors: false,
   authorLength: AUTHOR_LENGTH,
   subjectLength: SUBJECT_LENGTH,
@@ -31,7 +31,7 @@ export const ARGV_CONFIG = {
     i: `bannerIndent`,
     j: `json`,
     l: `authorLength`,
-    m: `collapseMergeCommits`,
+    m: `filterMergeCommits`,
     o: `output`,
     s: `subjectLength`,
     // gitlog properties, so we use the names they use

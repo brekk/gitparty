@@ -17,7 +17,7 @@ test(`remapConfigData`, (t) => {
 })
 
 test(`partyData`, (t) => {
-  const config = { collapseMergeCommits: false, collapseAuthors: false }
+  const config = { filterMergeCommits: false, collapseAuthors: false }
   const data = harness.filter(({ type }) => type === `commit`).slice(-3)
   const modified = partyData(config, EXAMPLE_LEGEND, data)
   t.deepEqual(modified, [
@@ -184,7 +184,7 @@ test(`partyData`, (t) => {
 })
 
 test(`partyData - with collapseAuthors`, (t) => {
-  const config = { collapseMergeCommits: false, collapseAuthors: true }
+  const config = { filterMergeCommits: false, collapseAuthors: true }
   const data = harness.filter(({ type }) => type === `commit`).slice(-3)
   const modified = partyData(config, EXAMPLE_LEGEND, data)
   t.deepEqual(modified, [
@@ -311,7 +311,7 @@ test(`partyData - with collapseAuthors`, (t) => {
 })
 
 test(`partyPrint`, (t) => {
-  const config = { collapseMergeCommits: false, collapseAuthors: false, authorLength: 5 }
+  const config = { filterMergeCommits: false, collapseAuthors: false, authorLength: 5 }
   const commits = harness.filter(({ type }) => type === `commit`)
   const data = commits[commits.length - 1] // ?
   const leg = neue(EXAMPLE_LEGEND)

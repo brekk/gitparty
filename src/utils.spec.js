@@ -5,7 +5,6 @@ import {
   box,
   neue,
   summarize,
-  isAMergeCommit,
   aliasProperty,
   lens,
   sortByKeyWithWrapper,
@@ -13,6 +12,7 @@ import {
   binaryCallback
 } from "./utils"
 
+/* eslint-disable require-jsdoc */
 test.cb(`binaryCallback`, (t) => {
   // testing fs.writeFile is annoying af, so it's written as a binaryCallback
   const whatever = (a, b, cb) => cb(a, b)
@@ -58,16 +58,6 @@ test(`summarize`, (t) => {
   const output3 = summarize(4, `x`)
   t.is(output3, `x      `)
 })
-
-test(`isAMergeCommit`, (t) => {
-  const output = isAMergeCommit({ subject: `Merge butts` }) //?
-  t.truthy(output)
-  const output2 = isAMergeCommit({ subject: `No merge butts` }) //?
-  t.falsy(output2)
-  const output3 = isAMergeCommit({ snandukes: `snandukakis` }) //?
-  t.falsy(output3)
-})
-
 test(`aliasProperty`, (t) => {
   const NUMBER = Math.round(Math.random() * 1e5)
   const input = { x: NUMBER }
@@ -118,3 +108,4 @@ test.cb(`unaryCallbackToFuture, failure`, (t) => {
     t.end()
   }, I)
 })
+/* eslint-enable require-jsdoc */

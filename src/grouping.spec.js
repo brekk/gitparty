@@ -1,17 +1,38 @@
 import test from "jest-t-assert"
 import { groupBy } from "lodash/fp"
-import { pipe, map } from "f-utility"
-import { learnify, datify, aliasify, changify } from "./per-commit"
+import { filter, reject, pipe, map } from "f-utility"
+import {
+  addAnalysisPerCommit,
+  addTimestampPerCommit,
+  addAliasesPerCommit,
+  convertStatusAndFilesPerCommit
+} from "./per-commit"
 import { lens, sortByDate } from "./utils"
 import { remapConfigData } from "./gitparty"
 import harness from "./data.fixture.json"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
 import raw from "./gitlog.fixture.json"
-import { orMerge, createBannersFromGroups, collapseSuccessiveSameAuthor } from "./grouping"
+import {
+  insertBanners,
+  booleanMerge,
+  createBannersFromGroups,
+  collapseSuccessiveSameAuthor
+} from "./grouping"
+/* eslint-disable require-jsdoc */
 
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
-test(`orMerge`, (t) => {
+test(`insertBanners`, (t) => {
+  const isBanner = ({ type }) => type === `banner`
+  const noget = reject(isBanner)
+  const rawCommits = noget(harness)
+  const get = filter(isBanner)
+  const grouped = insertBanners(rawCommits)
+  const banners = get(grouped)
+  t.is(banners.length, 8)
+})
+
+test(`booleanMerge`, (t) => {
   const a = {
     one: true,
     two: false,
@@ -24,7 +45,7 @@ test(`orMerge`, (t) => {
     three: false,
     four: false
   }
-  const output = orMerge(a, b)
+  const output = booleanMerge(a, b)
   t.deepEqual(output, {
     one: true,
     two: false,
@@ -143,7 +164,14 @@ test(`createBannersFromGroups`, (t) => {
   ]
   const output = pipe(
     sortByDate,
-    map(pipe(datify, aliasify, lens(changify, `changes`), learnify(EXAMPLE_LEGEND))),
+    map(
+      pipe(
+        addTimestampPerCommit,
+        addAliasesPerCommit,
+        lens(convertStatusAndFilesPerCommit, `changes`),
+        addAnalysisPerCommit(EXAMPLE_LEGEND)
+      )
+    ),
     groupBy(`date`),
     createBannersFromGroups
   )(raw.slice(-1))

@@ -1,28 +1,18 @@
 import test from "jest-t-assert"
-import { reject, filter } from "f-utility"
 import {
-  groupify,
   filetypes,
   generateAnalysis,
-  learnify,
-  aliasify,
-  changify,
-  datify
+  addAnalysisPerCommit,
+  addAliasesPerCommit,
+  convertStatusAndFilesPerCommit,
+  addTimestampPerCommit
 } from "./per-commit"
+import { insertBanners } from "./grouping"
 import harness from "./data.fixture.json"
 import EXAMPLE_LEGEND from "./gitpartyrc.fixture.json"
-
-test(`groupify`, (t) => {
-  const isBanner = ({ type }) => type === `banner`
-  const noget = reject(isBanner)
-  const raw = noget(harness)
-  const get = filter(isBanner)
-  const grouped = groupify(raw)
-  const banners = get(grouped)
-  t.is(banners.length, 8)
-})
+/* eslint-disable require-jsdoc */
 test(`filetypes`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const output = filetypes(grouped[grouped.length - 1].changes)
   t.deepEqual(output, [
     `babelrc`,
@@ -37,7 +27,7 @@ test(`filetypes`, (t) => {
   ])
 })
 test(`generateAnalysis`, (t) => {
-  const grouped = groupify(harness)
+  const grouped = insertBanners(harness)
   const { changes } = grouped[15]
   const analysisFromExample = generateAnalysis(EXAMPLE_LEGEND)
   const output = analysisFromExample({ changes })
@@ -60,9 +50,9 @@ test(`generateAnalysis`, (t) => {
     gitpartyrc: false
   })
 })
-test(`learnify`, (t) => {
-  const grouped = groupify(harness)
-  const output = learnify(EXAMPLE_LEGEND, grouped[2])
+test(`addAnalysisPerCommit`, (t) => {
+  const grouped = insertBanners(harness)
+  const output = addAnalysisPerCommit(EXAMPLE_LEGEND, grouped[2])
   t.deepEqual(output, {
     abbrevHash: `80ca7f7`,
     analysis: {
@@ -87,12 +77,12 @@ test(`learnify`, (t) => {
     type: `commit`
   })
 })
-test(`aliasify`, (t) => {
+test(`addAliasesPerCommit`, (t) => {
   const input = {
     authorName: `butts`,
     abbrevHash: `c0ffee`
   }
-  const output = aliasify(input)
+  const output = addAliasesPerCommit(input)
   t.deepEqual(output, {
     abbrevHash: input.abbrevHash,
     author: input.authorName,
@@ -100,19 +90,20 @@ test(`aliasify`, (t) => {
     hash: input.abbrevHash
   })
 })
-test(`changify`, (t) => {
-  const grouped = groupify(harness)
-  const output = changify(grouped[2])
+test(`convertStatusAndFilesPerCommit`, (t) => {
+  const grouped = insertBanners(harness)
+  const output = convertStatusAndFilesPerCommit(grouped[2])
   t.deepEqual(output, { M: [`src/gitparty.spec.js`, `src/index.no-wallaby.spec.js`] })
 })
-test(`datify`, (t) => {
+test(`addTimestampPerCommit`, (t) => {
   const now = 1525752938851
   const x = new Date(now)
   const input = { authorDate: x }
-  const output = datify(input)
+  const output = addTimestampPerCommit(input)
   t.deepEqual(output, {
     authorDate: x,
     ms: now,
     date: `07-05-2018`
   })
 })
+/* eslint-enable require-jsdoc */
