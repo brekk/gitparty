@@ -10,13 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/brekk/gitparty.git"
   },
-  "keywords": [
-    "git",
-    "visualization",
-    "log",
-    "cool",
-    "party"
-  ],
+  "keywords": ["git", "visualization", "log", "cool", "party"],
+  "jest": {
+    "collectCoverageFrom": ["src/*.js", "!src/index.js", "!**/node_modules/**"]
+  },
   "author": "brekk",
   "license": "ISC",
   "bugs": {
@@ -27,16 +24,12 @@
     "babel-cli": "^6.26.0",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
-    "babel-plugin-istanbul": "^4.1.6",
     "babel-plugin-module-alias": "^1.6.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-fbjs": "^2.1.4",
     "babel-preset-node6": "^11.0.0",
-    "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "chalk": "^2.4.1",
     "conf": "^1.4.0",
@@ -50,15 +43,9 @@
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-react": "^7.7.0",
     "eslint-plugin-standard": "^3.1.0",
     "execa": "^0.10.0",
-    "f-utility": "^3.5.6",
-    "fluture": "^8.0.2",
     "germs": "^0.1.9",
-    "gitbot": "^2.0.44",
-    "gitlog": "^3.1.2",
     "jest": "^22.4.3",
     "jest-t-assert": "^0.2.0",
     "nps": "^5.9.0",
@@ -67,15 +54,18 @@
     "rollup-plugin-babel-minify": "^4.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-preserve-shebang": "^0.1.6",
-    "strip-color": "^0.1.0",
     "xtrace": "^0.1.10"
   },
   "dependencies": {
     "dayjs": "^1.5.16",
+    "f-utility": "^3.5.6",
+    "fluture": "^8.0.2",
+    "gitlog": "^3.1.2",
     "lodash": "^4.17.10",
     "merge-options": "^1.0.1",
     "micromatch": "^3.1.10",
     "minimist": "^1.2.0",
-    "read-data": "^1.1.0"
+    "read-data": "^1.1.0",
+    "strip-color": "^0.1.0"
   }
 }

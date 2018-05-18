@@ -5,6 +5,7 @@ import { I } from "f-utility"
 import Future from "fluture"
 import {
   // write,
+  reader,
   partyData,
   partyPrint,
   processGitCommits,
@@ -335,7 +336,7 @@ test(`generateReport`, (t) => {
   const commits = harness.filter(({ type }) => type === `commit`)
   const leg = neue(EXAMPLE_LEGEND)
   leg.authorLength = 5
-  const output = stripColor(generateReport({}, leg, [commits[commits.length - 1]]))
+  const output = stripColor(generateReport({ authorLength: 5 }, leg, [commits[commits.length - 1]]))
   /* eslint-disable max-len */
   t.is(
     output,
@@ -453,4 +454,32 @@ test(`generateReport with config.json`, (t) => {
     }
   ])
   /* eslint-enable max-len */
+})
+
+test.cb(`reader`, (t) => {
+  const input = `${__dirname}/gitpartyrc.fixture.yml`
+  reader(input).fork(I, (x) => {
+    t.deepEqual(x, {
+      js: { key: `J`, color: `bgBlueBright`, matches: [`src/*.js`] },
+      lint: { key: `L`, color: `bgMagenta`, matches: [`\\**/.eslintrc`] },
+      tests: { key: `T`, color: `bgRed`, matches: [`\\**/*.spec.js`] },
+      gitpartyrc: {
+        key: `G`,
+        color: `bgRedBright`,
+        matches: [`\\**/.gitpartyrc`]
+      },
+      config: {
+        key: `C`,
+        color: `bgCyan`,
+        matches: [`\\**/package.json`, `\\**/rollup/*`, `\\**/webpack*`, `\\**/^.*`]
+      },
+      dependencies: {
+        key: `D`,
+        color: `bgYellow`,
+        matches: [`\\**/package.json`, `\\**/yarn.lock`]
+      },
+      collapseAuthors: true
+    })
+    t.end()
+  })
 })

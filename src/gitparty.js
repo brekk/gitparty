@@ -1,5 +1,6 @@
-// import path from 'path'
+import fs from "fs"
 import gitlog from "gitlog"
+import read from "read-data"
 import {
   entries,
   filter,
@@ -19,7 +20,17 @@ import { encase } from "fluture"
 import { trace } from "xtrace"
 import { canonize } from "./alias"
 import { colorize } from "./print"
-import { sortByDate, lens, j2, writeFile, log, warn, reader, preferredProp } from "./utils"
+import {
+  stripDoubleBackslash,
+  sortByDate,
+  lens,
+  j2,
+  binaryCallback,
+  log,
+  warn,
+  preferredProp,
+  unaryCallbackToFuture
+} from "./utils"
 import { isAMergeCommit } from "./filters"
 import { printLegend } from "./legend"
 import { collapseSuccessiveSameAuthor } from "./grouping"
@@ -72,11 +83,13 @@ export const remapConfigData = pipe(
       isObject(v) && v.matches ?
         merge(v, {
           fn: chalk[v.color],
-          matches: v.matches.map((w) => w.replace(/^\\/g, ``))
+          matches: v.matches.map(stripDoubleBackslash)
         }) :
         v
   )
 )
+export const writeFile = binaryCallback(fs.writeFile.bind(fs), (e) => log(e || `Wrote to file`))
+export const reader = unaryCallbackToFuture(read.yaml)
 
 export const processAndPrintWithConfig = curry((config, input) =>
   pipe(

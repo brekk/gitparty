@@ -1,6 +1,6 @@
-import test from 'jest-t-assert'
-import { random } from 'f-utility'
-import { alias, getAliasFrom, canonicalize } from './alias'
+import test from "jest-t-assert"
+import { random } from "f-utility"
+import { alias, getAliasFrom, canonicalize } from "./alias"
 
 test(`alias`, (t) => {
   const number = random.floorMin(0, 10e3)
@@ -19,6 +19,14 @@ test(`alias`, (t) => {
     output: `input`,
     yyy: `xxx`,
     xxx: `xxx`
+  })
+  alias(structure, `input`, `secret`)
+  t.deepEqual(structure, {
+    input: structure.input,
+    output: `input`,
+    yyy: `xxx`,
+    xxx: `xxx`,
+    secret: `input`
   })
 })
 

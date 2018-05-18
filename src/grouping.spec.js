@@ -7,9 +7,31 @@ import { remapConfigData } from "./gitparty"
 import harness from "./data.fixture.json"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
 import raw from "./gitlog.fixture.json"
+import { orMerge, createBannersFromGroups, collapseSuccessiveSameAuthor } from "./grouping"
+
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
-import { createBannersFromGroups, collapseSuccessiveSameAuthor } from "./grouping"
+test(`orMerge`, (t) => {
+  const a = {
+    one: true,
+    two: false,
+    three: true,
+    four: false
+  }
+  const b = {
+    one: false,
+    two: false,
+    three: false,
+    four: false
+  }
+  const output = orMerge(a, b)
+  t.deepEqual(output, {
+    one: true,
+    two: false,
+    three: true,
+    four: false
+  })
+})
 
 test(`collapseSuccessiveSameAuthor`, (t) => {
   const HASHES = [`fb50fbb`, `fa928f4`, `f9e5c4f`, `925a86e`, `c2e257b`]
