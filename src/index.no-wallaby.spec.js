@@ -11,6 +11,7 @@ test.cb(`gitparty executable`, (t) => {
   t.plan(1)
   const CLI = path.resolve(__dirname, `../lib/index.js`)
   execa.shell(`node ${CLI}`).then((x) => {
+    /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
       `                  10-05-2018                                                                                            `,
@@ -53,4 +54,5 @@ test.cb(`gitparty executable`, (t) => {
     ])
     t.end()
   })
+  /* eslint-enable max-len */
 })

@@ -13,7 +13,8 @@ import { remapConfigData } from "./gitparty"
 import harness from "./data.fixture.json"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
-
+/* eslint-disable max-len */
+/* eslint-disable fp/no-mutation */
 test(`drawToken`, (t) => {
   const grouped = groupify(harness)
   const { changes } = grouped[15]
@@ -57,8 +58,7 @@ test(`colorize`, (t) => {
   const out = stripColor(colorize({ authorLength: 5 }, leg, grouped[grouped.length - 1]))
   t.is(
     out,
-    // eslint-disable-next-line
-    " J  L        C  D     = 1c5ffd2 - initial commit                                        $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml"
+    ` J  L        C  D     = 1c5ffd2 - initial commit                                        $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
   )
 })
 test(`colorize 2`, (t) => {
@@ -71,3 +71,6 @@ test(`colorize 2`, (t) => {
     `                  30-04-2018                                                                                            `
   )
 })
+
+/* eslint-enable max-len */
+/* eslint-enable fp/no-mutation */

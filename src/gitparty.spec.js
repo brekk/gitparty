@@ -1,21 +1,13 @@
-import path from "path"
 import test from "jest-t-assert"
 import stripColor from "strip-color"
 import { I } from "f-utility"
-import Future from "fluture"
-import {
-  // write,
-  reader,
-  partyData,
-  partyPrint,
-  processGitCommits,
-  remapConfigData
-} from "./gitparty"
+import { reader, partyData, partyPrint, remapConfigData } from "./gitparty"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
 import harness from "./data.fixture.json"
 import { generateReport } from "./gitparty"
 import { DEFAULT_CONFIG } from "./constants"
-import { j2, neue } from "./utils"
+import { neue } from "./utils"
+/* eslint-disable fp/no-mutation */
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
 test(`remapConfigData`, (t) => {
@@ -483,3 +475,4 @@ test.cb(`reader`, (t) => {
     t.end()
   })
 })
+/* eslint-enable fp/no-mutation */
