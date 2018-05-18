@@ -2,6 +2,7 @@ import { I, merge, random } from "f-utility"
 import test from "jest-t-assert"
 import execa from "execa"
 import {
+  unaryCallbackToFuture,
   box,
   neue,
   summarize,
@@ -25,34 +26,6 @@ test.cb(`binaryCallback`, (t) => {
   const one = random.floorMin(1, 100)
   const two = random.floorMin(1, 100)
   binaryCallback(whatever, callback, one, two)
-})
-
-test.cb(`reader`, (t) => {
-  const input = `${__dirname}/gitpartyrc.fixture.yml`
-  reader(input).fork(I, (x) => {
-    t.deepEqual(x, {
-      js: { key: `J`, color: `bgBlueBright`, matches: [`src/*.js`] },
-      lint: { key: `L`, color: `bgMagenta`, matches: [`\\**/.eslintrc`] },
-      tests: { key: `T`, color: `bgRed`, matches: [`\\**/*.spec.js`] },
-      gitpartyrc: {
-        key: `G`,
-        color: `bgRedBright`,
-        matches: [`\\**/.gitpartyrc`]
-      },
-      config: {
-        key: `C`,
-        color: `bgCyan`,
-        matches: [`\\**/package.json`, `\\**/rollup/*`, `\\**/webpack*`, `\\**/^.*`]
-      },
-      dependencies: {
-        key: `D`,
-        color: `bgYellow`,
-        matches: [`\\**/package.json`, `\\**/yarn.lock`]
-      },
-      collapseAuthors: true
-    })
-    t.end()
-  })
 })
 
 test(`box`, (t) => {
@@ -127,4 +100,23 @@ test(`j2`, (t) => {
   const input = { a: 1, b: 2 }
   const output = j2(input)
   t.is(output, JSON.stringify(input, null, 2))
+})
+
+test.cb(`unaryCallbackToFuture`, (t) => {
+  const constant = random.floorMin(1, 1e10)
+  const backToTheFuture = (x, cb) => cb(null, constant * x)
+  const futureWrapped = unaryCallbackToFuture(backToTheFuture)
+  futureWrapped(2).fork(I, (x) => {
+    t.is(x, constant * 2)
+    t.end()
+  })
+})
+test.cb(`unaryCallbackToFuture, failure`, (t) => {
+  const constant = random.floorMin(1, 1e10)
+  const backToTheFuture = (x, cb) => cb(constant * x)
+  const futureWrapped = unaryCallbackToFuture(backToTheFuture)
+  futureWrapped(2).fork((x) => {
+    t.is(x, constant * 2)
+    t.end()
+  }, I)
 })

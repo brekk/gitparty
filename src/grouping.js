@@ -19,7 +19,7 @@ export const createBannersFromGroups = (grouped) =>
 
 const quash = pipe(neue, filter(I), uniq)
 const smoosh = pipe(neue, uniq)
-const orMerge = curry((x, y) =>
+export const orMerge = curry((x, y) =>
   pipe(keys, reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {}))(x)
 )
 const relearn = curry((lookup, x) => pipe(lens(changify, `changes`), learnify(lookup))(x))
