@@ -33,19 +33,33 @@ import {
 } from "./utils"
 import { isAMergeCommit } from "./filters"
 import { printLegend } from "./legend"
-import { collapseSuccessiveSameAuthor } from "./grouping"
-import { learnify, datify, aliasify, groupify, changify } from "./per-commit"
+import { collapseSuccessiveSameAuthor, insertBanners } from "./grouping"
+import {
+  addAnalysisPerCommit,
+  addTimestampPerCommit,
+  addAliasesPerCommit,
+  convertStatusAndFilesPerCommit
+} from "./per-commit"
 import { DEFAULT_CONFIG } from "./constants"
 
 const gotLog = encase(gitlog)
 
-export const partyData = curry(({ collapseMergeCommits, collapseAuthors }, lookup, data) =>
+const perCommit = curry((lookup, x) =>
+  pipe(
+    addTimestampPerCommit,
+    addAliasesPerCommit,
+    lens(convertStatusAndFilesPerCommit, `changes`),
+    addAnalysisPerCommit(lookup)
+  )(x)
+)
+
+export const partyData = curry(({ filterMergeCommits, collapseAuthors }, lookup, data) =>
   pipe(
     sortByDate,
-    collapseMergeCommits ? reject(isAMergeCommit) : I,
-    map(pipe(datify, aliasify, lens(changify, `changes`), learnify(lookup))),
+    filterMergeCommits ? reject(isAMergeCommit) : I,
+    map(perCommit(lookup)),
     collapseAuthors ? collapseSuccessiveSameAuthor(lookup) : I,
-    groupify
+    insertBanners
   )(data)
 )
 export const partyPrint = curry((config, lookup, input) =>
@@ -59,7 +73,7 @@ const sideEffectCanonize = pipe(
 )
 export const generateReport = curry((config, lookup, data) => {
   const grab = preferredProp(lookup, config, false)
-  const collapseMergeCommits = grab(`collapseMergeCommits`)
+  const filterMergeCommits = grab(`filterMergeCommits`)
   const collapseAuthors = grab(`collapseAuthors`)
   const { aliases = {} } = lookup
   // TODO: replace this with something that is a more explicitly managed side-effect
@@ -67,7 +81,7 @@ export const generateReport = curry((config, lookup, data) => {
   const filteredLookup = filter((z) => z && z.matches, lookup)
   return pipe(
     // object data
-    partyData({ collapseMergeCommits, collapseAuthors }, filteredLookup),
+    partyData({ filterMergeCommits, collapseAuthors }, filteredLookup),
     // string data
     config.j ? j2 : pipe(partyPrint(config, filteredLookup), prependLegend(filteredLookup))
   )(data)

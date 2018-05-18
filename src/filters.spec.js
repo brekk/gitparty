@@ -1,6 +1,6 @@
 import test from 'jest-t-assert'
 import {
-  filterFiletypes,
+  matchesWildcards,
   anyFilesMatchFromObject,
   isAMergeCommit
 } from './filters'
@@ -9,9 +9,9 @@ test(`isAMergeCommit`, (t) => {
   t.falsy(isAMergeCommit({ subject: `butts` }))
   t.truthy(isAMergeCommit({ subject: `Merge ` }))
 })
-test(`filterFiletypes`, (t) => {
-  t.falsy(filterFiletypes([`**/*.a`, `**/*.b`], [`a/b/c/d/e/f.x`]))
-  t.truthy(filterFiletypes([`**/*.a`, `**/*.b`], [`a/b/c/d/e/f.a`]))
+test(`matchesWildcards`, (t) => {
+  t.falsy(matchesWildcards([`**/*.a`, `**/*.b`], [`a/b/c/d/e/f.x`]))
+  t.truthy(matchesWildcards([`**/*.a`, `**/*.b`], [`a/b/c/d/e/f.a`]))
 })
 test(`anyFilesMatchFromObject`, (t) => {
   const input = {

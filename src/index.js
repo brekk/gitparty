@@ -30,7 +30,7 @@ if (config.h) {
 
 --${y(`collapse`)} / --${y(`collapseAuthors`)} / -${y(`a`)}
   merge commits if the authors are the same and the commit dates are the same
---${y(`collapseMergeCommits`)} / -${y(`m`)}
+--${y(`filterMergeCommits`)} / -${y(`m`)}
   merge commits beginning with the string 'Merge '
 
 ## formatting
