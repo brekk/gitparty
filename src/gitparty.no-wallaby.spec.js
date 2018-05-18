@@ -5,10 +5,10 @@ import { I } from "f-utility"
 import Future from "fluture"
 import { processGitCommits, remapConfigData } from "./gitparty"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
-import harness from "./data.fixture.json"
-import { generateReport } from "./gitparty"
+// import harness from "./data.fixture.json"
+// import { generateReport } from "./gitparty"
 import { DEFAULT_CONFIG } from "./constants"
-import { j2, neue } from "./utils"
+import { neue } from "./utils"
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
 test.cb(`processGitCommits`, (t) => {

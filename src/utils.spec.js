@@ -1,6 +1,5 @@
 import { I, merge, random } from "f-utility"
 import test from "jest-t-assert"
-import execa from "execa"
 import {
   unaryCallbackToFuture,
   box,
@@ -11,7 +10,6 @@ import {
   lens,
   sortByKeyWithWrapper,
   j2,
-  reader,
   binaryCallback
 } from "./utils"
 

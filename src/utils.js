@@ -1,5 +1,5 @@
-import { pipe, prop, I, merge, curry, pathOr, padEnd, chain, propOr } from "f-utility"
-import { trace } from "xtrace"
+import { merge, curry, pathOr, padEnd, propOr } from "f-utility"
+// import { trace } from "xtrace"
 import Future from "fluture"
 
 export const unaryCallbackToFuture = curry(
@@ -34,8 +34,8 @@ export const sortByKeyWithWrapper = curry((ascendingSort, wrap, key, arr) =>
     ({ [key]: a }, { [key]: b }) => (ascendingSort ? wrap(b) - wrap(a) : wrap(a) - wrap(b))
   )
 )
-const sortByKey = sortByKeyWithWrapper(true, I)
 
+// eslint-disable-next-line fp/no-mutating-methods
 export const sortByDate = (x) => x.sort(({ ms: b }, { ms: a }) => a - b)
 // export const sortByDate = sortByKey(`date`)
 const tomorrow = (x) => new Date(x)

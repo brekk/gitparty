@@ -1,10 +1,8 @@
-import chalk from "chalk"
-// import { trace } from "xtrace"
-import { map, ternary, filter, I, curry, merge, reduce, keys, pipe, chain } from "f-utility"
+import { map, filter, I, curry, merge, reduce, keys, pipe } from "f-utility"
 import { uniq } from "lodash"
 import mergeOptions from "merge-options"
 import { lens, sortByDate, sortByDateObject, sortByAuthorDate, neue } from "./utils"
-import { filetypes, changify, learnify } from "./per-commit"
+import { changify, learnify } from "./per-commit"
 import { getCanon } from "./alias"
 
 export const createBannersFromGroups = (grouped) =>
@@ -18,7 +16,6 @@ export const createBannersFromGroups = (grouped) =>
   )(grouped)
 
 const quash = pipe(neue, filter(I), uniq)
-const smoosh = pipe(neue, uniq)
 export const orMerge = curry((x, y) =>
   pipe(keys, reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {}))(x)
 )
@@ -46,7 +43,7 @@ export const collapseSuccessiveSameAuthor = curry((lookup, data) =>
             multiple: true,
             hashes: quash([].concat(raw.hashes || [], last.hash, next.hash))
           })
-          copy[copy.length - 1] = augmented
+          copy[copy.length - 1] = augmented // eslint-disable-line fp/no-mutation
           return sortByDate(copy)
         }
       }

@@ -11,6 +11,7 @@
     "arrow-body-style": ["error", "as-needed"],
     "semi": ["error", "never"],
     "valid-jsdoc": "error",
+    "require-jsdoc": 2,
     "no-var": 2,
     "no-constant-condition": 2,
     "no-const-assign": 2,

@@ -17,7 +17,7 @@ import {
 } from "f-utility"
 import chalk from "chalk"
 import { encase } from "fluture"
-import { trace } from "xtrace"
+// import { trace } from "xtrace"
 import { canonize } from "./alias"
 import { colorize } from "./print"
 import {
