@@ -48,6 +48,7 @@ test(`DEFAULT_CONFIG`, (t) => {
     `subjectLength`,
     `bannerLength`,
     `bannerIndent`,
+    `filter`,
     `json`,
     `repo`,
     `number`,
@@ -57,5 +58,5 @@ test(`DEFAULT_CONFIG`, (t) => {
 })
 
 test(`ARGV_CONFIG`, (t) => {
-  t.deepEqual(keys(ARGV_CONFIG), [`alias`])
+  t.deepEqual(keys(ARGV_CONFIG), [`boolean`, `number`, `alias`])
 })

@@ -3,8 +3,8 @@ import { curry } from "f-utility"
 /**
 @method alias
 @param {Object} struct - an object to store aliases in
-@param {String} original - a string
-@param {String} alt - the alias
+@param {string} original - a string
+@param {string} alt - the alias
 @returns null
 */
 export const alias = curry((struct, original, alt) => {
@@ -21,7 +21,7 @@ export const alias = curry((struct, original, alt) => {
 /**
 @method getAliasFrom
 @param {Object} struct - an object to pull aliases from
-@param {String} key - a key to look up
+@param {string} key - a key to look up
 @returns {*} whatever the lookup resulted in or the key itself
 */
 export const getAliasFrom = curry((struct, key) => struct[key] || key)

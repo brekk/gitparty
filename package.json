@@ -10,9 +10,19 @@
     "type": "git",
     "url": "git+https://github.com/brekk/gitparty.git"
   },
-  "keywords": ["git", "visualization", "log", "cool", "party"],
+  "keywords": [
+    "git",
+    "visualization",
+    "log",
+    "cool",
+    "party"
+  ],
   "jest": {
-    "collectCoverageFrom": ["src/*.js", "!src/index.js", "!**/node_modules/**"]
+    "collectCoverageFrom": [
+      "src/*.js",
+      "!src/index.js",
+      "!**/node_modules/**"
+    ]
   },
   "author": "brekk",
   "license": "ISC",
@@ -64,8 +74,8 @@
     "lodash": "^4.17.10",
     "merge-options": "^1.0.1",
     "micromatch": "^3.1.10",
-    "minimist": "^1.2.0",
     "read-data": "^1.1.0",
-    "strip-color": "^0.1.0"
+    "strip-color": "^0.1.0",
+    "yargs-parser": "^10.0.0"
   }
 }

@@ -25,7 +25,7 @@ export const configureAndPrintBanner = curry((lookup, config, { date }) => {
 
 export const configureAndPrintCommit = curry(
   (lookup, config, { hash, changes, subject, author, analysis }) => {
-    const grab = preferredProp(config, lookup)
+    const grab = preferredProp(lookup, config)
     const authorLength = grab(AUTHOR_LENGTH, `authorLength`)
     const subjectLength = grab(SUBJECT_LENGTH, `subjectLength`)
     const _hash = chalk.yellow(hash)

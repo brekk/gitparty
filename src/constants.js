@@ -13,6 +13,7 @@ export const DEFAULT_CONFIG = {
   subjectLength: SUBJECT_LENGTH,
   bannerLength: BANNER_LENGTH,
   bannerIndent: BANNER_INDENT,
+  filter: ``,
   json: false,
   // below this line are gitlog configuration
   repo: process.cwd(),
@@ -20,13 +21,18 @@ export const DEFAULT_CONFIG = {
   fields: DEFAULT_FIELDS,
   execOptions: { maxBuffer: 1000 * 1024 }
 }
+const numberize = parseInt
 
 export const ARGV_CONFIG = {
+  boolean: [`m`, `a`],
+  number: [`l`, `i`, `b`, `s`],
   alias: {
     // our configuration
-    a: [`collapse`, `collapseAuthors`],
+    a: [`collapseAuthors`, `collapseAuthors`],
+    // a: [`collapse`, `collapseAuthors`],
     b: `bannerLength`,
     c: `config`,
+    f: `filter`,
     h: `help`,
     i: `bannerIndent`,
     j: `json`,
@@ -36,7 +42,6 @@ export const ARGV_CONFIG = {
     s: `subjectLength`,
     // gitlog properties, so we use the names they use
     repo: `r`,
-    number: [`n`, `totalCommits`],
-    fields: `f`
+    number: [`n`, `totalCommits`]
   }
 }

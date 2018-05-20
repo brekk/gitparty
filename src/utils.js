@@ -23,8 +23,8 @@ export const neue = (x) => (x && Array.isArray(x) ? [].concat(x) : merge({}, x))
 
 /**
 @method summarize
-@param {Number} limit - the max length of the string, + 3
-@return {String} a summarized string, within the goal limits + 3
+@param {number} limit - the max length of the string, + 3
+@return {string} a summarized string, within the goal limits + 3
 */
 export const summarize = curry((limit, str) =>
   padEnd(limit + 3, ` `, str.substr(0, limit) + `${str.length > limit ? `...` : ``}`)
@@ -32,8 +32,8 @@ export const summarize = curry((limit, str) =>
 
 /**
 @method aliasProperty
-@param {String} prop - a string property key
-@param {String} propAlias - a string property key alias
+@param {string} prop - a string property key
+@param {string} propAlias - a string property key alias
 @param {Object} x - some object
 @return {Object} object with aliased property, or no change
 */
@@ -45,14 +45,14 @@ export const aliasProperty = curry(
 /**
 @method j2
 @param {*} x - anything
-@return {String} json stringified stuff with a 2 space indent
+@return {string} json stringified stuff with a 2 space indent
 */
 export const j2 = (x) => JSON.stringify(x, null, 2)
 
 /**
 @method lens
 @param {Function} fn - a lens function (copy, property) => {}
-@param {String} prop - a property to lens
+@param {string} prop - a property to lens
 @param {Object} target - an object which has a property to lens
 @return {Object} a cloned object with a modified property
 */
@@ -63,9 +63,9 @@ export const lens = curry((fn, prop, target) => {
 
 /**
 @method sortByKeyWithWrapper
-@param {Boolean} ascendingSort - sort ascending?
+@param {boolean} ascendingSort - sort ascending?
 @param {Function} wrap - a function to wrap the comparitors with
-@param {String} key - a key which is shared across both comparitors
+@param {string} key - a key which is shared across both comparitors
 @param {Array} arr - an array to be sorted
 @return {Array} a sorted array
 */
