@@ -7,10 +7,10 @@ import { split, pipe } from "f-utility"
 
 const cleanify = pipe(stripColor, (x) => split(`80ca7f7`, x)[1], split(`\n`))
 
-test.cb(`gitparty executable`, (t) => {
+test.cb(`gitparty`, (t) => {
   t.plan(1)
   const CLI = path.resolve(__dirname, `../lib/index.js`)
-  execa.shell(`node ${CLI}`).then((x) => {
+  execa.shell(`node ${CLI} --authorLength 7 --no-collapse`).then((x) => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
@@ -51,6 +51,176 @@ test.cb(`gitparty executable`, (t) => {
       ` J                 = c182937 - commit it while it works, dammit                      $ brekk   | js`,
       ` J           C  D  = 58b0786 - better                                                $ brekk   | js json lock`,
       ` J  L        C  D  = 1c5ffd2 - initial commit                                        $ brekk   | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+    ])
+    t.end()
+  })
+  /* eslint-enable max-len */
+})
+
+test.cb(`gitparty --authorLength 15`, (t) => {
+  t.plan(1)
+  const CLI = path.resolve(__dirname, `../lib/index.js`)
+  execa.shell(`node ${CLI} --authorLength 15`).then((x) => {
+    /* eslint-disable max-len */
+    t.deepEqual(cleanify(x.stdout), [
+      ` - fixed that hilarious problem of the tests never be... $ brekk           | js`,
+      `                  10-05-2018                                                                                            `,
+      ` J     T           = 9bd10f4 - committing anything breaks the existing tests :joy... $ brekk           | js`,
+      ` J     T           = 5e131fb - passing tests again                                   $ brekk           | js`,
+      ` J     T  G  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk           | gitpartyrc js json lock`,
+      `                  09-05-2018                                                                                            `,
+      ` J  L  T           = 4661430 - added a readme                                        $ brekk           | eslintrc js md png`,
+      `                  08-05-2018                                                                                            `,
+      ` J                 = 9210f41 - refactor                                              $ brekk           | js`,
+      ` J                 = f64e517 - everything futurized but currently requires double... $ brekk           | js`,
+      ` J                 = aaa4e6c - more fluturization                                    $ brekk           | js`,
+      ` J                 = 40e3dbc - added fluture and clarifying intent                   $ brekk           | js`,
+      ` J           C  D  = c7f3eb7 - moving things around for the bin script               $ brekk           | js json`,
+      ` J     T     C  D  = 8886271 - this will likely break non-relative tests             $ brekk           | js json lock`,
+      `                  07-05-2018                                                                                            `,
+      ` J  L  T  G        = fb50fbb - tests                                                 $ brekk           | eslintrc gitpartyrc js json`,
+      ` J        G        = fa928f4 - gitpartyrc                                            $ brekk           | gitpartyrc js yml`,
+      ` J           C  D  = f9e5c4f - added yaml config                                     $ brekk           | js json lock yml`,
+      ` J                 = 925a86e - getting cleaner                                       $ brekk           | js`,
+      ` J           C  D  = c2e257b - working again                                         $ brekk           | js json lock yml`,
+      `                  02-05-2018                                                                                            `,
+      ` J           C  D  = b9d98d9 - process.cwd() over __dirname                          $ brekk           | js json`,
+      ` J                 = d9249be - pass lint                                             $ brekk           | js`,
+      ` J                 = c5f2766 - added some date grossness for now                     $ brekk           | js`,
+      ` J                 = e9569fb - pretty close to ready                                 $ brekk           | js`,
+      `                  01-05-2018                                                                                            `,
+      ` J     T           = f3cc824 - utils covered                                         $ brekk           | js`,
+      ` J     T     C  D  = 08c0a46 - tests!                                                $ brekk           | js json lock`,
+      ` J  L              = 56b6a81 - cleanification                                        $ brekk           | eslintrc js`,
+      ` J                 = 8ea8fe8 - partial change                                        $ brekk           | js`,
+      ` J                 = bb2def9 - getting cleaner, legend can be extricated             $ brekk           | js`,
+      ` J                 = 21f377f - legend is almost fully extracted                      $ brekk           | js`,
+      ` J           C  D  = 852f7ac - add blob matching, start to clean up legend makery    $ brekk           | js json lock`,
+      ` J           C  D  = 322b8d0 - cleanups and more fp                                  $ brekk           | js json lock`,
+      `                  30-04-2018                                                                                            `,
+      ` J                 = c182937 - commit it while it works, dammit                      $ brekk           | js`,
+      ` J           C  D  = 58b0786 - better                                                $ brekk           | js json lock`,
+      ` J  L        C  D  = 1c5ffd2 - initial commit                                        $ brekk           | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+    ])
+    t.end()
+  })
+  /* eslint-enable max-len */
+})
+
+test.cb(`gitparty --collapse`, (t) => {
+  t.plan(1)
+  const CLI = path.resolve(__dirname, `../lib/index.js`)
+  execa.shell(`node ${CLI} -a`).then((x) => {
+    /* eslint-disable max-len */
+    t.deepEqual(cleanify(x.stdout), [
+      ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
+      `                  10-05-2018                                                                                            `,
+      ` J     T  G  C  D  = 8a4f3a9 - committing anything breaks the existing tests :joy... $ brekk   | gitpartyrc js json lock`,
+      `                  09-05-2018                                                                                            `,
+      ` J  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
+      `                  08-05-2018                                                                                            `,
+      ` J     T     C  D  = 8886271 - refactor + everything futurized but currently requ... $ brekk   | js json lock`,
+      `                  07-05-2018                                                                                            `,
+      ` J  L  T  G  C  D  = c2e257b - tests + gitpartyrc + added yaml config + getting c... $ brekk   | eslintrc gitpartyrc js json lock yml`,
+      `                  02-05-2018                                                                                            `,
+      ` J           C  D  = e9569fb - process.cwd() over __dirname + pass lint + added s... $ brekk   | js json`,
+      `                  01-05-2018                                                                                            `,
+      ` J  L  T     C  D  = 322b8d0 - utils covered + tests! + cleanification + partial ... $ brekk   | eslintrc js json lock`,
+      `                  30-04-2018                                                                                            `,
+      ` J  L        C  D  = 1c5ffd2 - commit it while it works, dammit + better + initia... $ brekk   | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+    ])
+    t.end()
+  })
+  /* eslint-enable max-len */
+})
+
+test.cb(`gitparty -n 1 -f hash:1c5ffd2 -j`, (t) => {
+  t.plan(1)
+  const CLI = path.resolve(__dirname, `../lib/index.js`)
+  execa.shell(`node ${CLI} -n 1 -j`).then((x) => {
+    /* eslint-disable max-len */
+    const y = JSON.parse(x.stdout)
+    y[1].authorDateRel = undefined
+    t.deepEqual(y, [
+      { date: `17-05-2018`, type: `banner` },
+      {
+        abbrevHash: `8b2efcf`,
+        analysis: {
+          config: false,
+          dependencies: false,
+          gitpartyrc: false,
+          js: true,
+          lint: true,
+          tests: true
+        },
+        author: `brekk`,
+        authorDate: `2018-05-17 22:10:30 -0700`,
+        authorName: `brekk`,
+        changes: {
+          M: [
+            `.eslintrc`,
+            `src/alias.js`,
+            `src/constants.js`,
+            `src/constants.spec.js`,
+            `src/filters.js`,
+            `src/filters.spec.js`,
+            `src/gitparty.js`,
+            `src/gitparty.spec.js`,
+            `src/grouping.js`,
+            `src/grouping.spec.js`,
+            `src/index.js`,
+            `src/legend.js`,
+            `src/per-commit.js`,
+            `src/per-commit.spec.js`,
+            `src/print.spec.js`,
+            `src/utils.js`,
+            `src/utils.spec.js`
+          ]
+        },
+        date: `17-05-2018`,
+        files: [
+          `.eslintrc`,
+          `src/alias.js`,
+          `src/constants.js`,
+          `src/constants.spec.js`,
+          `src/filters.js`,
+          `src/filters.spec.js`,
+          `src/gitparty.js`,
+          `src/gitparty.spec.js`,
+          `src/grouping.js`,
+          `src/grouping.spec.js`,
+          `src/index.js`,
+          `src/legend.js`,
+          `src/per-commit.js`,
+          `src/per-commit.spec.js`,
+          `src/print.spec.js`,
+          `src/utils.js`,
+          `src/utils.spec.js`
+        ],
+        hash: `8b2efcf`,
+        ms: 1526620230000,
+        status: [
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`,
+          `M`
+        ],
+        subject: `jsdoc`,
+        type: `commit`
+      }
     ])
     t.end()
   })

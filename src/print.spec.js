@@ -52,6 +52,21 @@ test(`configureAndPrintCommit`, (t) => {
     ` J  L        C  D  = 1c5ffd2 - in... $ brekk | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
   )
 })
+test(`configureAndPrintCommit with long authorLength`, (t) => {
+  const grouped = insertBanners(harness)
+  const banner = stripColor(
+    configureAndPrintCommit(
+      EXAMPLE_LEGEND,
+      { subjectLength: 2, authorLength: 20 },
+      grouped[grouped.length - 1]
+    )
+  )
+  t.is(
+    banner,
+    // eslint-disable-next-line
+    ` J  L        C  D  = 1c5ffd2 - in... $ brekk      | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+  )
+})
 test(`colorize`, (t) => {
   const grouped = insertBanners(harness)
   const leg = neue(EXAMPLE_LEGEND)

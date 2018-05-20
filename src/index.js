@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import path from "path"
 import chalk from "chalk"
-import parseArgs from "minimist"
+import parseArgs from "yargs-parser"
 import { ARGV_CONFIG } from "./constants"
 import { processAndPrintWithConfig } from "./gitparty"
+import { j2 } from "./utils"
 
 const config = parseArgs(process.argv.slice(2), ARGV_CONFIG)
 const { yellow: y } = chalk
