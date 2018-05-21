@@ -1,4 +1,4 @@
-import { I, merge, curry, padEnd, propOr } from "f-utility"
+import { I, merge, curry, padEnd, prop } from "f-utility"
 // import { trace } from "xtrace"
 import Future from "fluture"
 
@@ -97,9 +97,9 @@ export const binaryCallback = curry((orig, cb, output, data) => {
   orig(output, data, cb)
 })
 export const preferredProp = curry((a, b, def, key) => {
-  const _a = propOr(false, key, a)
-  const _b = propOr(def, key, b)
-  return _a || _b
+  const _a = prop(key, a)
+  const _b = prop(key, b)
+  return _a || _b || def
 })
 // eslint-disable-next-line require-jsdoc
 export const stripDoubleBackslash = (w) => w.replace(/^\\/g, ``)
