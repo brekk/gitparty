@@ -32,14 +32,14 @@ export const summarize = curry((limit, str) =>
 
 /**
 @method aliasProperty
-@param {string} prop - a string property key
+@param {string} property - a string property key
 @param {string} propAlias - a string property key alias
 @param {Object} x - some object
 @return {Object} object with aliased property, or no change
 */
 export const aliasProperty = curry(
-  (prop, propAlias, x) =>
-    typeof x[prop] !== `undefined` ? merge(x, { [propAlias]: x[prop] }) : neue(x)
+  (property, propAlias, x) =>
+    typeof x[property] !== `undefined` ? merge(x, { [propAlias]: x[property] }) : neue(x)
 )
 
 /**
@@ -56,9 +56,9 @@ export const j2 = (x) => JSON.stringify(x, null, 2)
 @param {Object} target - an object which has a property to lens
 @return {Object} a cloned object with a modified property
 */
-export const lens = curry((fn, prop, target) => {
+export const lens = curry((fn, property, target) => {
   const copy = neue(target)
-  return copy && prop ? merge(copy, { [prop]: fn(copy, copy[prop]) }) : copy
+  return copy && property ? merge(copy, { [property]: fn(copy, copy[property]) }) : copy
 })
 
 /**

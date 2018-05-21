@@ -10,7 +10,7 @@ const cleanify = pipe(stripColor, (x) => split(`80ca7f7`, x)[1], split(`\n`))
 test.cb(`gitparty`, (t) => {
   t.plan(1)
   const CLI = path.resolve(__dirname, `../lib/index.js`)
-  execa.shell(`node ${CLI} --authorLength 7 --no-collapse`).then((x) => {
+  execa.shell(`node ${CLI} -l 7 --no-collapse`).then((x) => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
@@ -140,6 +140,7 @@ test.cb(`gitparty -f hash:1c5ffd2 -j`, (t) => {
   execa.shell(`node ${CLI} -f hash:1c5ffd2 -j`).then((x) => {
     /* eslint-disable max-len */
     const y = JSON.parse(x.stdout)
+    // eslint-disable-next-line
     y[1].authorDateRel = undefined
     t.deepEqual(y, [
       { date: `30-04-2018`, type: `banner` },

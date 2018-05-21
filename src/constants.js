@@ -21,7 +21,6 @@ export const DEFAULT_CONFIG = {
   fields: DEFAULT_FIELDS,
   execOptions: { maxBuffer: 1000 * 1024 }
 }
-const numberize = parseInt
 
 export const ARGV_CONFIG = {
   boolean: [`m`, `a`],

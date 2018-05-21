@@ -9,13 +9,15 @@ const built = [`del coverage`, `del lib`, `del docs`]
 const GERMS = germs.build(pkg.name, {
   readme: `echo "documentation readme -s API src/*.js"`,
   prepublishOnly: `nps care`,
+  // care: allNPS(`lint`, `test`, `readme`, `dependencies`),
+  care: `nps lint test readme dependencies`,
   clean: utils.concurrent(built),
   scrub: utils.concurrent(built.concat([`del dependenc*`, `del yarn.lock`, `del node_modules`]))
 })
 /* eslint-disable fp/no-mutation */
 GERMS.scripts.buster = GERMS.scripts.scrub
 GERMS.scripts.bundle = `echo "party time!"`
-GERMS.scripts.test = `jest src/*.spec.js --coverage`
+GERMS.scripts.test = `jest --coverage`
 GERMS.scripts.build = `babel src -d lib --ignore *.spec.js && chmod 755 lib/index.js`
 GERMS.scripts.docs = {
   script: `documentation build src/** -f html -o docs`,
