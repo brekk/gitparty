@@ -28,7 +28,7 @@ export const ARGV_CONFIG = {
   number: [`l`, `i`, `b`, `s`],
   alias: {
     // our configuration
-    a: [`collapseAuthors`, `collapseAuthors`],
+    a: [`collapseAuthors`, `collapse`],
     // a: [`collapse`, `collapseAuthors`],
     b: `bannerLength`,
     c: `config`,
