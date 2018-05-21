@@ -134,91 +134,107 @@ test.cb(`gitparty --collapse`, (t) => {
   /* eslint-enable max-len */
 })
 
-test.cb(`gitparty -n 1 -f hash:1c5ffd2 -j`, (t) => {
+test.cb(`gitparty -f hash:1c5ffd2 -j`, (t) => {
   t.plan(1)
   const CLI = path.resolve(__dirname, `../lib/index.js`)
-  execa.shell(`node ${CLI} -n 1 -j`).then((x) => {
+  execa.shell(`node ${CLI} -f hash:1c5ffd2 -j`).then((x) => {
     /* eslint-disable max-len */
     const y = JSON.parse(x.stdout)
     y[1].authorDateRel = undefined
     t.deepEqual(y, [
-      { date: `17-05-2018`, type: `banner` },
+      { date: `30-04-2018`, type: `banner` },
       {
-        abbrevHash: `8b2efcf`,
+        abbrevHash: `1c5ffd2`,
         analysis: {
-          config: false,
-          dependencies: false,
+          config: true,
+          dependencies: true,
           gitpartyrc: false,
           js: true,
           lint: true,
-          tests: true
+          tests: false
         },
         author: `brekk`,
-        authorDate: `2018-05-17 22:10:30 -0700`,
+        authorDate: `2018-04-30 21:13:22 -0700`,
+        authorDateRel: undefined,
         authorName: `brekk`,
         changes: {
-          M: [
+          A: [
+            `.babelrc`,
             `.eslintrc`,
+            `.gitignore`,
+            `.madgerc`,
+            `.npmignore`,
+            `circle.yml`,
+            `gitparty.js`,
+            `package-scripts.js`,
+            `package.json`,
+            `rollup/config.commonjs.js`,
+            `rollup/config.es6.js`,
+            `rollup/config.shared.js`,
             `src/alias.js`,
             `src/constants.js`,
-            `src/constants.spec.js`,
             `src/filters.js`,
-            `src/filters.spec.js`,
             `src/gitparty.js`,
-            `src/gitparty.spec.js`,
             `src/grouping.js`,
-            `src/grouping.spec.js`,
-            `src/index.js`,
             `src/legend.js`,
             `src/per-commit.js`,
-            `src/per-commit.spec.js`,
-            `src/print.spec.js`,
+            `src/print.js`,
             `src/utils.js`,
-            `src/utils.spec.js`
+            `yarn.lock`
           ]
         },
-        date: `17-05-2018`,
+        date: `30-04-2018`,
         files: [
+          `.babelrc`,
           `.eslintrc`,
+          `.gitignore`,
+          `.madgerc`,
+          `.npmignore`,
+          `circle.yml`,
+          `gitparty.js`,
+          `package-scripts.js`,
+          `package.json`,
+          `rollup/config.commonjs.js`,
+          `rollup/config.es6.js`,
+          `rollup/config.shared.js`,
           `src/alias.js`,
           `src/constants.js`,
-          `src/constants.spec.js`,
           `src/filters.js`,
-          `src/filters.spec.js`,
           `src/gitparty.js`,
-          `src/gitparty.spec.js`,
           `src/grouping.js`,
-          `src/grouping.spec.js`,
-          `src/index.js`,
           `src/legend.js`,
           `src/per-commit.js`,
-          `src/per-commit.spec.js`,
-          `src/print.spec.js`,
+          `src/print.js`,
           `src/utils.js`,
-          `src/utils.spec.js`
+          `yarn.lock`
         ],
-        hash: `8b2efcf`,
-        ms: 1526620230000,
+        hash: `1c5ffd2`,
+        ms: 1525148002000,
         status: [
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`,
-          `M`
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`,
+          `A`
         ],
-        subject: `jsdoc`,
+        subject: `initial commit`,
         type: `commit`
       }
     ])
