@@ -9,7 +9,9 @@ import {
   lens,
   sortByKeyWithWrapper,
   j2,
-  binaryCallback
+  binaryCallback,
+  isNonEmptyString,
+  preferredProp
 } from "./utils"
 
 /* eslint-disable require-jsdoc */
@@ -109,3 +111,22 @@ test.cb(`unaryCallbackToFuture, failure`, (t) => {
   }, I)
 })
 /* eslint-enable require-jsdoc */
+test(`isNonEmptyString`, (t) => {
+  t.is(isNonEmptyString(``), false)
+  t.is(isNonEmptyString(100), false)
+  t.is(isNonEmptyString(`one hundred`), true)
+})
+
+test(`preferredProp`, (t) => {
+  const rando = random.floorMin(1, 100)
+  const inputA = { one: rando, a: 1, b: 2, c: 3 }
+  const inputB = { one: rando * 100, x: 100, y: 200, z: 300 }
+  const x = preferredProp(inputA, inputB, false, `x`)
+  t.is(x, 100)
+  const butts = preferredProp(inputA, inputB, false, `butts`)
+  t.falsy(butts)
+  const one = preferredProp(inputA, inputB, false, `one`)
+  t.is(one, rando)
+  const two = preferredProp(inputB, inputA, false, `one`)
+  t.is(two, rando * 100)
+})

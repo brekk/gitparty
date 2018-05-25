@@ -32,7 +32,7 @@ export const getAliasFrom = curry((struct, key) => struct[key] || key)
 @returns {Object} an object with canonize and getCanon on it
 */
 export const canonicalize = (struct) => ({
-  canonize: (a, b = a) => alias(struct, a, b),
+  canonize: alias(struct),
   getCanon: getAliasFrom(struct)
 })
 

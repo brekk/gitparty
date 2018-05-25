@@ -2,8 +2,6 @@ import fs from "fs"
 import gitlog from "gitlog"
 import read from "read-data"
 import {
-  every,
-  split,
   isString,
   entries,
   filter,
@@ -21,7 +19,7 @@ import {
 import chalk from "chalk"
 import { encase } from "fluture"
 // import { trace } from "xtrace"
-import { canonize, getCanon } from "./alias"
+import { canonize } from "./alias"
 import { colorize } from "./print"
 import {
   stripDoubleBackslash,
@@ -32,9 +30,10 @@ import {
   log,
   warn,
   preferredProp,
-  unaryCallbackToFuture
+  unaryCallbackToFuture,
+  isNonEmptyString
 } from "./utils"
-import { isAMergeCommit } from "./filters"
+import { isAMergeCommit, filterByStringPattern } from "./filters"
 import { printLegend } from "./legend"
 import { collapseSuccessiveSameAuthor, insertBanners } from "./grouping"
 import {
@@ -60,32 +59,6 @@ const perCommit = curry((lookup, x) =>
     addAnalysisPerCommit(lookup)
   )(x)
 )
-/**
-@method filterByStringPattern
-@param {string} f - colon and hash character delimited string (e.g. 'a:1#b:2')
-@param {Array} commits - an array of commits
-@return {Array} a potentially filtered array of commits
-*/
-const filterByStringPattern = curry((f, commits) => {
-  /**
-  @method matcher
-  @private
-  @param {Object} commit - a commit object
-  @return {boolean} whether there's a match
-  */
-  const matcher = (commit) =>
-    pipe(
-      split(`#`),
-      map(split(`:`)),
-      every(([k, v]) => {
-        if (k === `author` || k === `authorName`) {
-          return commit && commit[k] && getCanon(commit[k]) === getCanon(v)
-        }
-        return commit && commit[k] && commit[k] === v
-      })
-    )(f)
-  return filter(matcher, commits)
-})
 
 /**
 @method partyData
@@ -99,7 +72,7 @@ export const partyData = curry((config, lookup, data) => {
   const filterMergeCommits = grab(`filterMergeCommits`)
   const collapseAuthors = grab(`collapseAuthors`)
   const f = grab(`filter`)
-  const hasStringFilter = f && isString(f) && f.length > 0
+  const hasStringFilter = isNonEmptyString(f)
   return pipe(
     sortByDate,
     filterMergeCommits ? reject(isAMergeCommit) : I,

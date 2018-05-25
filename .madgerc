@@ -19,9 +19,7 @@
       "weight": 20
     },
     "N": {
-      "regular": false,
-      "shape": "polygon",
-      "sides": 4,
+      "regular": true,
       "penwidth": 4
     }
   }

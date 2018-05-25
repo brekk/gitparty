@@ -1,4 +1,4 @@
-import { I, merge, curry, padEnd, prop } from "f-utility"
+import { I, merge, curry, padEnd, prop, isString } from "f-utility"
 // import { trace } from "xtrace"
 import Future from "fluture"
 
@@ -103,3 +103,5 @@ export const preferredProp = curry((a, b, def, key) => {
 })
 // eslint-disable-next-line require-jsdoc
 export const stripDoubleBackslash = (w) => w.replace(/^\\/g, ``)
+
+export const isNonEmptyString = (x) => isString(x) && x.length > 0

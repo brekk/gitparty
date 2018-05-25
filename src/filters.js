@@ -1,6 +1,7 @@
-import { curry, pipe, entries, reduce, pathOr } from "f-utility"
+import { curry, pipe, entries, reduce, pathOr, filter, every, split, map } from "f-utility"
 import mm from "micromatch"
 import { neue } from "./utils"
+import { getCanon } from "./alias"
 
 /**
 @method matchesWildcards
@@ -26,3 +27,30 @@ const MERGE_WORD = `Merge `
 @returns {boolean} whether the given object's subject starts with 'Merge '
 */
 export const isAMergeCommit = (x) => pathOr(``, [`subject`], x).substr(0, 6) === MERGE_WORD
+
+/**
+@method filterByStringPattern
+@param {string} f - colon and hash character delimited string (e.g. 'a:1#b:2')
+@param {Array} commits - an array of commits
+@return {Array} a potentially filtered array of commits
+*/
+export const filterByStringPattern = curry((f, commits) => {
+  /**
+  @method matcher
+  @private
+  @param {Object} commit - a commit object
+  @return {boolean} whether there's a match
+  */
+  const matcher = (commit) =>
+    pipe(
+      split(`#`),
+      map(split(`:`)),
+      every(([k, v]) => {
+        if (k === `author` || k === `authorName`) {
+          return commit && commit[k] && getCanon(commit[k]) === getCanon(v)
+        }
+        return commit && commit[k] && commit[k] === v
+      })
+    )(f)
+  return filter(matcher, commits)
+})
