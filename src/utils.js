@@ -1,4 +1,4 @@
-import { I, merge, curry, padEnd, prop } from "f-utility"
+import {I, merge, curry, padEnd, prop, ap, map, filter, pipe, entries} from "f-utility"
 // import { trace } from "xtrace"
 import Future from "fluture"
 
@@ -26,8 +26,10 @@ export const neue = (x) => (x && Array.isArray(x) ? [].concat(x) : merge({}, x))
 @param {number} limit - the max length of the string, + 3
 @return {string} a summarized string, within the goal limits + 3
 */
-export const summarize = curry((limit, str) =>
-  padEnd(limit + 3, ` `, str.substr(0, limit) + `${str.length > limit ? `...` : ``}`)
+export const summarize = curry(
+  (str, limit) => padEnd(
+    limit + 3, ` `, str.substr(0, limit) + `${str.length > limit ? `...` : ``}`
+  )
 )
 
 /**
@@ -59,6 +61,11 @@ export const j2 = (x) => JSON.stringify(x, null, 2)
 export const lens = curry((fn, property, target) => {
   const copy = neue(target)
   return copy && property ? merge(copy, { [property]: fn(copy, copy[property]) }) : copy
+})
+
+export const focusedLens = curry((fn, property, target) => {
+  const copy = neue(target)
+  return copy && property ? merge(copy, { [property]: fn(copy[property]) }) : copy
 })
 
 /**
@@ -103,3 +110,17 @@ export const preferredProp = curry((a, b, def, key) => {
 })
 // eslint-disable-next-line require-jsdoc
 export const stripDoubleBackslash = (w) => w.replace(/^\\/g, ``)
+
+export const processKeysByLookup = curry(
+  (fnLookup, o) => pipe(
+    entries,
+    map(
+      ([k, v]) => ([k1, v1]) => k1 === k ? [k, v(v1)] : null
+    ),
+    (table) => pipe(
+      entries,
+      ap(table),
+      filter(I)
+    )(o)
+  )(fnLookup)
+)

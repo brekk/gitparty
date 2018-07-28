@@ -61,6 +61,7 @@ test(`configureAndPrintCommit with long authorLength`, (t) => {
       grouped[grouped.length - 1]
     )
   )
+  banner
   t.is(
     banner,
     // eslint-disable-next-line

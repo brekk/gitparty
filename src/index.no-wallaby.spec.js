@@ -6,10 +6,10 @@ import { split, pipe } from "f-utility"
 // import { j2 } from './utils'
 
 const cleanify = pipe(stripColor, (x) => split(`80ca7f7`, x)[1], split(`\n`))
+const CLI = path.resolve(__dirname, `../lib/index.js`)
 
 test.cb(`gitparty`, (t) => {
   t.plan(1)
-  const CLI = path.resolve(__dirname, `../lib/index.js`)
   execa.shell(`node ${CLI} -l 7 --no-collapse`).then((x) => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
@@ -59,7 +59,6 @@ test.cb(`gitparty`, (t) => {
 
 test.cb(`gitparty --authorLength 15`, (t) => {
   t.plan(1)
-  const CLI = path.resolve(__dirname, `../lib/index.js`)
   execa.shell(`node ${CLI} --authorLength 15`).then((x) => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
@@ -109,7 +108,6 @@ test.cb(`gitparty --authorLength 15`, (t) => {
 
 test.cb(`gitparty --collapse`, (t) => {
   t.plan(1)
-  const CLI = path.resolve(__dirname, `../lib/index.js`)
   execa.shell(`node ${CLI} -a`).then((x) => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
@@ -136,7 +134,6 @@ test.cb(`gitparty --collapse`, (t) => {
 
 test.cb(`gitparty -f hash:1c5ffd2 -j`, (t) => {
   t.plan(1)
-  const CLI = path.resolve(__dirname, `../lib/index.js`)
   execa.shell(`node ${CLI} -f hash:1c5ffd2 -j`).then((x) => {
     /* eslint-disable max-len */
     const y = JSON.parse(x.stdout)

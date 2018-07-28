@@ -1,4 +1,4 @@
-import { I, merge, random } from "f-utility"
+import {I,merge, random} from "f-utility"
 import test from "jest-t-assert"
 import {
   unaryCallbackToFuture,
@@ -9,7 +9,9 @@ import {
   lens,
   sortByKeyWithWrapper,
   j2,
-  binaryCallback
+  binaryCallback,
+  preferredProp,
+  processKeysByLookup
 } from "./utils"
 
 /* eslint-disable require-jsdoc */
@@ -51,11 +53,12 @@ test(`neue`, (t) => {
 
 test(`summarize`, (t) => {
   const input = `!@#$%^&*()_1234567890`
-  const output = summarize(4, input)
+  const sum = summarize(input)
+  const output = sum(4)
   t.is(output, `!@#$...`)
-  const output2 = summarize(10, input)
+  const output2 = sum(10)
   t.is(output2, `!@#$%^&*()...`)
-  const output3 = summarize(4, `x`)
+  const output3 = summarize(`x`, 4)
   t.is(output3, `x      `)
 })
 test(`aliasProperty`, (t) => {
@@ -107,5 +110,51 @@ test.cb(`unaryCallbackToFuture, failure`, (t) => {
     t.is(x, constant * 2)
     t.end()
   }, I)
+})
+test(`preferredProp`, (t) => {
+  const sourceA = {
+    a: 1,
+    b: 3,
+    c: 5,
+    d: 7,
+    e: 9,
+    name: `sourceA`,
+    j: 10,
+    k: 11,
+    l: 12
+  }
+  const sourceB = {
+    a: 2,
+    b: 4,
+    c: 6,
+    d: 8,
+    e: 10,
+    name: `sourceB`,
+    x: 2,
+    y: 4,
+    z: 6
+  }
+  const def = `butts`
+  const preffy = preferredProp(sourceA, sourceB, def)
+  const output = preffy(`a`)
+  t.is(output, 1)
+  const output2 = preffy(`x`)
+  t.is(output2, 2)
+  const output3 = preffy(`butts`)
+  t.is(output3, def)
+})
+
+test(`processKeysByLookup`, (t) => {
+  const lookupTable = {
+    a: (a) => a * 2,
+    b: (b) => b / 2,
+    c: () => 100
+  }
+  const result = processKeysByLookup(lookupTable, {a: 50, b: 200, c: 1000})
+  t.deepEqual(result, [
+    [`a`, 100],
+    [`b`, 100],
+    [`c`, 100]
+  ])
 })
 /* eslint-enable require-jsdoc */

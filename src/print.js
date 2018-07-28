@@ -3,9 +3,10 @@ import { pipe, keys, map, join, curry } from "f-utility"
 import { padCharsStart, padCharsEnd } from "lodash/fp"
 import { SUBJECT_LENGTH, AUTHOR_LENGTH, BANNER_LENGTH, BANNER_INDENT } from "./constants"
 import { filetypes } from "./per-commit"
-import { summarize, preferredProp } from "./utils"
+import { summarize, preferredProp, focusedLens } from "./utils"
 import { getCanon } from "./alias"
 
+const BLANK = ` `
 export const drawToken = curry((lookup, analysis, name) => {
   // cold medina
   const { fn, key } = lookup[name]
@@ -20,22 +21,36 @@ export const configureAndPrintBanner = curry((lookup, config, { date }) => {
   const grab = preferredProp(config, lookup)
   const bannerIndent = grab(BANNER_INDENT, `bannerIndent`)
   const bannerLength = grab(BANNER_LENGTH, `bannerLength`)
-  return chalk.inverse(padCharsEnd(` `, bannerLength, padCharsStart(` `, bannerIndent, date)))
+  return chalk.inverse(padCharsEnd(BLANK, bannerLength, padCharsStart(BLANK, bannerIndent, date)))
 })
 
-export const configureAndPrintCommit = curry(
-  (lookup, config, { hash, changes, subject, author, analysis }) => {
-    const grab = preferredProp(lookup, config)
-    const authorLength = grab(AUTHOR_LENGTH, `authorLength`)
-    const subjectLength = grab(SUBJECT_LENGTH, `subjectLength`)
-    const _hash = chalk.yellow(hash)
-    const _summary = summarize(subjectLength, subject)
-    const _author = pipe(chalk.red, getCanon, padCharsEnd(` `, authorLength))(author)
-    const _tokens = drawTokens(lookup, analysis)
-    const _types = pipe(filetypes, join(` `))(changes)
-    return `${_tokens} = ${_hash} - ${_summary} $ ${_author} | ${_types}`
-  }
+export const printAuthor = curry(
+  (author, length) => pipe(chalk.red, getCanon, padCharsEnd(BLANK, length))(author)
 )
+const printTypes = pipe(filetypes, join(BLANK))
+
+const prepend = curry((str, str2) => [str, str2].join(BLANK))
+
+export const configureAndPrintCommit = curry((lookup, config, o) => {
+  const grab = preferredProp(config, lookup)
+  return pipe(
+    focusedLens(drawTokens(lookup), `analysis`),
+    focusedLens(pipe(chalk.yellow, prepend(`=`)), `hash`),
+    focusedLens((author) => pipe(
+      grab(AUTHOR_LENGTH),
+      printAuthor(author),
+      prepend(`$`)
+    )(`authorLength`), `author`),
+    focusedLens((subject) => pipe(
+      grab(SUBJECT_LENGTH),
+      summarize(subject),
+      prepend(`-`)
+    )(`subjectLength`), `subject`),
+    focusedLens(pipe(printTypes, prepend(`|`)), `changes`),
+    ({ analysis, hash, subject, author, changes }) =>
+      [analysis, hash, subject, author, changes].join(BLANK)
+  )(o)
+})
 
 export const colorize = curry((config, lookup, raw) =>
   (raw.type === `banner` ? configureAndPrintBanner : configureAndPrintCommit)(lookup, config, raw)
