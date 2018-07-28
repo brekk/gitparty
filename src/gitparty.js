@@ -15,12 +15,14 @@ import {
   merge,
   curry,
   chain,
+  reduce,
   fork,
   isObject
 } from "f-utility"
 import chalk from "chalk"
 import { encase } from "fluture"
 // import { trace } from "xtrace"
+import mm from 'micromatch'
 import { canonize, getCanon } from "./alias"
 import { colorize } from "./print"
 import {
@@ -60,6 +62,8 @@ const perCommit = curry((lookup, x) =>
     addAnalysisPerCommit(lookup)
   )(x)
 )
+
+
 /**
 @method filterByStringPattern
 @param {string} f - colon and hash character delimited string (e.g. 'a:1#b:2')
@@ -78,10 +82,28 @@ const filterByStringPattern = curry((f, commits) => {
       split(`#`),
       map(split(`:`)),
       every(([k, v]) => {
-        if (k === `author` || k === `authorName`) {
-          return commit && commit[k] && getCanon(commit[k]) === getCanon(v)
+        if (commit && commit[k]) {
+          if (k === `author` || k === `authorName`) {
+            return getCanon(commit[k]) === getCanon(v)
+          }
+          if (v.indexOf(`*`) > -1) {
+            if (k === `changes`) {
+              return mm.some(
+                reduce(
+                  (x, y) => x.concat(y),
+                  [],
+                  Object.values(commit[k])
+                )
+                , v
+              )
+            }
+            return mm.some(commit[k], v)
+          }
+          if (/~$/.test(v)) {
+            return commit[k].indexOf(v.replace(/~/, ``)) > -1
+          }
+          return commit[k] === v
         }
-        return commit && commit[k] && commit[k] === v
       })
     )(f)
   return filter(matcher, commits)
