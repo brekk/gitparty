@@ -150,6 +150,8 @@ export const processGitCommits = curry((config, lookup) =>
   )(config)
 )
 
+// || v.filter)
+// filter: v.filter ? v.filter : null
 export const remapConfigData = map(
   v =>
     isObject(v) && v.matches

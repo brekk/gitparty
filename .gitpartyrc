@@ -34,4 +34,11 @@ dependencies:
   matches:
   - \**/package.json
   - \**/yarn.lock
+hope:
+  key: H
+  color: bgBrightRed
+  filter:
+  - subject:should~
+  - subject:fix~
+  - subject:work~
 collapseAuthors: false

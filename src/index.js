@@ -33,18 +33,25 @@ if (config.h) {
 --${y(`filterMergeCommits`)} / -${y(`m`)}
   merge commits beginning with the string 'Merge '
 --${y(`filter`)} / -${y(`f`)}
-  filter commits based on a simple syntax
+  filter commits based on a simple 'key:value' / 'key:value#key2:value2' base syntax:
     * -f "hash:80ca7f7" / -f "date:20-05-2018"
       lookup by exact string matching (default)
     * -f "subject:fix~"
-      lookup by looser indexOf matching
+      lookup by looser indexOf matching when there is a tilde "~" character at the end of the value
+      
     * -f "subject:fix~#date:20-05-2018"
-      lookup with multiple facets
+      lookup with multiple facets, separated by a hash "#" symbol
     * -f "author:brekk"
-      when filtering by author, aliases are used
+      when filtering by author, the alias lookup (if aliases have been defined) is used
     * -f "files:**/src/*.spec.js"
       when there are asterisks present in the value side (after the ":")
       and the key is an array, glob-style matching is performed
+    * -f "analysis.config:true"
+      when there is a period "." in the key, nested-key lookups will be performed
+    * -f "x:true" / -f "x:false"
+      when the value is either the literal string "true" or "false", it will be coerced
+      into a boolean
+      
 
 ## formatting
 

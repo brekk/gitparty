@@ -3,7 +3,8 @@ import {
   matchesWildcards,
   anyFilesMatchFromObject,
   isAMergeCommit,
-  filterByStringPattern
+  filterByStringPattern,
+  stringMatcher
 } from "./filters"
 import FIXTURE from "./data.fixture.json"
 
@@ -187,4 +188,12 @@ test(`filterByStringPattern - files with multiple cross-sections`, t => {
   t.not(hashes.length, FIXTURE.length)
   t.is(hashes.length, 2)
   t.deepEqual(hashes, [`9bd10f4`, `5e131fb`])
+})
+
+test(`stringMatcher`, t => {
+  const first = FIXTURE.filter(({ type }) => type === `commit`)[0]
+  const result = stringMatcher(first, [`analysis.js`, `true`])
+  t.truthy(result)
+  const result2 = stringMatcher(first, [`analysis.dependencies`, `false`])
+  t.falsy(result2)
 })

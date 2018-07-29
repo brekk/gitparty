@@ -1,6 +1,5 @@
 import {
   isArray,
-  isString,
   curry,
   pipe,
   entries,
@@ -9,7 +8,8 @@ import {
   split,
   map,
   filter,
-  every
+  every,
+  path
 } from "f-utility"
 import mm from "micromatch"
 import { neue, indexAny } from "./utils"
@@ -46,6 +46,28 @@ const MERGE_WORD = `Merge `
 export const isAMergeCommit = x =>
   pathOr(``, [`subject`], x).substr(0, 6) === MERGE_WORD
 
+export const stringMatcher = curry((commit, [k, v]) => {
+  if (v === `true` || v === `false`) {
+    v = !!v // eslint-disable-line fp/no-mutation
+  }
+  const dotted = indexAny(`.`, k)
+  if (dotted || (commit && commit[k])) {
+    const value = dotted ? path(k.split(`.`), commit) : commit[k]
+    // authors are magical
+    if (k === `author` || k === `authorName`) {
+      return getCanon(value) === getCanon(v)
+    }
+    // asterisks turn on minimatch mode for arrays
+    if (isArray(value) && indexAny(`*`, v)) {
+      return mm.some(value, v)
+    }
+    // a ~ suffix will do looser matching
+    if (/~$/.test(v)) {
+      return indexAny(v.replace(/~/, ``), value.toLowerCase())
+    }
+    return value === v
+  }
+})
 /**
  @method filterByStringPattern
  @param {string} f - colon and hash character delimited string (e.g. 'a:1#b:2')
@@ -63,24 +85,7 @@ export const filterByStringPattern = curry((filterPattern, commits) => {
     pipe(
       split(`#`),
       map(split(`:`)),
-      every(([k, v]) => {
-        if (commit && commit[k]) {
-          const value = commit[k]
-          // authors are magical
-          if (k === `author` || k === `authorName`) {
-            return getCanon(value) === getCanon(v)
-          }
-          // asterisks turn on minimatch mode for arrays
-          if (isArray(value) && indexAny(`*`, v)) {
-            return mm.some(value, v)
-          }
-          // a ~ suffix will do looser matching
-          if (/~$/.test(v)) {
-            return indexAny(v.replace(/~/, ``), value.toLowerCase())
-          }
-          return value === v
-        }
-      })
+      every(stringMatcher(commit))
     )(filterPattern)
   return filter(matcher, commits)
 })

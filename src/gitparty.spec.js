@@ -20,7 +20,7 @@ const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 test(`remapConfigData`, t => {
   const remapped = remapConfigData({
     k: true,
-    x: { color: `red`, matches: [] }
+    x: { color: `red`, matches: [`\\**/x.js`] }
   })
   t.deepEqual(Object.keys(remapped), [`k`, `x`])
   t.truthy(remapped.k)
