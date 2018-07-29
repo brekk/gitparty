@@ -1,6 +1,6 @@
 import test from "jest-t-assert"
 import { groupBy } from "lodash/fp"
-import { filter, reject, pipe, map } from "f-utility"
+import { filter, reject, pipe, map, merge } from "f-utility"
 import {
   addAnalysisPerCommit,
   addTimestampPerCommit,
@@ -61,6 +61,18 @@ test(`collapseSuccessiveSameAuthor`, t => {
   t.is(output.length, 1)
   t.is(output[0].hashes.length, HASHES.length)
   t.deepEqual(output[0].hashes, HASHES)
+})
+
+test(`collapseSuccessiveSameAuthor with non-matching authors`, t => {
+  const converted = harness.map(
+    x => (x.abbrevHash === `fb50fbb` ? merge(x, { authorName: `grubbly` }) : x)
+  )
+  const HASHES = [`fb50fbb`, `fa928f4`, `f9e5c4f`, `925a86e`, `c2e257b`]
+  const input = converted.filter(x => HASHES.includes(x.abbrevHash))
+  const output = pipe(collapseSuccessiveSameAuthor(EXAMPLE_LEGEND))(input)
+  t.is(output.length, 2)
+  t.is(output[1].hashes.length, HASHES.length - 1)
+  t.deepEqual(output[1].hashes, HASHES.slice(1))
 })
 
 test(`createBannersFromGroups`, t => {

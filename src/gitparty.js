@@ -142,20 +142,32 @@ export const partyPrint = curry((config, lookup, input) =>
 const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 
 /**
-@method sideEffectCanonize
-@param {Object} x - alias structure
-@return {null} nothing
+@method sideEffect
+@param {Function} effect - function to call
+@param {Object} y - alias structure
+@return {any} anything
 */
-const sideEffectCanonize = pipe(
-  entries,
-  map(
-    ([k, v]) => (Array.isArray(v) ? v.map(x => canonize(k, x)) : canonize(k, v))
-  )
+export const sideEffect = curry((effect, y) =>
+  pipe(
+    entries,
+    map(
+      ([k, v]) => (Array.isArray(v) ? v.map(x => effect(k, x)) : effect(k, v))
+    )
+  )(y)
 )
+
+/**
+ @method sideEffectCanonize
+ @param {Object} x - alias structure
+ @return {null} nothing
+ */
+/* istanbul ignore next */
+export const sideEffectCanonize = sideEffect(canonize)
 
 export const generateReport = curry((config, lookup, data) => {
   const { aliases = {} } = lookup
   // TODO: replace this with something that is a more explicitly managed side-effect
+  /* istanbul ignore next */
   sideEffectCanonize(aliases)
   const filteredLookup = filter(z => z && z.matches, lookup)
   return pipe(
@@ -176,31 +188,49 @@ export const processGitCommits = curry((config, lookup) =>
   )(config)
 )
 
-export const remapConfigData = pipe(
-  map(
-    v =>
-      isObject(v) && v.matches
-        ? merge(v, {
-            fn: chalk[v.color],
-            matches: v.matches.map(stripDoubleBackslash)
-          })
-        : v
-  )
+export const remapConfigData = map(
+  v =>
+    isObject(v) && v.matches
+      ? merge(v, {
+          fn: chalk[v.color],
+          matches: v.matches.map(stripDoubleBackslash)
+        })
+      : v
 )
-export const writeFile = binaryCallback(fs.writeFile.bind(fs), e =>
-  log(e || `Wrote to file`)
+/* istanbul ignore next */
+export const writeFile = binaryCallback(
+  /* istanbul ignore next */
+  fs.writeFile.bind(fs),
+  /* istanbul ignore next */
+  e => log(e || `Wrote to file`)
 )
 export const reader = unaryCallbackToFuture(read.yaml)
 
-export const processAndPrintWithConfig = curry((config, input) =>
-  pipe(
-    reader,
-    chain(
-      pipe(
-        remapConfigData,
-        processGitCommits(merge(DEFAULT_CONFIG, config))
-      )
-    ),
-    fork(warn, config.o ? writeFile(config.o) : log)
-  )(input)
+export const processData = curry((config, F) =>
+  chain(
+    pipe(
+      remapConfigData,
+      processGitCommits(merge(DEFAULT_CONFIG, config))
+    )
+  )(F)
+)
+
+/* istanbul ignore next */
+export const warnWriteOrLog = curry(
+  /* istanbul ignore next */
+  ({ o }, F) =>
+    /* istanbul ignore next */
+    fork(warn, o ? writeFile(o) : log)(F)
+)
+
+/* istanbul ignore next */
+export const processAndPrintWithConfig = curry(
+  /* istanbul ignore next */
+  (config, input) =>
+    /* istanbul ignore next */
+    pipe(
+      reader,
+      processData(config),
+      warnWriteOrLog(config)
+    )(input)
 )
