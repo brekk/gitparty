@@ -8,13 +8,15 @@ import { curry, merge } from "f-utility"
 @returns null
 */
 export const alias = curry((object, original, alt) => {
+  /* istanbul ignore next */
   if (!object[alt]) {
-    // eslint-disable-next-line fp/no-mutation
-    object[alt] = original
+    /* istanbul ignore next */
+    object[alt] = original // eslint-disable-line fp/no-mutation
   }
+  /* istanbul ignore next */
   if (!object[original]) {
-    // eslint-disable-next-line fp/no-mutation
-    object[original] = object[alt]
+    /* istanbul ignore next */
+    object[original] = object[alt] // eslint-disable-line fp/no-mutation
   }
 })
 

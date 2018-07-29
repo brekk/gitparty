@@ -2,8 +2,6 @@ import fs from "fs"
 import gitlog from "gitlog"
 import read from "read-data"
 import {
-  every,
-  split,
   isString,
   entries,
   filter,
@@ -20,10 +18,8 @@ import {
 } from "f-utility"
 import chalk from "chalk"
 import { encase } from "fluture"
-// import { trace } from "xtrace"
-import mm from "micromatch"
 import { filterByStringPattern } from "./filters"
-import { canonize, getCanon } from "./alias"
+import { canonize } from "./alias"
 import { colorize } from "./print"
 import {
   stripDoubleBackslash,

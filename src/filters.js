@@ -1,6 +1,5 @@
 import {
   isArray,
-  isString,
   curry,
   pipe,
   entries,
