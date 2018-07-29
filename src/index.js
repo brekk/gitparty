@@ -32,6 +32,19 @@ if (config.h) {
   merge commits if the authors are the same and the commit dates are the same
 --${y(`filterMergeCommits`)} / -${y(`m`)}
   merge commits beginning with the string 'Merge '
+--${y(`filter`)} / -${y(`f`)}
+  filter commits based on a simple syntax
+    * -f "hash:80ca7f7" / -f "date:20-05-2018"
+      lookup by exact string matching (default)
+    * -f "subject:fix~"
+      lookup by looser indexOf matching
+    * -f "subject:fix~#date:20-05-2018"
+      lookup with multiple facets
+    * -f "author:brekk"
+      when filtering by author, aliases are used
+    * -f "files:**/src/*.spec.js"
+      when there are asterisks present in the value side (after the ":")
+      and the key is an array, glob-style matching is performed
 
 ## formatting
 

@@ -1,5 +1,6 @@
 import {
   isArray,
+  isString,
   curry,
   pipe,
   entries,
@@ -75,7 +76,7 @@ export const filterByStringPattern = curry((filterPattern, commits) => {
           }
           // a ~ suffix will do looser matching
           if (/~$/.test(v)) {
-            return indexAny(v.replace(/~/, ``), value)
+            return indexAny(v.replace(/~/, ``), value.toLowerCase())
           }
           return value === v
         }

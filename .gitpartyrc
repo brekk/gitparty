@@ -1,8 +1,8 @@
-js:
-  key: J
+gitparty:
+  key: G
   color: bgBlueBright
   matches:
-  - src/*.js
+  - \**/gitparty.js
 lint:
   key: L
   color: bgMagenta
@@ -13,11 +13,13 @@ tests:
   color: bgRed
   matches:
   - \**/*.spec.js
-gitpartyrc:
-  key: G
+invisibles:
+  key: R
   color: bgRedBright
   matches:
   - \**/.gitpartyrc
+  - \**/.gitignore
+  - \**/.npmignore
 config:
   key: C
   color: bgCyan

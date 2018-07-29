@@ -19,42 +19,42 @@ test.cb(`gitparty`, t => {
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
       `                  10-05-2018                                                                                            `,
-      ` J     T           = 9bd10f4 - committing anything breaks the existing tests :joy... $ brekk   | js`,
-      ` J     T           = 5e131fb - passing tests again                                   $ brekk   | js`,
-      ` J     T  G  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk   | gitpartyrc js json lock`,
+      `       T           = 9bd10f4 - committing anything breaks the existing tests :joy... $ brekk   | js`,
+      `       T           = 5e131fb - passing tests again                                   $ brekk   | js`,
+      ` G     T  R  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk   | gitpartyrc js json lock`,
       `                  09-05-2018                                                                                            `,
-      ` J  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
+      ` G  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
       `                  08-05-2018                                                                                            `,
-      ` J                 = 9210f41 - refactor                                              $ brekk   | js`,
-      ` J                 = f64e517 - everything futurized but currently requires double... $ brekk   | js`,
-      ` J                 = aaa4e6c - more fluturization                                    $ brekk   | js`,
-      ` J                 = 40e3dbc - added fluture and clarifying intent                   $ brekk   | js`,
-      ` J           C  D  = c7f3eb7 - moving things around for the bin script               $ brekk   | js json`,
-      ` J     T     C  D  = 8886271 - this will likely break non-relative tests             $ brekk   | js json lock`,
+      ` G                 = 9210f41 - refactor                                              $ brekk   | js`,
+      ` G                 = f64e517 - everything futurized but currently requires double... $ brekk   | js`,
+      ` G                 = aaa4e6c - more fluturization                                    $ brekk   | js`,
+      ` G                 = 40e3dbc - added fluture and clarifying intent                   $ brekk   | js`,
+      ` G           C  D  = c7f3eb7 - moving things around for the bin script               $ brekk   | js json`,
+      ` G     T     C  D  = 8886271 - this will likely break non-relative tests             $ brekk   | js json lock`,
       `                  07-05-2018                                                                                            `,
-      ` J  L  T  G        = fb50fbb - tests                                                 $ brekk   | eslintrc gitpartyrc js json`,
-      ` J        G        = fa928f4 - gitpartyrc                                            $ brekk   | gitpartyrc js yml`,
-      ` J           C  D  = f9e5c4f - added yaml config                                     $ brekk   | js json lock yml`,
-      ` J                 = 925a86e - getting cleaner                                       $ brekk   | js`,
-      ` J           C  D  = c2e257b - working again                                         $ brekk   | js json lock yml`,
+      ` G  L  T  R        = fb50fbb - tests                                                 $ brekk   | eslintrc gitpartyrc js json`,
+      ` G        R        = fa928f4 - gitpartyrc                                            $ brekk   | gitpartyrc js yml`,
+      ` G           C  D  = f9e5c4f - added yaml config                                     $ brekk   | js json lock yml`,
+      ` G                 = 925a86e - getting cleaner                                       $ brekk   | js`,
+      ` G           C  D  = c2e257b - working again                                         $ brekk   | js json lock yml`,
       `                  02-05-2018                                                                                            `,
-      ` J           C  D  = b9d98d9 - process.cwd() over __dirname                          $ brekk   | js json`,
-      ` J                 = d9249be - pass lint                                             $ brekk   | js`,
-      ` J                 = c5f2766 - added some date grossness for now                     $ brekk   | js`,
-      ` J                 = e9569fb - pretty close to ready                                 $ brekk   | js`,
+      ` G           C  D  = b9d98d9 - process.cwd() over __dirname                          $ brekk   | js json`,
+      ` G                 = d9249be - pass lint                                             $ brekk   | js`,
+      `                   = c5f2766 - added some date grossness for now                     $ brekk   | js`,
+      ` G                 = e9569fb - pretty close to ready                                 $ brekk   | js`,
       `                  01-05-2018                                                                                            `,
-      ` J     T           = f3cc824 - utils covered                                         $ brekk   | js`,
-      ` J     T     C  D  = 08c0a46 - tests!                                                $ brekk   | js json lock`,
-      ` J  L              = 56b6a81 - cleanification                                        $ brekk   | eslintrc js`,
-      ` J                 = 8ea8fe8 - partial change                                        $ brekk   | js`,
-      ` J                 = bb2def9 - getting cleaner, legend can be extricated             $ brekk   | js`,
-      ` J                 = 21f377f - legend is almost fully extracted                      $ brekk   | js`,
-      ` J           C  D  = 852f7ac - add blob matching, start to clean up legend makery    $ brekk   | js json lock`,
-      ` J           C  D  = 322b8d0 - cleanups and more fp                                  $ brekk   | js json lock`,
+      `       T           = f3cc824 - utils covered                                         $ brekk   | js`,
+      ` G     T     C  D  = 08c0a46 - tests!                                                $ brekk   | js json lock`,
+      ` G  L              = 56b6a81 - cleanification                                        $ brekk   | eslintrc js`,
+      ` G                 = 8ea8fe8 - partial change                                        $ brekk   | js`,
+      ` G                 = bb2def9 - getting cleaner, legend can be extricated             $ brekk   | js`,
+      ` G                 = 21f377f - legend is almost fully extracted                      $ brekk   | js`,
+      ` G           C  D  = 852f7ac - add blob matching, start to clean up legend makery    $ brekk   | js json lock`,
+      ` G           C  D  = 322b8d0 - cleanups and more fp                                  $ brekk   | js json lock`,
       `                  30-04-2018                                                                                            `,
-      ` J                 = c182937 - commit it while it works, dammit                      $ brekk   | js`,
-      ` J           C  D  = 58b0786 - better                                                $ brekk   | js json lock`,
-      ` J  L        C  D  = 1c5ffd2 - initial commit                                        $ brekk   | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+      ` G                 = c182937 - commit it while it works, dammit                      $ brekk   | js`,
+      ` G           C  D  = 58b0786 - better                                                $ brekk   | js json lock`,
+      ` G  L     R  C  D  = 1c5ffd2 - initial commit                                        $ brekk   | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
     ])
     t.end()
   })
@@ -68,42 +68,42 @@ test.cb(`gitparty --authorLength 15`, t => {
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk           | js`,
       `                  10-05-2018                                                                                            `,
-      ` J     T           = 9bd10f4 - committing anything breaks the existing tests :joy... $ brekk           | js`,
-      ` J     T           = 5e131fb - passing tests again                                   $ brekk           | js`,
-      ` J     T  G  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk           | gitpartyrc js json lock`,
+      `       T           = 9bd10f4 - committing anything breaks the existing tests :joy... $ brekk           | js`,
+      `       T           = 5e131fb - passing tests again                                   $ brekk           | js`,
+      ` G     T  R  C  D  = 8a4f3a9 - nearing 100% coverage                                 $ brekk           | gitpartyrc js json lock`,
       `                  09-05-2018                                                                                            `,
-      ` J  L  T           = 4661430 - added a readme                                        $ brekk           | eslintrc js md png`,
+      ` G  L  T           = 4661430 - added a readme                                        $ brekk           | eslintrc js md png`,
       `                  08-05-2018                                                                                            `,
-      ` J                 = 9210f41 - refactor                                              $ brekk           | js`,
-      ` J                 = f64e517 - everything futurized but currently requires double... $ brekk           | js`,
-      ` J                 = aaa4e6c - more fluturization                                    $ brekk           | js`,
-      ` J                 = 40e3dbc - added fluture and clarifying intent                   $ brekk           | js`,
-      ` J           C  D  = c7f3eb7 - moving things around for the bin script               $ brekk           | js json`,
-      ` J     T     C  D  = 8886271 - this will likely break non-relative tests             $ brekk           | js json lock`,
+      ` G                 = 9210f41 - refactor                                              $ brekk           | js`,
+      ` G                 = f64e517 - everything futurized but currently requires double... $ brekk           | js`,
+      ` G                 = aaa4e6c - more fluturization                                    $ brekk           | js`,
+      ` G                 = 40e3dbc - added fluture and clarifying intent                   $ brekk           | js`,
+      ` G           C  D  = c7f3eb7 - moving things around for the bin script               $ brekk           | js json`,
+      ` G     T     C  D  = 8886271 - this will likely break non-relative tests             $ brekk           | js json lock`,
       `                  07-05-2018                                                                                            `,
-      ` J  L  T  G        = fb50fbb - tests                                                 $ brekk           | eslintrc gitpartyrc js json`,
-      ` J        G        = fa928f4 - gitpartyrc                                            $ brekk           | gitpartyrc js yml`,
-      ` J           C  D  = f9e5c4f - added yaml config                                     $ brekk           | js json lock yml`,
-      ` J                 = 925a86e - getting cleaner                                       $ brekk           | js`,
-      ` J           C  D  = c2e257b - working again                                         $ brekk           | js json lock yml`,
+      ` G  L  T  R        = fb50fbb - tests                                                 $ brekk           | eslintrc gitpartyrc js json`,
+      ` G        R        = fa928f4 - gitpartyrc                                            $ brekk           | gitpartyrc js yml`,
+      ` G           C  D  = f9e5c4f - added yaml config                                     $ brekk           | js json lock yml`,
+      ` G                 = 925a86e - getting cleaner                                       $ brekk           | js`,
+      ` G           C  D  = c2e257b - working again                                         $ brekk           | js json lock yml`,
       `                  02-05-2018                                                                                            `,
-      ` J           C  D  = b9d98d9 - process.cwd() over __dirname                          $ brekk           | js json`,
-      ` J                 = d9249be - pass lint                                             $ brekk           | js`,
-      ` J                 = c5f2766 - added some date grossness for now                     $ brekk           | js`,
-      ` J                 = e9569fb - pretty close to ready                                 $ brekk           | js`,
+      ` G           C  D  = b9d98d9 - process.cwd() over __dirname                          $ brekk           | js json`,
+      ` G                 = d9249be - pass lint                                             $ brekk           | js`,
+      `                   = c5f2766 - added some date grossness for now                     $ brekk           | js`,
+      ` G                 = e9569fb - pretty close to ready                                 $ brekk           | js`,
       `                  01-05-2018                                                                                            `,
-      ` J     T           = f3cc824 - utils covered                                         $ brekk           | js`,
-      ` J     T     C  D  = 08c0a46 - tests!                                                $ brekk           | js json lock`,
-      ` J  L              = 56b6a81 - cleanification                                        $ brekk           | eslintrc js`,
-      ` J                 = 8ea8fe8 - partial change                                        $ brekk           | js`,
-      ` J                 = bb2def9 - getting cleaner, legend can be extricated             $ brekk           | js`,
-      ` J                 = 21f377f - legend is almost fully extracted                      $ brekk           | js`,
-      ` J           C  D  = 852f7ac - add blob matching, start to clean up legend makery    $ brekk           | js json lock`,
-      ` J           C  D  = 322b8d0 - cleanups and more fp                                  $ brekk           | js json lock`,
+      `       T           = f3cc824 - utils covered                                         $ brekk           | js`,
+      ` G     T     C  D  = 08c0a46 - tests!                                                $ brekk           | js json lock`,
+      ` G  L              = 56b6a81 - cleanification                                        $ brekk           | eslintrc js`,
+      ` G                 = 8ea8fe8 - partial change                                        $ brekk           | js`,
+      ` G                 = bb2def9 - getting cleaner, legend can be extricated             $ brekk           | js`,
+      ` G                 = 21f377f - legend is almost fully extracted                      $ brekk           | js`,
+      ` G           C  D  = 852f7ac - add blob matching, start to clean up legend makery    $ brekk           | js json lock`,
+      ` G           C  D  = 322b8d0 - cleanups and more fp                                  $ brekk           | js json lock`,
       `                  30-04-2018                                                                                            `,
-      ` J                 = c182937 - commit it while it works, dammit                      $ brekk           | js`,
-      ` J           C  D  = 58b0786 - better                                                $ brekk           | js json lock`,
-      ` J  L        C  D  = 1c5ffd2 - initial commit                                        $ brekk           | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+      ` G                 = c182937 - commit it while it works, dammit                      $ brekk           | js`,
+      ` G           C  D  = 58b0786 - better                                                $ brekk           | js json lock`,
+      ` G  L     R  C  D  = 1c5ffd2 - initial commit                                        $ brekk           | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
     ])
     t.end()
   })
@@ -117,19 +117,19 @@ test.cb(`gitparty --collapse`, t => {
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
       `                  10-05-2018                                                                                            `,
-      ` J     T  G  C  D  = 8a4f3a9 - committing anything breaks the existing tests :joy... $ brekk   | gitpartyrc js json lock`,
+      ` G     T  R  C  D  = 8a4f3a9 - committing anything breaks the existing tests :joy... $ brekk   | gitpartyrc js json lock`,
       `                  09-05-2018                                                                                            `,
-      ` J  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
+      ` G  L  T           = 4661430 - added a readme                                        $ brekk   | eslintrc js md png`,
       `                  08-05-2018                                                                                            `,
-      ` J     T     C  D  = 8886271 - refactor + everything futurized but currently requ... $ brekk   | js json lock`,
+      ` G     T     C  D  = 8886271 - refactor + everything futurized but currently requ... $ brekk   | js json lock`,
       `                  07-05-2018                                                                                            `,
-      ` J  L  T  G  C  D  = c2e257b - tests + gitpartyrc + added yaml config + getting c... $ brekk   | eslintrc gitpartyrc js json lock yml`,
+      ` G  L  T  R  C  D  = c2e257b - tests + gitpartyrc + added yaml config + getting c... $ brekk   | eslintrc gitpartyrc js json lock yml`,
       `                  02-05-2018                                                                                            `,
-      ` J           C  D  = e9569fb - process.cwd() over __dirname + pass lint + added s... $ brekk   | js json`,
+      ` G           C  D  = e9569fb - process.cwd() over __dirname + pass lint + added s... $ brekk   | js json`,
       `                  01-05-2018                                                                                            `,
-      ` J  L  T     C  D  = 322b8d0 - utils covered + tests! + cleanification + partial ... $ brekk   | eslintrc js json lock`,
+      ` G  L  T     C  D  = 322b8d0 - utils covered + tests! + cleanification + partial ... $ brekk   | eslintrc js json lock`,
       `                  30-04-2018                                                                                            `,
-      ` J  L        C  D  = 1c5ffd2 - commit it while it works, dammit + better + initia... $ brekk   | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
+      ` G  L     R  C  D  = 1c5ffd2 - commit it while it works, dammit + better + initia... $ brekk   | babelrc eslintrc gitignore js json lock madgerc npmignore yml`
     ])
     t.end()
   })
@@ -150,8 +150,8 @@ test.cb(`gitparty -f hash:1c5ffd2 -j`, t => {
         analysis: {
           config: true,
           dependencies: true,
-          gitpartyrc: false,
-          js: true,
+          gitparty: true,
+          invisibles: true,
           lint: true,
           tests: false
         },
@@ -252,12 +252,33 @@ test.cb(`gitparty -j -f "files:**/package.json#date:01-05-2018"`, t => {
     .then(x => {
       const y = JSON.parse(x.stdout)
       t.deepEqual(y, [
+        { date: `01-05-2018`, type: `banner` },
         {
+          abbrevHash: `08c0a46`,
+          analysis: {
+            config: true,
+            dependencies: true,
+            gitparty: true,
+            invisibles: false,
+            lint: false,
+            tests: true
+          },
+          author: `brekk`,
+          authorDate: `2018-05-01 23:13:16 -0700`,
+          authorDateRel: `3 months ago`,
+          authorName: `brekk`,
+          changes: {
+            A: [`src/utils.spec.js`, `wallaby.js`, `webpack.config.js`],
+            D: [`src/alias.js`],
+            M: [
+              `package.json`,
+              `src/constants.js`,
+              `src/gitparty.js`,
+              `src/utils.js`,
+              `yarn.lock`
+            ]
+          },
           date: `01-05-2018`,
-          type: `banner`
-        },
-        {
-          status: [`M`, `D`, `M`, `M`, `M`, `A`, `A`, `A`, `M`],
           files: [
             `package.json`,
             `src/alias.js`,
@@ -269,56 +290,26 @@ test.cb(`gitparty -j -f "files:**/package.json#date:01-05-2018"`, t => {
             `webpack.config.js`,
             `yarn.lock`
           ],
-          abbrevHash: `08c0a46`,
-          subject: `tests!`,
-          authorName: `brekk`,
-          authorDate: `2018-05-01 23:13:16 -0700`,
-          authorDateRel: `3 months ago`,
-          ms: 1525241596000,
-          date: `01-05-2018`,
-          author: `brekk`,
           hash: `08c0a46`,
-          changes: {
-            M: [
-              `package.json`,
-              `src/constants.js`,
-              `src/gitparty.js`,
-              `src/utils.js`,
-              `yarn.lock`
-            ],
-            D: [`src/alias.js`],
-            A: [`src/utils.spec.js`, `wallaby.js`, `webpack.config.js`]
-          },
-          type: `commit`,
-          analysis: {
-            js: true,
-            lint: false,
-            tests: true,
-            gitpartyrc: false,
-            config: true,
-            dependencies: true
-          }
+          ms: 1525241596000,
+          status: [`M`, `D`, `M`, `M`, `M`, `A`, `A`, `A`, `M`],
+          subject: `tests!`,
+          type: `commit`
         },
         {
-          status: [`M`, `M`, `M`, `M`, `M`, `M`, `M`],
-          files: [
-            `package.json`,
-            `src/filters.js`,
-            `src/gitparty.js`,
-            `src/grouping.js`,
-            `src/print.js`,
-            `src/utils.js`,
-            `yarn.lock`
-          ],
           abbrevHash: `852f7ac`,
-          subject: `add blob matching, start to clean up legend makery`,
-          authorName: `brekk`,
+          analysis: {
+            config: true,
+            dependencies: true,
+            gitparty: true,
+            invisibles: false,
+            lint: false,
+            tests: false
+          },
+          author: `brekk`,
           authorDate: `2018-05-01 07:48:20 -0700`,
           authorDateRel: `3 months ago`,
-          ms: 1525186100000,
-          date: `01-05-2018`,
-          author: `brekk`,
-          hash: `852f7ac`,
+          authorName: `brekk`,
           changes: {
             M: [
               `package.json`,
@@ -330,40 +321,44 @@ test.cb(`gitparty -j -f "files:**/package.json#date:01-05-2018"`, t => {
               `yarn.lock`
             ]
           },
-          type: `commit`,
-          analysis: {
-            js: true,
-            lint: false,
-            tests: false,
-            gitpartyrc: false,
-            config: true,
-            dependencies: true
-          }
+          date: `01-05-2018`,
+          files: [
+            `package.json`,
+            `src/filters.js`,
+            `src/gitparty.js`,
+            `src/grouping.js`,
+            `src/print.js`,
+            `src/utils.js`,
+            `yarn.lock`
+          ],
+          hash: `852f7ac`,
+          ms: 1525186100000,
+          status: [`M`, `M`, `M`, `M`, `M`, `M`, `M`],
+          subject: `add blob matching, start to clean up legend makery`,
+          type: `commit`
         },
         {
-          status: [`M`, `M`, `M`],
-          files: [`package.json`, `src/gitparty.js`, `yarn.lock`],
           abbrevHash: `322b8d0`,
-          subject: `cleanups and more fp`,
-          authorName: `brekk`,
+          analysis: {
+            config: true,
+            dependencies: true,
+            gitparty: true,
+            invisibles: false,
+            lint: false,
+            tests: false
+          },
+          author: `brekk`,
           authorDate: `2018-05-01 07:05:16 -0700`,
           authorDateRel: `3 months ago`,
-          ms: 1525183516000,
+          authorName: `brekk`,
+          changes: { M: [`package.json`, `src/gitparty.js`, `yarn.lock`] },
           date: `01-05-2018`,
-          author: `brekk`,
+          files: [`package.json`, `src/gitparty.js`, `yarn.lock`],
           hash: `322b8d0`,
-          changes: {
-            M: [`package.json`, `src/gitparty.js`, `yarn.lock`]
-          },
-          type: `commit`,
-          analysis: {
-            js: true,
-            lint: false,
-            tests: false,
-            gitpartyrc: false,
-            config: true,
-            dependencies: true
-          }
+          ms: 1525183516000,
+          status: [`M`, `M`, `M`],
+          subject: `cleanups and more fp`,
+          type: `commit`
         }
       ])
       t.end()
