@@ -28,6 +28,13 @@ export const DEFAULT_CONFIG = {
   execOptions: { maxBuffer: 1000 * 1024 }
 }
 
+export const CHARACTER_LITERALS = {
+  BLANK: ` `,
+  NEWLINE: `\n`,
+  ASTERISK: `*`,
+  TILDE: /~$/
+}
+
 export const ARGV_CONFIG = {
   boolean: [`m`, `a`],
   number: [`l`, `i`, `b`, `s`],

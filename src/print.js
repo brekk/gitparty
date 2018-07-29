@@ -2,6 +2,7 @@ import chalk from "chalk"
 import { pipe, keys, map, join, curry } from "f-utility"
 import { padCharsStart, padCharsEnd } from "lodash/fp"
 import {
+  CHARACTER_LITERALS,
   SUBJECT_LENGTH,
   AUTHOR_LENGTH,
   BANNER_LENGTH,
@@ -11,7 +12,8 @@ import { filetypes } from "./per-commit"
 import { summarize, preferredProp, lens } from "./utils"
 import { getCanon } from "./alias"
 
-const BLANK = ` `
+const { BLANK } = CHARACTER_LITERALS
+
 export const drawToken = curry((lookup, analysis, name) => {
   // cold medina
   const { fn, key } = lookup[name]

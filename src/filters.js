@@ -14,6 +14,8 @@ import {
 import mm from "micromatch"
 import { neue, indexAny } from "./utils"
 import { getCanon } from "./alias"
+import { CHARACTER_LITERALS } from "./constants"
+const { ASTERISK, TILDE } = CHARACTER_LITERALS
 
 /**
 @method matchesWildcards
@@ -58,12 +60,12 @@ export const stringMatcher = curry((commit, [k, v]) => {
       return getCanon(value) === getCanon(v)
     }
     // asterisks turn on minimatch mode for arrays
-    if (isArray(value) && indexAny(`*`, v)) {
+    if (isArray(value) && indexAny(ASTERISK, v)) {
       return mm.some(value, v)
     }
     // a ~ suffix will do looser matching
-    if (/~$/.test(v)) {
-      return indexAny(v.replace(/~/, ``), value.toLowerCase())
+    if (TILDE.test(v)) {
+      return indexAny(v.replace(TILDE, ``), value.toLowerCase())
     }
     return value === v
   }

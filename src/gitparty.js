@@ -18,6 +18,7 @@ import {
 } from "f-utility"
 import chalk from "chalk"
 import { encase } from "fluture"
+import { CHARACTER_LITERALS, ARGV_CONFIG } from "./constants"
 import { filterByStringPattern } from "./filters"
 import { canonize } from "./alias"
 import { colorize } from "./print"
@@ -43,7 +44,10 @@ import {
 } from "./per-commit"
 import { DEFAULT_CONFIG } from "./constants"
 
+const { NEWLINE } = CHARACTER_LITERALS
+
 const gotLog = encase(gitlog)
+
 /**
 @method perCommit
 @param {Object} lookup - the legend
@@ -68,9 +72,9 @@ const perCommit = curry((lookup, x) =>
 */
 export const partyData = curry((config, lookup, data) => {
   const grab = preferredProp(lookup, config, false)
-  const filterMergeCommits = grab(`filterMergeCommits`)
-  const collapseAuthors = grab(`collapseAuthors`)
-  const f = grab(`filter`)
+  const filterMergeCommits = grab(ARGV_CONFIG.alias.m)
+  const collapseAuthors = grab(ARGV_CONFIG.alias.a[0])
+  const f = grab(ARGV_CONFIG.alias.f)
   const hasStringFilter = f && isString(f) && f.length > 0
   return pipe(
     sortByDate,
@@ -92,7 +96,7 @@ export const partyData = curry((config, lookup, data) => {
 export const partyPrint = curry((config, lookup, input) =>
   pipe(
     map(colorize(config, lookup)),
-    join(`\n`)
+    join(NEWLINE)
   )(input)
 )
 /**
@@ -101,7 +105,7 @@ export const partyPrint = curry((config, lookup, input) =>
 @param {Array} x - the commits
 @return {string} colorized and stringified commits
 */
-const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
+const prependLegend = curry((lookup, x) => printLegend(lookup) + NEWLINE + x)
 
 /**
 @method sideEffect
