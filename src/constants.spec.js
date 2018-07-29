@@ -11,27 +11,27 @@ import {
   ARGV_CONFIG
 } from "./constants"
 
-test(`TOTAL_COMMITS`, (t) => {
+test(`TOTAL_COMMITS`, t => {
   t.is(TOTAL_COMMITS, 100)
 })
 
-test(`SUBJECT_LENGTH`, (t) => {
+test(`SUBJECT_LENGTH`, t => {
   t.is(SUBJECT_LENGTH, 50)
 })
 
-test(`BANNER_LENGTH`, (t) => {
+test(`BANNER_LENGTH`, t => {
   t.is(BANNER_LENGTH, 120)
 })
 
-test(`BANNER_INDENT`, (t) => {
+test(`BANNER_INDENT`, t => {
   t.is(BANNER_INDENT, 28)
 })
 
-test(`AUTHOR_LENGTH`, (t) => {
+test(`AUTHOR_LENGTH`, t => {
   t.is(AUTHOR_LENGTH, 7)
 })
 
-test(`DEFAULT_FIELDS`, (t) => {
+test(`DEFAULT_FIELDS`, t => {
   t.deepEqual(DEFAULT_FIELDS, [
     `abbrevHash`,
     `subject`,
@@ -40,7 +40,7 @@ test(`DEFAULT_FIELDS`, (t) => {
     `authorDateRel`
   ])
 })
-test(`DEFAULT_CONFIG`, (t) => {
+test(`DEFAULT_CONFIG`, t => {
   t.deepEqual(keys(DEFAULT_CONFIG), [
     `filterMergeCommits`,
     `collapseAuthors`,
@@ -57,6 +57,6 @@ test(`DEFAULT_CONFIG`, (t) => {
   ])
 })
 
-test(`ARGV_CONFIG`, (t) => {
+test(`ARGV_CONFIG`, t => {
   t.deepEqual(keys(ARGV_CONFIG), [`boolean`, `number`, `alias`])
 })

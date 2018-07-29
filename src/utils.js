@@ -1,4 +1,15 @@
-import {I, merge, curry, padEnd, prop, ap, map, filter, pipe, entries} from "f-utility"
+import {
+  I,
+  merge,
+  curry,
+  padEnd,
+  prop,
+  ap,
+  map,
+  filter,
+  pipe,
+  entries
+} from "f-utility"
 // import { trace } from "xtrace"
 import Future from "fluture"
 
@@ -13,22 +24,24 @@ export const warn = console.warn // eslint-disable-line no-console
 @param {*} x - anything
 @return {Array} something in an array
 */
-export const box = (x) => (Array.isArray(x) ? x : [x])
+export const box = x => (Array.isArray(x) ? x : [x])
 /**
 @method neue
 @param {Object|Array} x - something that might be an array or an object
 @return {Object|Array} a cloned copy of said array or object
 */
-export const neue = (x) => (x && Array.isArray(x) ? [].concat(x) : merge({}, x))
+export const neue = x => (x && Array.isArray(x) ? [].concat(x) : merge({}, x))
 
 /**
 @method summarize
 @param {number} limit - the max length of the string, + 3
 @return {string} a summarized string, within the goal limits + 3
 */
-export const summarize = curry(
-  (str, limit) => padEnd(
-    limit + 3, ` `, str.substr(0, limit) + `${str.length > limit ? `...` : ``}`
+export const summarize = curry((str, limit) =>
+  padEnd(
+    limit + 3,
+    ` `,
+    str.substr(0, limit) + `${str.length > limit ? `...` : ``}`
   )
 )
 
@@ -41,7 +54,9 @@ export const summarize = curry(
 */
 export const aliasProperty = curry(
   (property, propAlias, x) =>
-    typeof x[property] !== `undefined` ? merge(x, { [propAlias]: x[property] }) : neue(x)
+    typeof x[property] !== `undefined`
+      ? merge(x, { [propAlias]: x[property] })
+      : neue(x)
 )
 
 /**
@@ -49,23 +64,27 @@ export const aliasProperty = curry(
 @param {*} x - anything
 @return {string} json stringified stuff with a 2 space indent
 */
-export const j2 = (x) => JSON.stringify(x, null, 2)
+export const j2 = x => JSON.stringify(x, null, 2)
 
 /**
-@method lens
-@param {Function} fn - a lens function (copy, property) => {}
-@param {string} prop - a property to lens
-@param {Object} target - an object which has a property to lens
+@method macroLens
+@param {Function} fn - a macroLens function (copy, property) => {}
+@param {string} prop - a property to macroLens
+@param {Object} target - an object which has a property to macroLens
 @return {Object} a cloned object with a modified property
 */
-export const lens = curry((fn, property, target) => {
+export const macroLens = curry((fn, property, target) => {
   const copy = neue(target)
-  return copy && property ? merge(copy, { [property]: fn(copy, copy[property]) }) : copy
+  return copy && property
+    ? merge(copy, { [property]: fn(copy, copy[property]) })
+    : copy
 })
 
-export const focusedLens = curry((fn, property, target) => {
+export const lens = curry((fn, property, target) => {
   const copy = neue(target)
-  return copy && property ? merge(copy, { [property]: fn(copy[property]) }) : copy
+  return copy && property
+    ? neue(merge(copy, { [property]: fn(copy[property]) }))
+    : copy
 })
 
 /**
@@ -79,23 +98,24 @@ export const focusedLens = curry((fn, property, target) => {
 export const sortByKeyWithWrapper = curry((ascendingSort, wrap, key, arr) =>
   // eslint-disable-next-line fp/no-mutating-methods
   neue(arr).sort(
-    ({ [key]: a }, { [key]: b }) => (ascendingSort ? wrap(b) - wrap(a) : wrap(a) - wrap(b))
+    ({ [key]: a }, { [key]: b }) =>
+      ascendingSort ? wrap(b) - wrap(a) : wrap(a) - wrap(b)
   )
 )
 
 // eslint-disable-next-line fp/no-mutating-methods
 export const sortByDate = sortByKeyWithWrapper(true, I, `ms`)
 // eslint-disable-next-line require-jsdoc
-const tomorrow = (x) => new Date(x)
+const tomorrow = x => new Date(x)
 export const sortByDateKey = sortByKeyWithWrapper(true, tomorrow)
 // eslint-disable-next-line require-jsdoc
-const prettyPrintDate = (x) =>
+const prettyPrintDate = x =>
   tomorrow(
     x.split(`-`).reverse() // eslint-disable-line fp/no-mutating-methods
   )
 
 // eslint-disable-next-line require-jsdoc
-export const sortByDateObject = (k) =>
+export const sortByDateObject = k =>
   // eslint-disable-next-line fp/no-mutating-methods
   k.sort((a, b) => prettyPrintDate(b) - prettyPrintDate(a))
 export const sortByAuthorDate = sortByDateKey(`authorDate`)
@@ -109,18 +129,17 @@ export const preferredProp = curry((a, b, def, key) => {
   return _a || _b || def
 })
 // eslint-disable-next-line require-jsdoc
-export const stripDoubleBackslash = (w) => w.replace(/^\\/g, ``)
+export const stripDoubleBackslash = w => w.replace(/^\\/g, ``)
 
-export const processKeysByLookup = curry(
-  (fnLookup, o) => pipe(
+export const processKeysByLookup = curry((fnLookup, o) =>
+  pipe(
     entries,
-    map(
-      ([k, v]) => ([k1, v1]) => k1 === k ? [k, v(v1)] : null
-    ),
-    (table) => pipe(
-      entries,
-      ap(table),
-      filter(I)
-    )(o)
+    map(([k, v]) => ([k1, v1]) => (k1 === k ? [k, v(v1)] : null)),
+    table =>
+      pipe(
+        entries,
+        ap(table),
+        filter(I)
+      )(o)
   )(fnLookup)
 )

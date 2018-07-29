@@ -17,4 +17,4 @@ export const printBlocks = pipe(
 @param {Object} lookup - the legend object
 @return {string} the lookup as a printed and colored string
 */
-export const printLegend = (lookup) => `LEGEND: ${printBlocks(lookup)}\n`
+export const printLegend = lookup => `LEGEND: ${printBlocks(lookup)}\n`

@@ -28,6 +28,10 @@ GERMS.scripts.docs = {
 }
 GERMS.scripts.lint.project = `clinton`
 GERMS.scripts.lint.jsdoc = `documentation lint src/*`
+GERMS.scripts.lint.src = {
+ description: `lint js files`,
+ script: `eslint --fix src/*.js`
+}
 GERMS.scripts.lint = merge(GERMS.scripts.lint, {
   script: allNPS(`lint.src`, `lint.jsdoc`)
 })

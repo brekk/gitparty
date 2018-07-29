@@ -8,7 +8,9 @@ import { neue } from "./utils"
 @param {Array} list - a list of files to compare against
 @return {boolean} whether any of the files match any of the wildcards
 */
-export const matchesWildcards = curry((wildcards, list) => mm.some(list, neue(wildcards)))
+export const matchesWildcards = curry((wildcards, list) =>
+  mm.some(list, neue(wildcards))
+)
 
 /**
 @method anyFilesMatchFromObject
@@ -17,7 +19,10 @@ export const matchesWildcards = curry((wildcards, list) => mm.some(list, neue(wi
 @return {boolean} whether any keys on the changes object match any of the wildcards
 */
 export const anyFilesMatchFromObject = curry((changes, wildcards) =>
-  pipe(entries, reduce((agg, [, v]) => agg || matchesWildcards(wildcards, v), false))(changes)
+  pipe(
+    entries,
+    reduce((agg, [, v]) => agg || matchesWildcards(wildcards, v), false)
+  )(changes)
 )
 const MERGE_WORD = `Merge `
 /**
@@ -25,4 +30,5 @@ const MERGE_WORD = `Merge `
 @param {Object} x - an object with an optional subject
 @returns {boolean} whether the given object's subject starts with 'Merge '
 */
-export const isAMergeCommit = (x) => pathOr(``, [`subject`], x).substr(0, 6) === MERGE_WORD
+export const isAMergeCommit = x =>
+  pathOr(``, [`subject`], x).substr(0, 6) === MERGE_WORD

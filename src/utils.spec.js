@@ -1,4 +1,4 @@
-import {I,merge, random} from "f-utility"
+import { I, merge, random } from "f-utility"
 import test from "jest-t-assert"
 import {
   unaryCallbackToFuture,
@@ -6,6 +6,7 @@ import {
   neue,
   summarize,
   aliasProperty,
+  macroLens,
   lens,
   sortByKeyWithWrapper,
   j2,
@@ -15,7 +16,7 @@ import {
 } from "./utils"
 
 /* eslint-disable require-jsdoc */
-test.cb(`binaryCallback`, (t) => {
+test.cb(`binaryCallback`, t => {
   // testing fs.writeFile is annoying af, so it's written as a binaryCallback
   const whatever = (a, b, cb) => cb(a, b)
   const callback = (x, y) => {
@@ -28,14 +29,14 @@ test.cb(`binaryCallback`, (t) => {
   binaryCallback(whatever, callback, one, two)
 })
 
-test(`box`, (t) => {
+test(`box`, t => {
   const input = 420
   t.deepEqual(box(input), [input])
   const input2 = [420]
   t.deepEqual(box(input2), input2)
 })
 
-test(`neue`, (t) => {
+test(`neue`, t => {
   const input = { a: 1, b: 2, c: 3 }
   const output = neue(input)
   t.deepEqual(input, output)
@@ -51,7 +52,7 @@ test(`neue`, (t) => {
   t.notDeepEqual(input2, output2)
 })
 
-test(`summarize`, (t) => {
+test(`summarize`, t => {
   const input = `!@#$%^&*()_1234567890`
   const sum = summarize(input)
   const output = sum(4)
@@ -61,7 +62,7 @@ test(`summarize`, (t) => {
   const output3 = summarize(`x`, 4)
   t.is(output3, `x      `)
 })
-test(`aliasProperty`, (t) => {
+test(`aliasProperty`, t => {
   const NUMBER = Math.round(Math.random() * 1e5)
   const input = { x: NUMBER }
   const output = aliasProperty(`x`, `y`, input)
@@ -70,16 +71,24 @@ test(`aliasProperty`, (t) => {
   t.deepEqual(output2, { zzz: input.x })
 })
 
-test(`lens`, (t) => {
+test(`macroLens`, t => {
   const input = { a: 1, b: 2, c: 3 }
-  const output = lens((w, x) => x * 2, `b`, input) //?
+  const output = macroLens((w, x) => x * 2, `b`, input) //?
+  t.deepEqual(output, { a: 1, b: 4, c: 3 })
+  t.notDeepEqual(input, output)
+  const output2 = macroLens(I, null, input) //?
+  t.deepEqual(input, output2)
+})
+test(`lens`, t => {
+  const input = { a: 1, b: 2, c: 3 }
+  const output = lens(x => x * 2, `b`, input) //?
   t.deepEqual(output, { a: 1, b: 4, c: 3 })
   t.notDeepEqual(input, output)
   const output2 = lens(I, null, input) //?
   t.deepEqual(input, output2)
 })
 
-test(`sortByKeyWithWrapper`, (t) => {
+test(`sortByKeyWithWrapper`, t => {
   const list = [{ x: 1, y: `one` }, { x: 2, y: `two` }]
   const sorted = sortByKeyWithWrapper(false, I, `x`, list)
   t.deepEqual(sorted[0], { x: 1, y: `one` })
@@ -87,31 +96,31 @@ test(`sortByKeyWithWrapper`, (t) => {
   t.deepEqual(sorted2[0], { x: 2, y: `two` })
 })
 
-test(`j2`, (t) => {
+test(`j2`, t => {
   const input = { a: 1, b: 2 }
   const output = j2(input)
   t.is(output, JSON.stringify(input, null, 2))
 })
 
-test.cb(`unaryCallbackToFuture`, (t) => {
+test.cb(`unaryCallbackToFuture`, t => {
   const constant = random.floorMin(1, 1e10)
   const backToTheFuture = (x, cb) => cb(null, constant * x)
   const futureWrapped = unaryCallbackToFuture(backToTheFuture)
-  futureWrapped(2).fork(I, (x) => {
+  futureWrapped(2).fork(I, x => {
     t.is(x, constant * 2)
     t.end()
   })
 })
-test.cb(`unaryCallbackToFuture, failure`, (t) => {
+test.cb(`unaryCallbackToFuture, failure`, t => {
   const constant = random.floorMin(1, 1e10)
   const backToTheFuture = (x, cb) => cb(constant * x)
   const futureWrapped = unaryCallbackToFuture(backToTheFuture)
-  futureWrapped(2).fork((x) => {
+  futureWrapped(2).fork(x => {
     t.is(x, constant * 2)
     t.end()
   }, I)
 })
-test(`preferredProp`, (t) => {
+test(`preferredProp`, t => {
   const sourceA = {
     a: 1,
     b: 3,
@@ -144,17 +153,13 @@ test(`preferredProp`, (t) => {
   t.is(output3, def)
 })
 
-test(`processKeysByLookup`, (t) => {
+test(`processKeysByLookup`, t => {
   const lookupTable = {
-    a: (a) => a * 2,
-    b: (b) => b / 2,
+    a: a => a * 2,
+    b: b => b / 2,
     c: () => 100
   }
-  const result = processKeysByLookup(lookupTable, {a: 50, b: 200, c: 1000})
-  t.deepEqual(result, [
-    [`a`, 100],
-    [`b`, 100],
-    [`c`, 100]
-  ])
+  const result = processKeysByLookup(lookupTable, { a: 50, b: 200, c: 1000 })
+  t.deepEqual(result, [[`a`, 100], [`b`, 100], [`c`, 100]])
 })
 /* eslint-enable require-jsdoc */

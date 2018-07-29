@@ -11,7 +11,7 @@ import { insertBanners } from "./grouping"
 import harness from "./data.fixture.json"
 import EXAMPLE_LEGEND from "./gitpartyrc.fixture.json"
 /* eslint-disable require-jsdoc */
-test(`filetypes`, (t) => {
+test(`filetypes`, t => {
   const grouped = insertBanners(harness)
   const output = filetypes(grouped[grouped.length - 1].changes)
   t.deepEqual(output, [
@@ -26,7 +26,7 @@ test(`filetypes`, (t) => {
     `yml`
   ])
 })
-test(`generateAnalysis`, (t) => {
+test(`generateAnalysis`, t => {
   const grouped = insertBanners(harness)
   const { changes } = grouped[15]
   const analysisFromExample = generateAnalysis(EXAMPLE_LEGEND)
@@ -50,7 +50,7 @@ test(`generateAnalysis`, (t) => {
     gitpartyrc: false
   })
 })
-test(`addAnalysisPerCommit`, (t) => {
+test(`addAnalysisPerCommit`, t => {
   const grouped = insertBanners(harness)
   const output = addAnalysisPerCommit(EXAMPLE_LEGEND, grouped[2])
   t.deepEqual(output, {
@@ -77,7 +77,7 @@ test(`addAnalysisPerCommit`, (t) => {
     type: `commit`
   })
 })
-test(`addAliasesPerCommit`, (t) => {
+test(`addAliasesPerCommit`, t => {
   const input = {
     authorName: `butts`,
     abbrevHash: `c0ffee`
@@ -90,12 +90,14 @@ test(`addAliasesPerCommit`, (t) => {
     hash: input.abbrevHash
   })
 })
-test(`convertStatusAndFilesPerCommit`, (t) => {
+test(`convertStatusAndFilesPerCommit`, t => {
   const grouped = insertBanners(harness)
   const output = convertStatusAndFilesPerCommit(grouped[2])
-  t.deepEqual(output, { M: [`src/gitparty.spec.js`, `src/index.no-wallaby.spec.js`] })
+  t.deepEqual(output, {
+    M: [`src/gitparty.spec.js`, `src/index.no-wallaby.spec.js`]
+  })
 })
-test(`addTimestampPerCommit`, (t) => {
+test(`addTimestampPerCommit`, t => {
   const now = 1525752938851
   const x = new Date(now)
   const input = { authorDate: x }

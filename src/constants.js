@@ -3,7 +3,13 @@ export const SUBJECT_LENGTH = 50
 export const BANNER_LENGTH = 120
 export const BANNER_INDENT = 28
 export const AUTHOR_LENGTH = 7
-export const DEFAULT_FIELDS = [`abbrevHash`, `subject`, `authorName`, `authorDate`, `authorDateRel`]
+export const DEFAULT_FIELDS = [
+  `abbrevHash`,
+  `subject`,
+  `authorName`,
+  `authorDate`,
+  `authorDateRel`
+]
 
 export const DEFAULT_CONFIG = {
   // this is our config

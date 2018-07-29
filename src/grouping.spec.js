@@ -7,7 +7,7 @@ import {
   addAliasesPerCommit,
   convertStatusAndFilesPerCommit
 } from "./per-commit"
-import { lens, sortByDate } from "./utils"
+import { macroLens, sortByDate } from "./utils"
 import { remapConfigData } from "./gitparty"
 import harness from "./data.fixture.json"
 import RAW_LEGEND from "./gitpartyrc.fixture.json"
@@ -22,7 +22,7 @@ import {
 
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
-test(`insertBanners`, (t) => {
+test(`insertBanners`, t => {
   const isBanner = ({ type }) => type === `banner`
   const noget = reject(isBanner)
   const rawCommits = noget(harness)
@@ -32,7 +32,7 @@ test(`insertBanners`, (t) => {
   t.is(banners.length, 8)
 })
 
-test(`booleanMerge`, (t) => {
+test(`booleanMerge`, t => {
   const a = {
     one: true,
     two: false,
@@ -54,16 +54,16 @@ test(`booleanMerge`, (t) => {
   })
 })
 
-test(`collapseSuccessiveSameAuthor`, (t) => {
+test(`collapseSuccessiveSameAuthor`, t => {
   const HASHES = [`fb50fbb`, `fa928f4`, `f9e5c4f`, `925a86e`, `c2e257b`]
-  const input = harness.filter((x) => HASHES.includes(x.abbrevHash))
+  const input = harness.filter(x => HASHES.includes(x.abbrevHash))
   const output = pipe(collapseSuccessiveSameAuthor(EXAMPLE_LEGEND))(input)
   t.is(output.length, 1)
   t.is(output[0].hashes.length, HASHES.length)
   t.deepEqual(output[0].hashes, HASHES)
 })
 
-test(`createBannersFromGroups`, (t) => {
+test(`createBannersFromGroups`, t => {
   const expected = [
     { date: `30-04-2018`, type: `banner` },
     {
@@ -167,7 +167,7 @@ test(`createBannersFromGroups`, (t) => {
       pipe(
         addTimestampPerCommit,
         addAliasesPerCommit,
-        lens(convertStatusAndFilesPerCommit, `changes`),
+        macroLens(convertStatusAndFilesPerCommit, `changes`),
         addAnalysisPerCommit(EXAMPLE_LEGEND)
       )
     ),

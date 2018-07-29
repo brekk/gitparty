@@ -8,8 +8,8 @@
     "sourceType": "module"
   },
   "rules": {
+    "prettier/prettier": ["error", {"semi": false}],
     "arrow-body-style": ["error", "as-needed"],
-    "semi": ["error", "never"],
     "valid-jsdoc": "error",
     "require-jsdoc": ["error", {
         "require": {
@@ -29,7 +29,6 @@
     "no-unreachable": 2,
     "no-extra-bind": 2,
     "no-extra-label": 2,
-    "no-else-return": 2,
     "no-labels": 2,
     "no-redeclare": 2,
     "no-self-assign": 2,
@@ -39,19 +38,15 @@
     "dot-location": [2, "property"],
     "no-console": 2,
     "eqeqeq": [2, "smart"],
-    "arrow-parens": [2, "always"],
     "consistent-this": 0,
     "func-names": [2],
-    "indent": [2, 2],
     "jsx-quotes": [1, "prefer-double"],
     "quotes": [2, "backtick"],
     "max-len": [1, 100, 2],
     "new-cap": [2, {"capIsNew": false}],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
     "no-unused-vars": 2,
-    "object-curly-spacing": 0,
     "one-var": 0,
-    "operator-linebreak": [2, "after"],
     "prefer-reflect": 0,
     "space-before-function-paren": [2, "never"],
     "strict": 0,
@@ -86,5 +81,7 @@
     }],
     "import/no-unresolved": 2
   },
-  "plugins": ["babel", "fp", "import"]
+  "plugins": ["babel", "fp", "import", "prettier"],
+  "extends": ["plugin:prettier/recommended"]
+
 }

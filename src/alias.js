@@ -1,39 +1,53 @@
-import { curry } from "f-utility"
+import { curry, merge } from "f-utility"
 
 /**
 @method alias
-@param {Object} struct - an object to store aliases in
+@param {Object} object - an object to store aliases in
 @param {string} original - a string
 @param {string} alt - the alias
 @returns null
 */
-export const alias = curry((struct, original, alt) => {
-  /* eslint-disable fp/no-mutation */
-  if (!struct[alt]) {
-    struct[alt] = original
+export const alias = curry((object, original, alt) => {
+  if (!object[alt]) {
+    // eslint-disable-next-line fp/no-mutation
+    object[alt] = original
   }
-  if (!struct[original]) {
-    struct[original] = struct[alt]
+  if (!object[original]) {
+    // eslint-disable-next-line fp/no-mutation
+    object[original] = object[alt]
   }
-  /* eslint-enable fp/no-mutation */
 })
 
 /**
+ @method pureAliasedListeners
+ @param {Function} subscriber - a callback function
+ @returns {Object} current
+ */
+export const pureAliasedListeners = subscriber =>
+  curry((original, alt, seed) => {
+    const emitted = merge(seed, { [alt]: original, [original]: original })
+    subscriber(emitted)
+    return emitted
+  })
+
+/**
 @method getAliasFrom
-@param {Object} struct - an object to pull aliases from
+@param {Object} object - an object to pull aliases from
 @param {string} key - a key to look up
 @returns {*} whatever the lookup resulted in or the key itself
 */
-export const getAliasFrom = curry((struct, key) => struct[key] || key)
+export const getAliasFrom = curry(
+  (object, key) => (object && object[key]) || key
+)
 
 /**
 @method canonicalize
-@param {Object} struct - an object to store aliases in and pull aliases from
+@param {Object} object - an object to store aliases in and pull aliases from
 @returns {Object} an object with canonize and getCanon on it
 */
-export const canonicalize = (struct) => ({
-  canonize: (a, b = a) => alias(struct, a, b),
-  getCanon: getAliasFrom(struct)
+export const canonicalize = object => ({
+  canonize: (a, b = a) => alias(object, a, b),
+  getCanon: getAliasFrom(object)
 })
 
 const authors = {}

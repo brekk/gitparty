@@ -11,13 +11,13 @@ import { DEFAULT_CONFIG } from "./constants"
 import { neue } from "./utils"
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
-test.cb(`processGitCommits`, (t) => {
+test.cb(`processGitCommits`, t => {
   const CONF = neue(DEFAULT_CONFIG)
   CONF.authorLength = 5 // eslint-disable-line fp/no-mutation
   CONF.repo = path.resolve(__dirname, `..`) // eslint-disable-line fp/no-mutation
   const F = Future.of(EXAMPLE_LEGEND)
   const outputF = F.chain(processGitCommits(CONF))
-  outputF.fork(I, (result) => {
+  outputF.fork(I, result => {
     /* eslint-disable max-len */
     t.is(
       stripColor(result.split(`5e131fb`)[1]),

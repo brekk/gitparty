@@ -15,20 +15,19 @@ import {
   merge,
   curry,
   chain,
-  reduce,
   fork,
   isObject
 } from "f-utility"
 import chalk from "chalk"
 import { encase } from "fluture"
 // import { trace } from "xtrace"
-import mm from 'micromatch'
+import mm from "micromatch"
 import { canonize, getCanon } from "./alias"
 import { colorize } from "./print"
 import {
   stripDoubleBackslash,
   sortByDate,
-  lens,
+  macroLens,
   j2,
   binaryCallback,
   log,
@@ -58,11 +57,10 @@ const perCommit = curry((lookup, x) =>
   pipe(
     addTimestampPerCommit,
     addAliasesPerCommit,
-    lens(convertStatusAndFilesPerCommit, `changes`),
+    macroLens(convertStatusAndFilesPerCommit, `changes`),
     addAnalysisPerCommit(lookup)
   )(x)
 )
-
 
 /**
 @method filterByStringPattern
@@ -77,7 +75,7 @@ const filterByStringPattern = curry((f, commits) => {
   @param {Object} commit - a commit object
   @return {boolean} whether there's a match
   */
-  const matcher = (commit) =>
+  const matcher = commit =>
     pipe(
       split(`#`),
       map(split(`:`)),
@@ -87,16 +85,6 @@ const filterByStringPattern = curry((f, commits) => {
             return getCanon(commit[k]) === getCanon(v)
           }
           if (v.indexOf(`*`) > -1) {
-            if (k === `changes`) {
-              return mm.some(
-                reduce(
-                  (x, y) => x.concat(y),
-                  [],
-                  Object.values(commit[k])
-                )
-                , v
-              )
-            }
             return mm.some(commit[k], v)
           }
           if (/~$/.test(v)) {
@@ -140,7 +128,10 @@ export const partyData = curry((config, lookup, data) => {
 @return {string} colorized and stringified commits
 */
 export const partyPrint = curry((config, lookup, input) =>
-  pipe(map(colorize(config, lookup)), join(`\n`))(input)
+  pipe(
+    map(colorize(config, lookup)),
+    join(`\n`)
+  )(input)
 )
 /**
 @method prependLegend
@@ -157,42 +148,59 @@ const prependLegend = curry((lookup, x) => printLegend(lookup) + `\n` + x)
 */
 const sideEffectCanonize = pipe(
   entries,
-  map(([k, v]) => (Array.isArray(v) ? v.map((x) => canonize(k, x)) : canonize(k, v)))
+  map(
+    ([k, v]) => (Array.isArray(v) ? v.map(x => canonize(k, x)) : canonize(k, v))
+  )
 )
 
 export const generateReport = curry((config, lookup, data) => {
   const { aliases = {} } = lookup
   // TODO: replace this with something that is a more explicitly managed side-effect
   sideEffectCanonize(aliases)
-  const filteredLookup = filter((z) => z && z.matches, lookup)
+  const filteredLookup = filter(z => z && z.matches, lookup)
   return pipe(
     partyData(config, filteredLookup),
-    config.j ? j2 : pipe(partyPrint(config, filteredLookup), prependLegend(filteredLookup))
+    config.j
+      ? j2
+      : pipe(
+          partyPrint(config, filteredLookup),
+          prependLegend(filteredLookup)
+        )
   )(data)
 })
 
 export const processGitCommits = curry((config, lookup) =>
-  pipe(gotLog, map(generateReport(config, lookup)))(config)
+  pipe(
+    gotLog,
+    map(generateReport(config, lookup))
+  )(config)
 )
 
 export const remapConfigData = pipe(
   map(
-    (v) =>
-      isObject(v) && v.matches ?
-        merge(v, {
-          fn: chalk[v.color],
-          matches: v.matches.map(stripDoubleBackslash)
-        }) :
-        v
+    v =>
+      isObject(v) && v.matches
+        ? merge(v, {
+            fn: chalk[v.color],
+            matches: v.matches.map(stripDoubleBackslash)
+          })
+        : v
   )
 )
-export const writeFile = binaryCallback(fs.writeFile.bind(fs), (e) => log(e || `Wrote to file`))
+export const writeFile = binaryCallback(fs.writeFile.bind(fs), e =>
+  log(e || `Wrote to file`)
+)
 export const reader = unaryCallbackToFuture(read.yaml)
 
 export const processAndPrintWithConfig = curry((config, input) =>
   pipe(
     reader,
-    chain(pipe(remapConfigData, processGitCommits(merge(DEFAULT_CONFIG, config)))),
+    chain(
+      pipe(
+        remapConfigData,
+        processGitCommits(merge(DEFAULT_CONFIG, config))
+      )
+    ),
     fork(warn, config.o ? writeFile(config.o) : log)
   )(input)
 )

@@ -2,8 +2,17 @@ import { map, filter, I, curry, merge, reduce, keys, pipe } from "f-utility"
 import { uniq } from "lodash"
 import mergeOptions from "merge-options"
 import { groupBy } from "lodash/fp"
-import { lens, sortByDate, sortByDateObject, sortByAuthorDate, neue } from "./utils"
-import { convertStatusAndFilesPerCommit, addAnalysisPerCommit } from "./per-commit"
+import {
+  macroLens,
+  sortByDate,
+  sortByDateObject,
+  sortByAuthorDate,
+  neue
+} from "./utils"
+import {
+  convertStatusAndFilesPerCommit,
+  addAnalysisPerCommit
+} from "./per-commit"
 import { getCanon } from "./alias"
 
 /**
@@ -11,12 +20,16 @@ import { getCanon } from "./alias"
 @param {Object} grouped - a grouped object of commits
 @return {Array} ungrouped array with banner objects inserted
 */
-export const createBannersFromGroups = (grouped) =>
+export const createBannersFromGroups = grouped =>
   pipe(
     keys,
     sortByDateObject,
     reduce(
-      (list, key) => list.concat({ date: key, type: `banner` }, sortByAuthorDate(grouped[key])),
+      (list, key) =>
+        list.concat(
+          { date: key, type: `banner` },
+          sortByAuthorDate(grouped[key])
+        ),
       []
     )
   )(grouped)
@@ -26,14 +39,21 @@ export const createBannersFromGroups = (grouped) =>
 @param {Array} commits - a list of commit
 @return {Array} commits with banners inserted (type: `banner`)
 */
-export const insertBanners = pipe(groupBy(`date`), createBannersFromGroups)
+export const insertBanners = pipe(
+  groupBy(`date`),
+  createBannersFromGroups
+)
 
 /**
 @method quash
 @param {Array} x - an array of inputs
 @returns {Array} a unique, filtered array with no null values and no pass-by-referents
 */
-const quash = pipe(neue, filter(I), uniq)
+const quash = pipe(
+  neue,
+  filter(I),
+  uniq
+)
 /**
 @method booleanMerge
 @param {Object} a - an object with boolean keys
@@ -41,7 +61,10 @@ const quash = pipe(neue, filter(I), uniq)
 @returns {Object} an object which is the truthy merge of all keys
 */
 export const booleanMerge = curry((x, y) =>
-  pipe(keys, reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {}))(x)
+  pipe(
+    keys,
+    reduce((out, key) => merge(out, { [key]: x[key] || y[key] }), {})
+  )(x)
 )
 
 /**
@@ -50,7 +73,10 @@ export const booleanMerge = curry((x, y) =>
 @return {Object} an updated object
 */
 const relearn = curry((lookup, x) =>
-  pipe(lens(convertStatusAndFilesPerCommit, `changes`), addAnalysisPerCommit(lookup))(x)
+  pipe(
+    macroLens(convertStatusAndFilesPerCommit, `changes`),
+    addAnalysisPerCommit(lookup)
+  )(x)
 )
 /**
 @method uniqueFiles
@@ -73,7 +99,8 @@ export const collapseSuccessiveSameAuthor = curry((lookup, data) =>
       const copy = neue(list)
       const last = copy[copy.length - 1]
       if (next && last) {
-        const authorsMatch = getCanon(last.authorName) === getCanon(next.authorName)
+        const authorsMatch =
+          getCanon(last.authorName) === getCanon(next.authorName)
         const datesMatch = last.date === next.date
         if (authorsMatch && datesMatch) {
           const raw = mergeOptions(last, next)
@@ -94,6 +121,11 @@ export const collapseSuccessiveSameAuthor = curry((lookup, data) =>
       }
       return sortByDate(copy.concat(next))
     }, []),
-    map(pipe(relearn(lookup), lens(uniqueFiles, `files`)))
+    map(
+      pipe(
+        relearn(lookup),
+        macroLens(uniqueFiles, `files`)
+      )
+    )
   )(data)
 )

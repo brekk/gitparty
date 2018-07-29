@@ -10,13 +10,16 @@ import { neue } from "./utils"
 /* eslint-disable fp/no-mutation */
 const EXAMPLE_LEGEND = remapConfigData(RAW_LEGEND)
 
-test(`remapConfigData`, (t) => {
-  const remapped = remapConfigData({ k: true, x: { color: `red`, matches: [] } })
+test(`remapConfigData`, t => {
+  const remapped = remapConfigData({
+    k: true,
+    x: { color: `red`, matches: [] }
+  })
   t.deepEqual(Object.keys(remapped), [`k`, `x`])
   t.truthy(remapped.k)
 })
 
-test(`partyData`, (t) => {
+test(`partyData`, t => {
   const config = { filterMergeCommits: false, collapseAuthors: false }
   const data = harness.filter(({ type }) => type === `commit`).slice(-3)
   const modified = partyData(config, EXAMPLE_LEGEND, data)
@@ -183,7 +186,7 @@ test(`partyData`, (t) => {
   ])
 })
 
-test(`partyData - with collapseAuthors`, (t) => {
+test(`partyData - with collapseAuthors`, t => {
   const config = { filterMergeCommits: false, collapseAuthors: true }
   const data = harness.filter(({ type }) => type === `commit`).slice(-3)
   const modified = partyData(config, EXAMPLE_LEGEND, data)
@@ -310,8 +313,12 @@ test(`partyData - with collapseAuthors`, (t) => {
   ])
 })
 
-test(`partyPrint`, (t) => {
-  const config = { filterMergeCommits: false, collapseAuthors: false, authorLength: 5 }
+test(`partyPrint`, t => {
+  const config = {
+    filterMergeCommits: false,
+    collapseAuthors: false,
+    authorLength: 5
+  }
   const commits = harness.filter(({ type }) => type === `commit`)
   const data = commits[commits.length - 1] // ?
   const leg = neue(EXAMPLE_LEGEND)
@@ -324,11 +331,13 @@ test(`partyPrint`, (t) => {
   )
 })
 
-test(`generateReport`, (t) => {
+test(`generateReport`, t => {
   const commits = harness.filter(({ type }) => type === `commit`)
   const leg = neue(EXAMPLE_LEGEND)
   leg.authorLength = 5
-  const output = stripColor(generateReport({ authorLength: 5 }, leg, [commits[commits.length - 1]]))
+  const output = stripColor(
+    generateReport({ authorLength: 5 }, leg, [commits[commits.length - 1]])
+  )
   /* eslint-disable max-len */
   t.is(
     output,
@@ -342,11 +351,13 @@ test(`generateReport`, (t) => {
   /* eslint-enable max-len */
 })
 
-test(`generateReport with config.json`, (t) => {
+test(`generateReport with config.json`, t => {
   const commits = harness.filter(({ type }) => type === `commit`)
   const CONF = neue(DEFAULT_CONFIG)
   CONF.j = true // eslint-disable-line
-  const output = stripColor(generateReport(CONF, EXAMPLE_LEGEND, [commits[commits.length - 1]]))
+  const output = stripColor(
+    generateReport(CONF, EXAMPLE_LEGEND, [commits[commits.length - 1]])
+  )
   /* eslint-disable max-len */
   t.deepEqual(JSON.parse(output), [
     { date: `30-04-2018`, type: `banner` },
@@ -448,9 +459,9 @@ test(`generateReport with config.json`, (t) => {
   /* eslint-enable max-len */
 })
 
-test.cb(`reader`, (t) => {
+test.cb(`reader`, t => {
   const input = `${__dirname}/gitpartyrc.fixture.yml`
-  reader(input).fork(I, (x) => {
+  reader(input).fork(I, x => {
     t.deepEqual(x, {
       js: { key: `J`, color: `bgBlueBright`, matches: [`src/*.js`] },
       lint: { key: `L`, color: `bgMagenta`, matches: [`\\**/.eslintrc`] },
@@ -463,7 +474,12 @@ test.cb(`reader`, (t) => {
       config: {
         key: `C`,
         color: `bgCyan`,
-        matches: [`\\**/package.json`, `\\**/rollup/*`, `\\**/webpack*`, `\\**/^.*`]
+        matches: [
+          `\\**/package.json`,
+          `\\**/rollup/*`,
+          `\\**/webpack*`,
+          `\\**/^.*`
+        ]
       },
       dependencies: {
         key: `D`,

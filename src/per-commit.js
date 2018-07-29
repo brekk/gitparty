@@ -1,4 +1,13 @@
-import { curry, merge, fromPairs, entries, pipe, keys, reduce, map } from "f-utility"
+import {
+  curry,
+  merge,
+  fromPairs,
+  entries,
+  pipe,
+  keys,
+  reduce,
+  map
+} from "f-utility"
 import { uniq } from "lodash"
 import time from "dayjs"
 import { aliasProperty } from "./utils"
@@ -10,20 +19,20 @@ import { getCanon } from "./alias"
 @param {Array} strings - an array of strings
 @return {Array} a list of potentially truncated strings
 */
-const grabAfterLastDot = map((str) => str.substr(str.lastIndexOf(`.`) + 1))
+const grabAfterLastDot = map(str => str.substr(str.lastIndexOf(`.`) + 1))
 
 /**
 @method filetypes
 @param {Object} changes - a changes object, generated during analysis
 @return {Array} an array of filetypes
 */
-export const filetypes = (changes) =>
+export const filetypes = changes =>
   pipe(
     keys,
     reduce((list, key) => list.concat(grabAfterLastDot(changes[key])), []),
     uniq,
     // eslint-disable-next-line fp/no-mutating-methods
-    (x) => x.sort()
+    x => x.sort()
   )(changes)
 
 /**
@@ -70,11 +79,11 @@ export const addAliasesPerCommit = pipe(
 @param {Object} commit - a commit object
 @return {Object} a "changes" object
 */
-export const convertStatusAndFilesPerCommit = (commit) => {
+export const convertStatusAndFilesPerCommit = commit => {
   /* eslint-disable require-jsdoc */
   const { files } = commit
   // TODO: rewrite this so we don't have to rely on the i to count
-  const arrayify = (x) => (file, i) => {
+  const arrayify = x => (file, i) => {
     const status = x.status[i]
     return [status, file]
   }
@@ -88,7 +97,7 @@ export const convertStatusAndFilesPerCommit = (commit) => {
 @param {Object} commit - a commit object
 @return {Object} a commit object with a timestamp property
 */
-export const addTimestampPerCommit = (commit) => {
+export const addTimestampPerCommit = commit => {
   const { authorDate } = commit
   const rel = time(authorDate)
   const ms = rel.valueOf()

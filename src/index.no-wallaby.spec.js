@@ -5,12 +5,16 @@ import test from "jest-t-assert"
 import { split, pipe } from "f-utility"
 // import { j2 } from './utils'
 
-const cleanify = pipe(stripColor, (x) => split(`80ca7f7`, x)[1], split(`\n`))
+const cleanify = pipe(
+  stripColor,
+  x => split(`80ca7f7`, x)[1],
+  split(`\n`)
+)
 const CLI = path.resolve(__dirname, `../lib/index.js`)
 
-test.cb(`gitparty`, (t) => {
+test.cb(`gitparty`, t => {
   t.plan(1)
-  execa.shell(`node ${CLI} -l 7 --no-collapse`).then((x) => {
+  execa.shell(`node ${CLI} -l 7 --no-collapse`).then(x => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
@@ -57,9 +61,9 @@ test.cb(`gitparty`, (t) => {
   /* eslint-enable max-len */
 })
 
-test.cb(`gitparty --authorLength 15`, (t) => {
+test.cb(`gitparty --authorLength 15`, t => {
   t.plan(1)
-  execa.shell(`node ${CLI} --authorLength 15`).then((x) => {
+  execa.shell(`node ${CLI} --authorLength 15`).then(x => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk           | js`,
@@ -106,9 +110,9 @@ test.cb(`gitparty --authorLength 15`, (t) => {
   /* eslint-enable max-len */
 })
 
-test.cb(`gitparty --collapse`, (t) => {
+test.cb(`gitparty --collapse`, t => {
   t.plan(1)
-  execa.shell(`node ${CLI} -a`).then((x) => {
+  execa.shell(`node ${CLI} -a`).then(x => {
     /* eslint-disable max-len */
     t.deepEqual(cleanify(x.stdout), [
       ` - fixed that hilarious problem of the tests never be... $ brekk   | js`,
@@ -132,9 +136,9 @@ test.cb(`gitparty --collapse`, (t) => {
   /* eslint-enable max-len */
 })
 
-test.cb(`gitparty -f hash:1c5ffd2 -j`, (t) => {
+test.cb(`gitparty -f hash:1c5ffd2 -j`, t => {
   t.plan(1)
-  execa.shell(`node ${CLI} -f hash:1c5ffd2 -j`).then((x) => {
+  execa.shell(`node ${CLI} -f hash:1c5ffd2 -j`).then(x => {
     /* eslint-disable max-len */
     const y = JSON.parse(x.stdout)
     // eslint-disable-next-line
@@ -239,4 +243,129 @@ test.cb(`gitparty -f hash:1c5ffd2 -j`, (t) => {
     t.end()
   })
   /* eslint-enable max-len */
+})
+
+test.cb(`gitparty -j -f "files:**/package.json#date:01-05-2018"`, t => {
+  t.plan(1)
+  execa
+    .shell(`node ${CLI} -j -f "files:**/package.json#date:01-05-2018"`)
+    .then(x => {
+      const y = JSON.parse(x.stdout)
+      t.deepEqual(y, [
+        {
+          date: `01-05-2018`,
+          type: `banner`
+        },
+        {
+          status: [`M`, `D`, `M`, `M`, `M`, `A`, `A`, `A`, `M`],
+          files: [
+            `package.json`,
+            `src/alias.js`,
+            `src/constants.js`,
+            `src/gitparty.js`,
+            `src/utils.js`,
+            `src/utils.spec.js`,
+            `wallaby.js`,
+            `webpack.config.js`,
+            `yarn.lock`
+          ],
+          abbrevHash: `08c0a46`,
+          subject: `tests!`,
+          authorName: `brekk`,
+          authorDate: `2018-05-01 23:13:16 -0700`,
+          authorDateRel: `3 months ago`,
+          ms: 1525241596000,
+          date: `01-05-2018`,
+          author: `brekk`,
+          hash: `08c0a46`,
+          changes: {
+            M: [
+              `package.json`,
+              `src/constants.js`,
+              `src/gitparty.js`,
+              `src/utils.js`,
+              `yarn.lock`
+            ],
+            D: [`src/alias.js`],
+            A: [`src/utils.spec.js`, `wallaby.js`, `webpack.config.js`]
+          },
+          type: `commit`,
+          analysis: {
+            js: true,
+            lint: false,
+            tests: true,
+            gitpartyrc: false,
+            config: true,
+            dependencies: true
+          }
+        },
+        {
+          status: [`M`, `M`, `M`, `M`, `M`, `M`, `M`],
+          files: [
+            `package.json`,
+            `src/filters.js`,
+            `src/gitparty.js`,
+            `src/grouping.js`,
+            `src/print.js`,
+            `src/utils.js`,
+            `yarn.lock`
+          ],
+          abbrevHash: `852f7ac`,
+          subject: `add blob matching, start to clean up legend makery`,
+          authorName: `brekk`,
+          authorDate: `2018-05-01 07:48:20 -0700`,
+          authorDateRel: `3 months ago`,
+          ms: 1525186100000,
+          date: `01-05-2018`,
+          author: `brekk`,
+          hash: `852f7ac`,
+          changes: {
+            M: [
+              `package.json`,
+              `src/filters.js`,
+              `src/gitparty.js`,
+              `src/grouping.js`,
+              `src/print.js`,
+              `src/utils.js`,
+              `yarn.lock`
+            ]
+          },
+          type: `commit`,
+          analysis: {
+            js: true,
+            lint: false,
+            tests: false,
+            gitpartyrc: false,
+            config: true,
+            dependencies: true
+          }
+        },
+        {
+          status: [`M`, `M`, `M`],
+          files: [`package.json`, `src/gitparty.js`, `yarn.lock`],
+          abbrevHash: `322b8d0`,
+          subject: `cleanups and more fp`,
+          authorName: `brekk`,
+          authorDate: `2018-05-01 07:05:16 -0700`,
+          authorDateRel: `3 months ago`,
+          ms: 1525183516000,
+          date: `01-05-2018`,
+          author: `brekk`,
+          hash: `322b8d0`,
+          changes: {
+            M: [`package.json`, `src/gitparty.js`, `yarn.lock`]
+          },
+          type: `commit`,
+          analysis: {
+            js: true,
+            lint: false,
+            tests: false,
+            gitpartyrc: false,
+            config: true,
+            dependencies: true
+          }
+        }
+      ])
+      t.end()
+    })
 })

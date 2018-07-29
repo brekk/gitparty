@@ -1,13 +1,13 @@
-import test from 'jest-t-assert'
-import chalk from 'chalk'
-import { printLegend, printBlocks } from './legend'
+import test from "jest-t-assert"
+import chalk from "chalk"
+import { printLegend, printBlocks } from "./legend"
 
 const input = {
   zabble: { key: `Z`, fn: chalk.bgMagenta },
   snipple: { key: `S`, fn: chalk.bgBlue }
 }
 
-test(`printBlocks`, (t) => {
+test(`printBlocks`, t => {
   const output = printBlocks(input)
   t.is(
     output,
@@ -18,7 +18,7 @@ test(`printBlocks`, (t) => {
   )
 })
 
-test(`printLegend`, (t) => {
+test(`printLegend`, t => {
   const output = printLegend(input)
   t.is(
     output,
