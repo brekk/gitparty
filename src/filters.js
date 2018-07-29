@@ -1,6 +1,19 @@
-import { curry, pipe, entries, reduce, pathOr } from "f-utility"
+import {
+  isArray,
+  isString,
+  curry,
+  pipe,
+  entries,
+  reduce,
+  pathOr,
+  split,
+  map,
+  filter,
+  every
+} from "f-utility"
 import mm from "micromatch"
-import { neue } from "./utils"
+import { neue, indexAny } from "./utils"
+import { getCanon } from "./alias"
 
 /**
 @method matchesWildcards
@@ -32,3 +45,42 @@ const MERGE_WORD = `Merge `
 */
 export const isAMergeCommit = x =>
   pathOr(``, [`subject`], x).substr(0, 6) === MERGE_WORD
+
+/**
+ @method filterByStringPattern
+ @param {string} f - colon and hash character delimited string (e.g. 'a:1#b:2')
+ @param {Array} commits - an array of commits
+ @return {Array} a potentially filtered array of commits
+ */
+export const filterByStringPattern = curry((filterPattern, commits) => {
+  /**
+   @method matcher
+   @private
+   @param {Object} commit - a commit object
+   @return {boolean} whether there's a match
+   */
+  const matcher = commit =>
+    pipe(
+      split(`#`),
+      map(split(`:`)),
+      every(([k, v]) => {
+        if (commit && commit[k]) {
+          const value = commit[k]
+          // authors are magical
+          if (k === `author` || k === `authorName`) {
+            return getCanon(value) === getCanon(v)
+          }
+          // asterisks turn on minimatch mode for arrays
+          if (isArray(value) && indexAny(`*`, v)) {
+            return mm.some(value, v)
+          }
+          // a ~ suffix will do looser matching
+          if (/~$/.test(v)) {
+            return indexAny(v.replace(/~/, ``), value)
+          }
+          return value === v
+        }
+      })
+    )(filterPattern)
+  return filter(matcher, commits)
+})

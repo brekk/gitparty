@@ -143,3 +143,5 @@ export const processKeysByLookup = curry((fnLookup, o) =>
       )(o)
   )(fnLookup)
 )
+
+export const indexAny = curry((look, str) => str.indexOf(look) > -1)

@@ -196,6 +196,115 @@ test(`partyData`, t => {
     }
   ])
 })
+test(`partyData - with filters`, t => {
+  const config = {
+    filterMergeCommits: false,
+    collapseAuthors: false,
+    filter: `subject:initial~`
+  }
+  const data = harness.filter(({ type }) => type === `commit`).slice(-3)
+  const modified = partyData(config, EXAMPLE_LEGEND, data)
+  t.deepEqual(modified, [
+    {
+      date: `30-04-2018`,
+      type: `banner`
+    },
+    {
+      abbrevHash: `1c5ffd2`,
+      analysis: {
+        config: true,
+        dependencies: true,
+        gitpartyrc: false,
+        js: true,
+        lint: true,
+        tests: false
+      },
+      author: `brekk`,
+      authorDate: `2018-04-30 21:13:22 -0700`,
+      authorDateRel: `12 days ago`,
+      authorName: `brekk`,
+      changes: {
+        A: [
+          `.babelrc`,
+          `.eslintrc`,
+          `.gitignore`,
+          `.madgerc`,
+          `.npmignore`,
+          `circle.yml`,
+          `gitparty.js`,
+          `package-scripts.js`,
+          `package.json`,
+          `rollup/config.commonjs.js`,
+          `rollup/config.es6.js`,
+          `rollup/config.shared.js`,
+          `src/alias.js`,
+          `src/constants.js`,
+          `src/filters.js`,
+          `src/gitparty.js`,
+          `src/grouping.js`,
+          `src/legend.js`,
+          `src/per-commit.js`,
+          `src/print.js`,
+          `src/utils.js`,
+          `yarn.lock`
+        ]
+      },
+      date: `30-04-2018`,
+      files: [
+        `.babelrc`,
+        `.eslintrc`,
+        `.gitignore`,
+        `.madgerc`,
+        `.npmignore`,
+        `circle.yml`,
+        `gitparty.js`,
+        `package-scripts.js`,
+        `package.json`,
+        `rollup/config.commonjs.js`,
+        `rollup/config.es6.js`,
+        `rollup/config.shared.js`,
+        `src/alias.js`,
+        `src/constants.js`,
+        `src/filters.js`,
+        `src/gitparty.js`,
+        `src/grouping.js`,
+        `src/legend.js`,
+        `src/per-commit.js`,
+        `src/print.js`,
+        `src/utils.js`,
+        `yarn.lock`
+      ],
+      hash: `1c5ffd2`,
+      ms: 1525148002000,
+      status: [
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`,
+        `A`
+      ],
+      subject: `initial commit`,
+      type: `commit`
+    }
+  ])
+})
 
 test(`partyData - with collapseAuthors`, t => {
   const config = { filterMergeCommits: false, collapseAuthors: true }

@@ -22,6 +22,7 @@ import chalk from "chalk"
 import { encase } from "fluture"
 // import { trace } from "xtrace"
 import mm from "micromatch"
+import { filterByStringPattern } from "./filters"
 import { canonize, getCanon } from "./alias"
 import { colorize } from "./print"
 import {
@@ -61,41 +62,6 @@ const perCommit = curry((lookup, x) =>
     addAnalysisPerCommit(lookup)
   )(x)
 )
-
-/**
-@method filterByStringPattern
-@param {string} f - colon and hash character delimited string (e.g. 'a:1#b:2')
-@param {Array} commits - an array of commits
-@return {Array} a potentially filtered array of commits
-*/
-const filterByStringPattern = curry((f, commits) => {
-  /**
-  @method matcher
-  @private
-  @param {Object} commit - a commit object
-  @return {boolean} whether there's a match
-  */
-  const matcher = commit =>
-    pipe(
-      split(`#`),
-      map(split(`:`)),
-      every(([k, v]) => {
-        if (commit && commit[k]) {
-          if (k === `author` || k === `authorName`) {
-            return getCanon(commit[k]) === getCanon(v)
-          }
-          if (v.indexOf(`*`) > -1) {
-            return mm.some(commit[k], v)
-          }
-          if (/~$/.test(v)) {
-            return commit[k].indexOf(v.replace(/~/, ``)) > -1
-          }
-          return commit[k] === v
-        }
-      })
-    )(f)
-  return filter(matcher, commits)
-})
 
 /**
 @method partyData
